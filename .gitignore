@@ -91,6 +91,8 @@ next-env.d.ts
 /public/uploads/
 /tmp/
 /temp/
+.claude/
+.vscode/
 
 # ─── Rapports & exports ────────────────────────────────────────────────────────
 *.pdf
