@@ -1,0 +1,1314 @@
+// NaturoDesk — Prisma Schema V1
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [pgvector(map: "vector")]
+}
+
+// ---------------------------------------------------------------------------
+// AUTH / USERS
+// ---------------------------------------------------------------------------
+
+enum UserRole {
+  PRACTITIONER
+  ADMIN        // gestion utilisateurs + support
+  SUPER_ADMIN  // accès total (billing, suspension, audit)
+}
+
+model User {
+  id          String    @id @default(uuid())
+  authId      String    @unique // Supabase auth.users UUID
+  email       String    @unique
+  name        String
+  cabinetName String?
+  role        UserRole  @default(PRACTITIONER)
+  isActive    Boolean   @default(true)
+  lastSeenAt  DateTime?
+  deletedAt   DateTime? // soft delete — null = actif
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  patients         Patient[]
+  appointments     Appointment[]
+  invoices         Invoice[]
+  subscription     Subscription?
+  supportTickets   SupportTicket[]
+  ticketReplies    SupportTicketReply[]
+  auditLogsAdmin   AdminAuditLog[] @relation("AdminAuditLogs")
+
+  @@index([deletedAt])
+  @@map("users")
+}
+
+// ---------------------------------------------------------------------------
+// PATIENTS
+// ---------------------------------------------------------------------------
+
+model Patient {
+  id             String    @id @default(uuid())
+  userId         String
+  firstName      String
+  lastName       String
+  birthDate      DateTime?
+  phone          String?
+  email          String?
+  address        String?
+  profession     String?
+  allergies      String?
+  medicalHistory String?
+  notes          String?
+  isArchived     Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user           User            @relation(fields: [userId], references: [id])
+  appointments   Appointment[]
+  consultations  Consultation[]
+  followUps      FollowUp[]
+  invoices       Invoice[]
+  timelineEvents TimelineEvent[]
+  patternCases   PatternCase[]
+
+  @@index([userId])
+  @@index([isArchived])
+  @@map("patients")
+}
+
+// ---------------------------------------------------------------------------
+// APPOINTMENTS
+// ---------------------------------------------------------------------------
+
+enum AppointmentType {
+  BILAN
+  SUIVI
+}
+
+enum AppointmentStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model Appointment {
+  id         String            @id @default(uuid())
+  patientId  String
+  userId     String
+  startAt    DateTime
+  endAt      DateTime
+  type       AppointmentType   @default(BILAN)
+  status     AppointmentStatus @default(SCHEDULED)
+  notes      String?
+  source     String?
+  externalId String?
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  patient      Patient       @relation(fields: [patientId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+  consultation Consultation?
+  followUp     FollowUp?
+
+  @@index([patientId])
+  @@index([userId])
+  @@index([startAt])
+  @@map("appointments")
+}
+
+// ---------------------------------------------------------------------------
+// CONSULTATIONS (bilans de vitalité)
+// ---------------------------------------------------------------------------
+
+enum ConsultationStatus {
+  DRAFT
+  READY
+  ANALYSIS_PENDING
+  ANALYSIS_RUNNING
+  ANALYSIS_DONE
+  ANALYSIS_ERROR
+}
+
+enum MedicationLoadLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+model Consultation {
+  id                     String               @id @default(uuid())
+  patientId              String
+  appointmentId          String?              @unique
+  status                 ConsultationStatus   @default(DRAFT)
+  context                String?
+  medicationLoadScore    Float?
+  medicationLoadLevel    MedicationLoadLevel?
+  terrainSummary         String?
+  protocolCoherenceScore Float?
+  createdAt              DateTime             @default(now())
+  updatedAt              DateTime             @updatedAt
+
+  patient      Patient        @relation(fields: [patientId], references: [id])
+  appointment  Appointment?   @relation(fields: [appointmentId], references: [id])
+  symptoms     Symptom[]
+  medications  Medication[]
+  supplements  Supplement[]
+  supplementIntakes  ConsultationSupplementIntake[]
+  medicationIntakes  ConsultationMedicationIntake[]
+  findings     Finding[]
+  analysisRuns AnalysisRun[]
+  ruleRuns     RuleRun[]
+  patternCases PatternCase[]
+
+  @@index([patientId])
+  @@index([status])
+  @@map("consultations")
+}
+
+// ---------------------------------------------------------------------------
+// CLINICAL DATA
+// ---------------------------------------------------------------------------
+
+model Symptom {
+  id              String                      @id @default(uuid())
+  consultationId  String
+  label           String
+  normalizedLabel String?
+  intensity       Int?
+  duration        String?
+  category        String?
+  embedding       Unsupported("vector(1536)")?
+  createdAt       DateTime                    @default(now())
+  updatedAt       DateTime                    @updatedAt
+
+  consultation Consultation @relation(fields: [consultationId], references: [id])
+
+  @@index([consultationId])
+  @@map("symptoms")
+}
+
+model Medication {
+  id             String   @id @default(uuid())
+  consultationId String
+  name           String
+  dosage         String?
+  frequency      String?
+  duration       String?
+  normalizedName String?
+  drugKey        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  consultation Consultation @relation(fields: [consultationId], references: [id])
+
+  @@index([consultationId])
+  @@index([drugKey])
+  @@map("medications")
+}
+
+model Supplement {
+  id             String   @id @default(uuid())
+  consultationId String
+  name           String
+  dosage         String?
+  duration       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  consultation Consultation @relation(fields: [consultationId], references: [id])
+
+  @@index([consultationId])
+  @@map("supplements")
+}
+
+// ---------------------------------------------------------------------------
+// FINDINGS
+// ---------------------------------------------------------------------------
+
+enum FindingCategory {
+  SIDE_EFFECT
+  INTERACTION
+  DEPLETION
+  RED_FLAG
+  TERRAIN
+  PROTOCOL
+  QUESTION
+}
+
+enum FindingSourceType {
+  RULE
+  LLM
+  SEMANTIC
+  MANUAL
+  KNOWLEDGE  // moteur knowledge déterministe (Phase 9+)
+}
+
+model Finding {
+  id               String            @id @default(uuid())
+  consultationId   String
+  analysisRunId    String?           // run qui a produit ce finding (null = legacy/MANUAL)
+  category         FindingCategory
+  title            String
+  description      String
+  confidence       Float             @default(0)
+  riskLevel        String?           // CRITICAL | HIGH | MEDIUM | LOW | INFORMATIONAL (knowledge engine)
+  evidenceLevel    String?           // DOCUMENTED | PARSED | CLINICAL | ABSENT
+  validated        Boolean?
+  practitionerNote String?
+  sourceType       FindingSourceType
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+
+  consultation Consultation  @relation(fields: [consultationId], references: [id])
+  analysisRun  AnalysisRun?  @relation(fields: [analysisRunId], references: [id])
+  citations    Citation[]
+
+  @@index([consultationId])
+  @@index([analysisRunId])
+  @@index([validated])
+  @@map("findings")
+}
+
+model Citation {
+  id               String   @id @default(uuid())
+  findingId        String
+  reference        String
+  excerpt          String?
+  url              String?
+  knowledgeFactId  String?  // preuve : KnowledgeFact source (knowledge engine)
+  knowledgeChunkId String?  // preuve : KnowledgeChunk source (knowledge engine)
+  createdAt        DateTime @default(now())
+
+  finding        Finding         @relation(fields: [findingId], references: [id])
+  knowledgeFact  KnowledgeFact?  @relation(fields: [knowledgeFactId], references: [id])
+  knowledgeChunk KnowledgeChunk? @relation(fields: [knowledgeChunkId], references: [id])
+
+  @@index([findingId])
+  @@index([knowledgeFactId])
+  @@map("citations")
+}
+
+// ---------------------------------------------------------------------------
+// FOLLOW-UPS
+// ---------------------------------------------------------------------------
+
+model FollowUp {
+  id                 String   @id @default(uuid())
+  patientId          String
+  appointmentId      String?  @unique
+  symptomEvolution   String?
+  protocolAdjustment String?
+  observations       String?
+  nextSteps          String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  patient     Patient      @relation(fields: [patientId], references: [id])
+  appointment Appointment? @relation(fields: [appointmentId], references: [id])
+
+  @@index([patientId])
+  @@map("follow_ups")
+}
+
+// ---------------------------------------------------------------------------
+// INVOICES
+// ---------------------------------------------------------------------------
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  TRANSFER
+  CHECK
+}
+
+model Invoice {
+  id            String         @id @default(uuid())
+  patientId     String
+  userId        String
+  number        String         @unique
+  status        InvoiceStatus  @default(DRAFT)
+  totalAmount   Float          @default(0)
+  paymentMethod PaymentMethod?
+  issuedAt      DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  patient Patient       @relation(fields: [patientId], references: [id])
+  user    User          @relation(fields: [userId], references: [id])
+  lines   InvoiceLine[]
+
+  @@index([patientId])
+  @@index([userId])
+  @@index([status])
+  @@map("invoices")
+}
+
+model InvoiceLine {
+  id          String   @id @default(uuid())
+  invoiceId   String
+  description String
+  quantity    Int      @default(1)
+  unitPrice   Float
+  total       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+
+  @@index([invoiceId])
+  @@map("invoice_lines")
+}
+
+// ---------------------------------------------------------------------------
+// KNOWLEDGE BASE (Phase 6)
+// ---------------------------------------------------------------------------
+
+enum KnowledgeSourceType {
+  BDPM
+  ANSM
+  PUBMED
+  MANUAL
+  NIH_ODS   // NIH Office of Dietary Supplements — fact sheets ingrédients
+  NIH_DSLD  // NIH Dietary Supplement Label Database — labels produits commerciaux
+}
+
+enum KnowledgeDocType {
+  MONOGRAPH
+  NOTICE
+  INTERACTION_SHEET
+  STUDY
+  FACT_SHEET    // Fiche ingrédient ODS (HealthProfessional)
+  PRODUCT_LABEL // Label produit commercial DSLD (référence uniquement)
+}
+
+// Relation sémantique entre deux entités dans un fait documentaire
+enum FactPredicate {
+  CAUSES               // sujet provoque objet (effet indésirable)
+  INTERACTS_WITH       // interaction bidirectionnelle médicament/substance
+  DEPLETES             // sujet réduit/épuise objet (déplétion nutriment)
+  CONTRAINDICATED_WITH // contre-indication avec objet
+  TREATS               // sujet traite objet (indication)
+  INHIBITS             // inhibition enzymatique ou récepteur
+  POTENTIATES          // sujet potentialise l'effet de objet
+  REDUCES_EFFICACY_OF  // sujet réduit l'efficacité de objet
+  INCREASES_RISK_OF    // sujet augmente le risque de objet
+  REQUIRES_MONITORING_WITH // surveillance requise en association
+}
+
+// Type d'entité normalisée
+enum TermType {
+  DRUG
+  SUPPLEMENT
+  NUTRIENT
+  SYMPTOM
+  CONDITION
+  HERB
+  SUBSTANCE
+}
+
+// Méthode d'extraction d'un fait
+enum ExtractionMethod {
+  DETERMINISTIC  // règles, regex, parsing structuré — source de vérité
+  LLM_ASSISTED   // extrait par LLM, validé strictement avant persistance
+}
+
+// État d'une synchronisation de source externe
+enum SyncStatus {
+  PENDING
+  RUNNING
+  DONE
+  ERROR
+  SKIPPED
+}
+
+// Type de fait documentaire
+enum FactType {
+  SIDE_EFFECT      // effet indésirable connu
+  INTERACTION      // interaction médicament/substance
+  DEPLETION        // déplétion nutritionnelle induite
+  CONTRAINDICATION // contre-indication formelle
+  WARNING          // vigilance générale
+  INDICATION       // ce que le médicament traite
+  MECHANISM        // mécanisme pharmacologique
+  DOSAGE_NOTE      // information posologique
+}
+
+model KnowledgeDocument {
+  id          String              @id @default(uuid())
+  drugKey     String
+  sourceType  KnowledgeSourceType
+  docType     KnowledgeDocType
+  title       String
+  url         String?
+  contentHash String?
+  fetchedAt   DateTime?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+
+  chunks KnowledgeChunk[]
+  facts  KnowledgeFact[]
+
+  @@unique([drugKey, sourceType, contentHash])
+  @@index([drugKey])
+  @@map("knowledge_documents")
+}
+
+model KnowledgeChunk {
+  id          String                      @id @default(uuid())
+  documentId  String
+  kind        String
+  label       String
+  excerpt     String
+  sectionPath String?
+  metaJson    Json?                       // métadonnées métier (fréquence, sévérité, substance, etc.)
+  embedding   Unsupported("vector(1536)")?
+  createdAt   DateTime                    @default(now())
+  updatedAt   DateTime                    @updatedAt
+
+  document  KnowledgeDocument @relation(fields: [documentId], references: [id])
+  facts     KnowledgeFact[]
+  citations Citation[]
+
+  @@index([documentId])
+  @@index([kind])
+  @@map("knowledge_chunks")
+}
+
+// ---------------------------------------------------------------------------
+// KNOWLEDGE FACTS — faits structurés extraits des chunks
+// ---------------------------------------------------------------------------
+
+model KnowledgeFact {
+  id               String          @id @default(uuid())
+  chunkId          String                          // chunk source (provenance directe)
+  documentId       String                          // dénormalisé pour requêtes directes
+  factType         FactType
+  subject          String                          // nom canonique de l'entité principale
+  subjectType      TermType                        // type de l'entité sujet
+  predicate        FactPredicate                   // relation sémantique typée
+  object           String                          // nom de l'entité cible
+  objectType       TermType                        // type de l'entité objet
+  qualifier        String?                         // sévérité, fréquence, contexte libre
+  confidence       Float           @default(1.0)  // 1.0 = déterministe, <1.0 = LLM
+  extractionMethod ExtractionMethod @default(DETERMINISTIC)
+  rawExcerpt       String?                         // extrait source brut (traçabilité LLM)
+  subjectTermId    String?                         // → KnowledgeTerm après normalisation
+  objectTermId     String?                         // → KnowledgeTerm après normalisation
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  chunk       KnowledgeChunk    @relation(fields: [chunkId], references: [id])
+  document    KnowledgeDocument @relation(fields: [documentId], references: [id])
+  subjectTerm KnowledgeTerm?    @relation("FactSubject", fields: [subjectTermId], references: [id])
+  objectTerm  KnowledgeTerm?    @relation("FactObject", fields: [objectTermId], references: [id])
+  citations   Citation[]
+
+  @@index([chunkId])
+  @@index([documentId])
+  @@index([factType])
+  @@index([subject])
+  @@index([subjectTermId])
+  @@index([predicate])
+  @@map("knowledge_facts")
+}
+
+// ---------------------------------------------------------------------------
+// KNOWLEDGE TERMS — termes normalisés (alias, clé canonique)
+// ---------------------------------------------------------------------------
+
+model KnowledgeTerm {
+  id            String    @id @default(uuid())
+  termType      TermType
+  canonicalName String                    // forme lisible de référence (ex: "Metformine")
+  normalizedKey String    @unique         // clé slug normalisée pour lookup rapide (ex: "metformine")
+  aliases       String[]                  // noms alternatifs connus (array PostgreSQL)
+  drugKey       String?                   // clé BDPM si applicable
+  odsId         String?                   // identifiant ODS si applicable (ex: "Magnesium", "VitaminD")
+  category      String?                   // catégorie métier (mineral, vitamin, amino_acid, botanical, …)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  factsAsSubject        KnowledgeFact[]        @relation("FactSubject")
+  factsAsObject         KnowledgeFact[]        @relation("FactObject")
+  supplementIngredients SupplementIngredient[]  // produits DSLD contenant cet ingrédient
+  variants              KnowledgeTermVariant[]  // formes galéniques cliniques connues
+  supplementIntakes     ConsultationSupplementIntake[] // prises structurées en consultation
+  medicationIntakes     ConsultationMedicationIntake[] // prises médicaments structurées
+  drugSubstances        DrugSubstance[]         // substances BDPM liées à ce terme
+
+  @@unique([termType, canonicalName])
+  @@index([termType])
+  @@index([drugKey])
+  @@index([odsId])
+  @@map("knowledge_terms")
+}
+
+// ---------------------------------------------------------------------------
+// KNOWLEDGE TERM VARIANTS — formes galéniques/cliniques d'un ingrédient parent
+// ---------------------------------------------------------------------------
+
+/// Forme galénique ou variante clinique d'un KnowledgeTerm parent.
+/// Ex: parent=Magnésium → variante=Magnésium bisglycinate (CHELATE)
+///     parent=Vitamine D → variante=Vitamine D3 (D3)
+///
+/// Les variantes permettent de distinguer la pertinence clinique fine
+/// sans dupliquer les fiches ODS du parent.
+
+enum SupplementVariantType {
+  CHELATE      // forme chélatée (bisglycinate, glycinate, malate)
+  MARINE       // extrait d'eau de mer
+  CITRATE      // sel citrique
+  MALATE       // sel malique
+  OXIDE        // oxyde (faible biodisponibilité)
+  SULFATE      // sulfate (fer ferreux, etc.)
+  FUMARATE     // fumarate ferreux
+  D3           // cholécalciférol (vitamine D animale)
+  D2           // ergocalciférol (vitamine D végétale)
+  EPA_DHA      // fractions oméga-3 actives EPA + DHA
+  MULTI_STRAIN // probiotiques multi-souches
+  EXTRACT      // extrait standardisé (curcumine, EGCG, etc.)
+  OTHER        // forme reconnue mais non catégorisée ci-dessus
+}
+
+model KnowledgeTermVariant {
+  id            String                @id @default(uuid())
+  termId        String
+  label         String                // ex: "Magnésium bisglycinate"
+  normalizedKey String                @unique
+  aliases       String[]              @default([])
+  variantType   SupplementVariantType
+  notes         String?               // contexte clinique court
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+
+  term          KnowledgeTerm         @relation(fields: [termId], references: [id])
+  supplementIntakes ConsultationSupplementIntake[]
+
+  @@index([termId])
+  @@index([normalizedKey])
+  @@map("knowledge_term_variants")
+}
+
+// ---------------------------------------------------------------------------
+// CONSULTATION SUPPLEMENT INTAKES — prise clinique structurée
+// ---------------------------------------------------------------------------
+
+/// Représente une occurrence clinique structurée d'un supplément dans une
+/// consultation. Créée par le supplement-runner à partir du texte libre saisi.
+///
+/// Relation :
+///   Supplement (texte brut UI)  →  ConsultationSupplementIntake (structure enrichie)
+///
+/// La donnée brute (rawText) est TOUJOURS conservée intacte.
+/// Toutes les valeurs extraites sont optionnelles — donnée incomplète acceptée.
+
+enum IntakeParseStatus {
+  PARSED     // label + au moins un composant de dose extraits avec confiance
+  PARTIAL    // label extrait, dose partielle ou manquante
+  UNRESOLVED // terme parent non reconnu dans la base de connaissance
+}
+
+enum IntakeConfidence {
+  HIGH   // label + dose + fréquence tous extraits, aucune ambiguïté
+  MEDIUM // label extrait, dose partielle ou fréquence inférée
+  LOW    // parsing minimal ou fortement ambigu
+}
+
+enum IntakeSourceType {
+  PARSED   // extrait du texte libre par le moteur
+  MANUAL   // saisie structurée directe (future UI)
+  INFERRED // valeur calculée à partir d'autres champs
+}
+
+model ConsultationSupplementIntake {
+  id                     String            @id @default(uuid())
+  consultationId         String
+  rawText                String            // texte original — jamais modifié
+  parsedLabel            String?           // nom nettoyé après parsing
+  normalizedKey          String?           // clé pivot du parsedLabel
+  knowledgeTermId        String?           // parent KnowledgeTerm résolu
+  knowledgeTermVariantId String?           // variante résolue (si disponible)
+  productLabel           String?           // nom produit si identifié (DSLD futur)
+  formLabel              String?           // forme libre si non structurée
+
+  // ── Dose structurée ──────────────────────────────────────────────────────
+  dosePerUnitValue       Float?            // ex: 200 (pour "200 mg par gélule")
+  dosePerUnitUnit        String?           // ex: "mg", "UI", "g"
+  unitsPerIntake         Float?            // ex: 1 (pour "1 gélule")
+  intakesPerDay          Float?            // ex: 2 (pour "matin et soir")
+
+  // ── Dose journalière ─────────────────────────────────────────────────────
+  declaredDailyDoseValue  Float?           // déclarée explicitement ("300mg/jour")
+  declaredDailyDoseUnit   String?
+  estimatedDailyDoseValue Float?           // calculée = dosePerUnit × units × intakes
+  estimatedDailyDoseUnit  String?
+
+  // ── Contexte de prise ─────────────────────────────────────────────────────
+  timingText             String?           // ex: "matin", "matin et soir"
+  frequencyText          String?           // ex: "2x/jour"
+  durationText           String?           // ex: "pendant 3 mois"
+  notes                  String?
+
+  // ── Qualité du parsing ────────────────────────────────────────────────────
+  parseStatus            IntakeParseStatus @default(PARTIAL)
+  parseConfidence        IntakeConfidence  @default(LOW)    @map("confidence")   // qualité de l'extraction textuelle
+  resolutionConfidence   String?                            // HIGH | MEDIUM | LOW | NONE — qualité du matching terme
+  sourceType             IntakeSourceType  @default(PARSED)
+
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+
+  consultation         Consultation           @relation(fields: [consultationId], references: [id])
+  knowledgeTerm        KnowledgeTerm?         @relation(fields: [knowledgeTermId], references: [id])
+  knowledgeTermVariant KnowledgeTermVariant?  @relation(fields: [knowledgeTermVariantId], references: [id])
+
+  @@index([consultationId])
+  @@index([knowledgeTermId])
+  @@index([knowledgeTermVariantId])
+  @@map("consultation_supplement_intakes")
+}
+
+// ---------------------------------------------------------------------------
+// CONSULTATION MEDICATION INTAKES — prise médicament structurée
+// ---------------------------------------------------------------------------
+
+/// Représente une occurrence clinique structurée d'un médicament dans une
+/// consultation. Créée par le medication-runner à partir du texte libre saisi.
+///
+/// Relation :
+///   Medication (texte brut UI)  →  ConsultationMedicationIntake (structure enrichie)
+///
+/// La donnée brute (rawText) est TOUJOURS conservée intacte.
+/// Toutes les valeurs extraites sont optionnelles — donnée incomplète acceptée.
+
+model ConsultationMedicationIntake {
+  id                   String            @id @default(uuid())
+  consultationId       String
+  rawText              String            // texte original — jamais modifié
+  parsedLabel          String?           // DCI nettoyée après parsing
+  parsedBrandName      String?           // nom de marque entre parenthèses
+  normalizedKey        String?           // clé pivot pour le matching KnowledgeTerm
+  knowledgeTermId      String?           // KnowledgeTerm(DRUG) résolu
+
+  // ── Dose ─────────────────────────────────────────────────────────────────
+  doseValue            Float?            // ex: 500 (pour "500 mg")
+  doseUnit             String?           // ex: "mg", "mcg", "g"
+
+  // ── Fréquence & durée ─────────────────────────────────────────────────────
+  frequencyText        String?           // ex: "1 comprimé matin et soir"
+  durationText         String?           // ex: "pendant 3 mois"
+  galenicForm          String?           // ex: "comprimé", "gélule", "sirop"
+
+  // ── Qualité du parsing ────────────────────────────────────────────────────
+  parseStatus          IntakeParseStatus @default(PARTIAL)
+  parseConfidence      IntakeConfidence  @default(LOW)
+  resolutionConfidence String?           // HIGH | MEDIUM | LOW | NONE
+
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+
+  // ── Résolution BDPM (Phase B) ─────────────────────────────────────────────
+  drugProductId   String?           // spécialité BDPM résolue
+  drugSubstanceId String?           // substance active BDPM résolue
+
+  consultation  Consultation   @relation(fields: [consultationId], references: [id])
+  knowledgeTerm KnowledgeTerm? @relation(fields: [knowledgeTermId], references: [id])
+  drugProduct   DrugProduct?   @relation(fields: [drugProductId], references: [id])
+  drugSubstance DrugSubstance? @relation(fields: [drugSubstanceId], references: [id])
+
+  @@index([consultationId])
+  @@index([normalizedKey])
+  @@index([drugSubstanceId])
+  @@map("consultation_medication_intakes")
+}
+
+// ---------------------------------------------------------------------------
+// KNOWLEDGE SOURCE SYNC — état des synchronisations par source/molécule
+// ---------------------------------------------------------------------------
+
+model KnowledgeSourceSync {
+  id           String              @id @default(uuid())
+  sourceType   KnowledgeSourceType
+  drugKey      String
+  status       SyncStatus          @default(PENDING)
+  lastSyncAt   DateTime?
+  nextSyncAt   DateTime?
+  errorMessage String?
+  docCount     Int                 @default(0)  // documents importés (dernier sync)
+  chunkCount   Int                 @default(0)  // chunks créés (dernier sync)
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+
+  @@unique([sourceType, drugKey])
+  @@index([status])
+  @@index([sourceType])
+  @@map("knowledge_source_syncs")
+}
+
+// ---------------------------------------------------------------------------
+// SUPPLEMENT PRODUCTS — NIH DSLD (Phase 17)
+// ---------------------------------------------------------------------------
+
+/// Produit commercial issu du NIH DSLD.
+/// Source déclarative fabricant — confiance 0.60.
+/// Utilisé pour identifier les ingrédients d'un produit saisi librement.
+model SupplementProduct {
+  id             String   @id @default(uuid())
+  dsldId         String   @unique         // ID produit DSLD (numérique sous forme string)
+  brandName      String                   // marque commerciale
+  productName    String                   // nom complet du produit
+  manufacturer   String?                  // fabricant déclaré
+  marketStatus   String?                  // "Market" | "Off Market" | null
+  servingSize    String?                  // ex: "2 tablets", "1 scoop"
+  servingSizeUom String?                  // unité de la portion
+  language       String?  @default("EN")  // langue du label
+  fetchedAt      DateTime                 // horodatage de l'import DSLD
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  ingredients SupplementIngredient[]
+
+  @@index([brandName])
+  @@index([productName])
+  @@map("supplement_products")
+}
+
+/// Ingrédient déclaré dans un produit DSLD.
+/// Peut être résolu vers un KnowledgeTerm si l'ingrédient est connu du moteur.
+model SupplementIngredient {
+  id             String   @id @default(uuid())
+  productId      String
+  rawName        String              // nom brut issu du label (ex: "Vitamin C (as Ascorbic Acid)")
+  normalizedKey  String?             // slug normalisé post-traitement → KnowledgeTerm.normalizedKey
+  termId         String?             // résolu vers KnowledgeTerm (null si non résolu)
+  amount         Float?              // quantité déclarée
+  unit           String?             // mg | mcg | IU | CFU | g | …
+  ingredientForm String?             // forme chimique déclarée (ex: "as Magnesium citrate")
+  dailyValue     Float?              // %DV déclaré (null si absent)
+  createdAt      DateTime @default(now())
+
+  product SupplementProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+  term    KnowledgeTerm?    @relation(fields: [termId], references: [id])
+
+  @@index([productId])
+  @@index([normalizedKey])
+  @@index([termId])
+  @@map("supplement_ingredients")
+}
+
+// ---------------------------------------------------------------------------
+// ANALYSIS PIPELINE (Phase 9 / 14)
+// ---------------------------------------------------------------------------
+
+enum AnalysisStatus {
+  PENDING
+  RUNNING
+  DONE
+  ERROR
+}
+
+model AnalysisRun {
+  id             String         @id @default(uuid())
+  consultationId String
+  status         AnalysisStatus @default(PENDING)
+  stage          String?
+  attempt        Int            @default(1)
+  idempotencyKey String         @unique
+  tokensUsed     Int?
+  costEstimate   Float?
+  errorCode      String?
+  errorMessage   String?
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  consultation Consultation  @relation(fields: [consultationId], references: [id])
+  logs         AnalysisLog[]
+  findings     Finding[]
+
+  @@index([consultationId])
+  @@index([status])
+  @@map("analysis_runs")
+}
+
+enum LogLevel {
+  DEBUG
+  INFO
+  WARN
+  ERROR
+}
+
+model AnalysisLog {
+  id        String   @id @default(uuid())
+  runId     String
+  stage     String
+  level     LogLevel @default(INFO)
+  message   String
+  metaJson  Json?
+  createdAt DateTime @default(now())
+
+  run AnalysisRun @relation(fields: [runId], references: [id])
+
+  @@index([runId])
+  @@map("analysis_logs")
+}
+
+// ---------------------------------------------------------------------------
+// RULES ENGINE (Phase 8)
+// ---------------------------------------------------------------------------
+
+enum RuleCategory {
+  RED_FLAG
+  MISSING_DATA
+  MEDICATION_LOAD
+  DEPLETION
+  PROTOCOL_VIGILANCE
+}
+
+model Rule {
+  id        String       @id @default(uuid())
+  code      String       @unique
+  name      String
+  category  RuleCategory
+  enabled   Boolean      @default(true)
+  version   Int          @default(1)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  ruleRuns RuleRun[]
+
+  @@map("rules")
+}
+
+model RuleRun {
+  id             String   @id @default(uuid())
+  consultationId String
+  ruleId         String
+  matched        Boolean
+  evidenceJson   Json?
+  createdAt      DateTime @default(now())
+
+  consultation Consultation @relation(fields: [consultationId], references: [id])
+  rule         Rule         @relation(fields: [ruleId], references: [id])
+
+  @@index([consultationId])
+  @@map("rule_runs")
+}
+
+// ---------------------------------------------------------------------------
+// FUTURE EXTENSIONS — modèles préparés, pas exposés en UI (Phase 15)
+// ---------------------------------------------------------------------------
+
+enum ProtocolCategory {
+  DIGESTIVE
+  HORMONAL
+  STRESS
+  DETOX
+  IMMUNITY
+  ENERGY
+  OTHER
+}
+
+model ProtocolTemplate {
+  id          String           @id @default(uuid())
+  title       String
+  slug        String           @unique
+  category    ProtocolCategory
+  contentJson Json
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  @@map("protocol_templates")
+}
+
+enum TimelineEventType {
+  APPOINTMENT
+  CONSULTATION
+  FINDING
+  PROTOCOL_CHANGE
+  SYMPTOM_CHANGE
+  NOTE
+}
+
+enum TimelineEventSource {
+  SYSTEM
+  PRACTITIONER
+}
+
+model TimelineEvent {
+  id        String              @id @default(uuid())
+  patientId String
+  type      TimelineEventType
+  label     String
+  date      DateTime
+  source    TimelineEventSource @default(SYSTEM)
+  metaJson  Json?
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+
+  patient Patient @relation(fields: [patientId], references: [id])
+
+  @@index([patientId])
+  @@index([date])
+  @@map("timeline_events")
+}
+
+model PatternCase {
+  id                String   @id @default(uuid())
+  patientId         String
+  consultationId    String
+  symptomCluster    Json?
+  terrainType       String?
+  medicationContext Json?
+  protocolSnapshot  Json?
+  outcomeScore      Float?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  patient      Patient      @relation(fields: [patientId], references: [id])
+  consultation Consultation @relation(fields: [consultationId], references: [id])
+
+  @@index([patientId])
+  @@map("pattern_cases")
+}
+
+// ---------------------------------------------------------------------------
+// BDPM — Base de Données Publique des Médicaments (ANSM)
+// ---------------------------------------------------------------------------
+
+/// Batch de synchronisation BDPM.
+/// Trace chaque import : date, statut, compteurs, erreurs.
+model DrugSyncBatch {
+  id             String    @id @default(uuid())
+  batchRef       String    @unique  // ex: "2026-03-15" — date de l'import
+  source         String    @default("BDPM")
+  status         String    @default("PENDING")  // PENDING | RUNNING | DONE | ERROR
+  productCount   Int       @default(0)
+  substanceCount Int       @default(0)
+  newCount       Int       @default(0)    // produits créés
+  updatedCount   Int       @default(0)    // produits mis à jour
+  inactiveCount  Int       @default(0)    // produits marqués inactifs
+  errorMessage   String?
+  startedAt      DateTime?
+  finishedAt     DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@map("drug_sync_batches")
+}
+
+/// Substance active (DCI) extraite de CIS_COMPO_bdpm.
+/// Pivot central de normalisation : toute spécialité résout vers une substance.
+model DrugSubstance {
+  id             String   @id @default(uuid())
+  substanceCode  String   @unique  // code substance BDPM (colonne 2 de CIS_COMPO)
+  name           String            // DCI officielle BDPM, ex: "PARACETAMOL"
+  canonicalName  String            // Forme française affichée, ex: "Paracétamol"
+  normalizedKey  String   @unique  // slug pivot, ex: "paracetamol"
+  drugClass      String?           // classe pharmacologique (MANUAL ou ATC_DERIVED)
+  aliases        String[]          // synonymes DCI connus
+  isActive       Boolean  @default(true)
+  batchId        String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Lien optionnel vers KnowledgeTerm(DRUG) pour backward compat Phase C
+  knowledgeTermId String?
+  knowledgeTerm   KnowledgeTerm? @relation(fields: [knowledgeTermId], references: [id])
+
+  products      DrugProductSubstance[]
+  drugAliases   DrugAlias[]
+  classMembers  DrugClassMember[]
+  intakes       ConsultationMedicationIntake[]
+
+  @@index([normalizedKey])
+  @@index([drugClass])
+  @@map("drug_substances")
+}
+
+/// Spécialité commerciale issue de CIS_bdpm.
+model DrugProduct {
+  id              String   @id @default(uuid())
+  cisCode         String   @unique  // Code CIS BDPM — pivot stable
+  name            String            // Dénomination complète, ex: "DOLIPRANE 1000 mg, comprimé"
+  normalizedName  String            // slug nom complet, ex: "doliprane-1000-mg-comprime"
+  normalizedBrand String?           // slug premier token, ex: "doliprane" — matching rapide
+  form            String?           // forme galénique officielle
+  route           String?           // voie(s) d'administration
+  marketingStatus String?           // Commercialisé | Non commercialisé | Retiré | Suspendu
+  ammStatus       String?           // Autorisation active | Retirée | Suspendue
+  genericGroupId  String?
+  contentHash     String?           // SHA-1 (cisCode|name|form|marketingStatus) — détection changement
+  batchId         String?
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  substances    DrugProductSubstance[]
+  drugAliases   DrugAlias[]
+  presentations DrugPresentation[]
+  genericGroup  DrugGenericGroup?      @relation(fields: [genericGroupId], references: [id])
+  intakes       ConsultationMedicationIntake[]
+
+  @@index([normalizedName])
+  @@index([normalizedBrand])
+  @@index([cisCode])
+  @@index([isActive])
+  @@map("drug_products")
+}
+
+/// Relation spécialité ↔ substance active, avec dosage déclaré.
+model DrugProductSubstance {
+  id             String @id @default(uuid())
+  productId      String
+  substanceId    String
+  dosageValue    Float?   // ex: 1000
+  dosageUnit     String?  // ex: "mg"
+  dosageRef      String?  // ex: "par comprimé", "p ml"
+  substanceOrder Int      @default(1)
+
+  product   DrugProduct   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  substance DrugSubstance @relation(fields: [substanceId], references: [id])
+
+  @@unique([productId, substanceId])
+  @@index([productId])
+  @@index([substanceId])
+  @@map("drug_product_substances")
+}
+
+/// Alias normalisés : noms de marque, abréviations, fautes fréquentes.
+/// Clé de résolution rapide (O(1) lookup) dans le pipeline de matching.
+model DrugAlias {
+  id          String   @id @default(uuid())
+  key         String   @unique  // normalizedKey de l'alias
+  label       String            // forme lisible originale
+  productId   String?           // → spécialité (si alias de marque)
+  substanceId String?           // → substance (si alias DCI)
+  source      String            // BDPM | MANUAL | SEED
+  createdAt   DateTime @default(now())
+
+  product   DrugProduct?   @relation(fields: [productId], references: [id])
+  substance DrugSubstance? @relation(fields: [substanceId], references: [id])
+
+  @@index([key])
+  @@index([productId])
+  @@index([substanceId])
+  @@map("drug_aliases")
+}
+
+/// Présentation commerciale (conditionnement) issue de CIS_CIP_bdpm.
+model DrugPresentation {
+  id            String   @id @default(uuid())
+  productId     String
+  cip7          String?  @unique  // Code CIP7 (7 chiffres)
+  cip13         String?  @unique  // Code CIP13 (13 chiffres)
+  label         String            // ex: "boîte de 8 comprimés"
+  adminStatus   String?           // Présentation active | retirée
+  marketStatus  String?           // Commercialisée | Non commercialisée
+  batchId       String?
+  createdAt     DateTime @default(now())
+
+  product DrugProduct @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("drug_presentations")
+}
+
+/// Groupe générique BDPM : originator + génériques associés.
+model DrugGenericGroup {
+  id          String   @id @default(uuid())
+  bdpmGroupId String   @unique  // identifiant numérique du groupe BDPM
+  label       String?           // libellé du groupe générique
+  createdAt   DateTime @default(now())
+
+  products DrugProduct[]
+
+  @@map("drug_generic_groups")
+}
+
+/// Classe pharmacologique — assignée manuellement ou dérivée de l'ATC.
+model DrugClass {
+  id    String @id @default(uuid())
+  code  String @unique  // ex: "ANTICOAGULANT_AVK"
+  label String           // ex: "Anticoagulants AVK"
+  createdAt DateTime @default(now())
+
+  members DrugClassMember[]
+
+  @@map("drug_classes")
+}
+
+/// Appartenance d'une substance à une classe pharmacologique.
+model DrugClassMember {
+  id          String @id @default(uuid())
+  classId     String
+  substanceId String
+  source      String  // MANUAL | ATC_DERIVED
+
+  class     DrugClass     @relation(fields: [classId], references: [id])
+  substance DrugSubstance @relation(fields: [substanceId], references: [id])
+
+  @@unique([classId, substanceId])
+  @@index([classId])
+  @@index([substanceId])
+  @@map("drug_class_members")
+}
+
+// ---------------------------------------------------------------------------
+// ADMIN / BACKOFFICE
+// ---------------------------------------------------------------------------
+
+// --- Subscriptions ---
+
+enum SubscriptionPlan {
+  FREE
+  PRO
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  SUSPENDED
+}
+
+model Subscription {
+  id                   String             @id @default(uuid())
+  userId               String             @unique
+  plan                 SubscriptionPlan   @default(FREE)
+  status               SubscriptionStatus @default(ACTIVE)
+  // Stripe identifiers (null until Stripe is connected)
+  stripeCustomerId     String?            @unique
+  stripeSubscriptionId String?            @unique
+  // Billing period
+  trialEndsAt          DateTime?
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean            @default(false)
+  canceledAt           DateTime?
+  // Admin notes
+  notes                String?
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([plan])
+  @@index([status])
+  @@index([stripeCustomerId])
+  @@map("subscriptions")
+}
+
+// --- Support tickets ---
+
+enum SupportTicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum SupportPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+}
+
+model SupportTicket {
+  id         String              @id @default(uuid())
+  userId     String
+  title      String
+  body       String
+  status     SupportTicketStatus @default(OPEN)
+  priority   SupportPriority     @default(NORMAL)
+  resolvedAt DateTime?
+  createdAt  DateTime            @default(now())
+  updatedAt  DateTime            @updatedAt
+
+  user    User                  @relation(fields: [userId], references: [id])
+  replies SupportTicketReply[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+  @@map("support_tickets")
+}
+
+model SupportTicketReply {
+  id        String   @id @default(uuid())
+  ticketId  String
+  authorId  String
+  isAdmin   Boolean  @default(false)
+  body      String
+  createdAt DateTime @default(now())
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  author User          @relation(fields: [authorId], references: [id])
+
+  @@index([ticketId])
+  @@index([authorId])
+  @@map("support_ticket_replies")
+}
+
+// --- Admin audit log ---
+
+model AdminAuditLog {
+  id         String   @id @default(uuid())
+  adminId    String
+  action     String   // e.g. "user.suspend", "ticket.resolve", "subscription.update"
+  targetType String?  // e.g. "User", "SupportTicket"
+  targetId   String?
+  metaJson   Json?
+  createdAt  DateTime @default(now())
+
+  admin User @relation("AdminAuditLogs", fields: [adminId], references: [id])
+
+  @@index([adminId])
+  @@index([targetType, targetId])
+  @@index([createdAt])
+  @@map("admin_audit_logs")
+}
+
+// ---------------------------------------------------------------------------
+// BDPM — Suivi des lots d'ingestion (webhook n8n → NaturoDesk)
+// ---------------------------------------------------------------------------
+
+model BdpmSyncRecord {
+  id               String    @id @default(uuid())
+  source           String    // "BDPM" | "EMA" | "ODS"
+  batchId          String    // "2026-04"
+  storageBucket    String?   // "bdpm-raw"
+  storagePath      String?   // "2026-04" — préfixe racine
+  status           String    // "processing" | "completed" | "failed"
+  startedAt        DateTime?
+  completedAt      DateTime?
+  filesProcessed   Int?
+  documentsCreated Int?
+  chunksCreated    Int?
+  factsCreated     Int?
+  errorMessage     String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@unique([source, batchId])
+  @@index([source, status])
+  @@index([status, startedAt])
+  @@map("bdpm_sync_records")
+}

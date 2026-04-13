@@ -1,6 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# ─── Dépendances ───────────────────────────────────────────────────────────────
 /node_modules
 /.pnp
 .pnp.*
@@ -10,32 +10,90 @@
 !.yarn/releases
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
+# ─── Next.js ───────────────────────────────────────────────────────────────────
 /.next/
 /out/
-
-# production
 /build
 
-# misc
-.DS_Store
-*.pem
+# ─── Tests & couverture ────────────────────────────────────────────────────────
+/coverage
+/.nyc_output
 
-# debug
+# ─── Variables d'environnement (CRITIQUE — ne jamais commiter) ─────────────────
+.env*
+.env.local
+.env.*.local
+.env.development
+.env.production
+.env.staging
+.env.test
+
+# ─── Secrets & certificats ─────────────────────────────────────────────────────
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+secrets/
+.secrets/
+
+# ─── Prisma ────────────────────────────────────────────────────────────────────
+# Migrations générées localement (migrations/ doit rester versionné)
+prisma/migrations/migration_lock.toml
+
+# ─── Supabase (CLI local) ──────────────────────────────────────────────────────
+.supabase/
+supabase/.branches/
+supabase/.temp/
+
+# ─── Logs ──────────────────────────────────────────────────────────────────────
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+logs/
 
-# env files (can opt-in for committing if needed)
-.env*
+# ─── Base de données locale ────────────────────────────────────────────────────
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
 
-# vercel
-.vercel
+# ─── Éditeurs & OS ─────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.idea/
+.vscode/settings.json
+.vscode/launch.json
+*.swp
+*.swo
+*~
 
-# typescript
+# ─── TypeScript ────────────────────────────────────────────────────────────────
 *.tsbuildinfo
 next-env.d.ts
+
+# ─── Déploiement ───────────────────────────────────────────────────────────────
+.vercel
+.netlify
+
+# ─── Données uploadées / temporaires ───────────────────────────────────────────
+/public/uploads/
+/tmp/
+/temp/
+
+# ─── Rapports & exports ────────────────────────────────────────────────────────
+*.pdf
+*.csv
+*.xlsx
+*.xls

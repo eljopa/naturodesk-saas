@@ -1,0 +1,669 @@
+{
+  "metadata": {
+    "appName": "NaturoDesk",
+    "appDescription": "Naturopathic practice management software",
+    "pages": {
+      "dashboard": "Dashboard",
+      "patients": "Patients",
+      "appointments": "Appointments",
+      "consultations": "Consultations",
+      "protocols": "Protocols",
+      "invoices": "Invoices",
+      "knowledge": "Knowledge Base",
+      "settings": "Settings",
+      "login": "Sign In",
+      "forgotPassword": "Forgot Password",
+      "resetPassword": "New Password"
+    }
+  },
+
+  "auth": {
+    "brandName": "NaturoDesk",
+    "disclaimer": "Documentary assistance software for professional use. Does not constitute a medical device.",
+    "callbackError": "The link has expired. Please sign in again.",
+
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to your practitioner workspace",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Forgot your password?",
+      "submit": "Sign In"
+    },
+
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email and we'll send you a reset link.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Send reset link",
+      "backToLogin": "← Back to sign in",
+      "successMessage": "If an account exists for this email, you'll receive a reset link shortly."
+    },
+
+    "resetPassword": {
+      "title": "New password",
+      "subtitle": "Choose a new password for your account.",
+      "passwordLabel": "New password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Update password"
+    },
+
+    "errors": {
+      "invalid_credentials": "Incorrect email or password.",
+      "invalid_input": "Please enter a valid email and password.",
+      "generic_error": "An error occurred. Please try again.",
+      "email_required": "Please enter a valid email address.",
+      "password_mismatch": "Passwords do not match.",
+      "password_too_short": "Password must be at least 8 characters.",
+      "reset_failed": "Unable to update your password. Please try again."
+    }
+  },
+
+  "nav": {
+    "sections": {
+      "cabinet": "Practice",
+      "clinique": "Clinical",
+      "ressources": "Resources"
+    },
+    "items": {
+      "dashboard": "Dashboard",
+      "patients": "Patients",
+      "appointments": "Appointments",
+      "consultations": "Consultations",
+      "protocols": "Protocols",
+      "invoices": "Invoices",
+      "knowledge": "Knowledge Base",
+      "settings": "Settings"
+    }
+  },
+
+  "topbar": {
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "settingsLink": "Settings",
+    "logout": "Sign out"
+  },
+
+  "onboarding": {
+    "title": "Create your practitioner profile",
+    "subtitle": "This information will appear in the application and on your documents.",
+    "firstNameLabel": "First name",
+    "firstNamePlaceholder": "First name",
+    "lastNameLabel": "Last name",
+    "lastNamePlaceholder": "Last name",
+    "cabinetNameLabel": "Practice name",
+    "cabinetNamePlaceholder": "Dupont Naturopathy Practice",
+    "cabinetNameHelp": "Optional — will appear on your invoices and documents",
+    "submit": "Create my profile",
+    "logout": "Sign out",
+    "errors": {
+      "invalid_input": "Please enter at least your first and last name.",
+      "already_onboarded": "Your profile already exists.",
+      "generic_error": "An error occurred. Please try again."
+    }
+  },
+
+  "dashboard": {
+    "greeting": {
+      "morning": "Good morning, {name}",
+      "afternoon": "Good afternoon, {name}",
+      "evening": "Good evening, {name}"
+    },
+    "kpi": {
+      "activePatients": "Active patients",
+      "upcomingAppointments": "Upcoming appointments",
+      "ongoingConsultations": "Ongoing consultations",
+      "draftInvoices": "Draft invoices"
+    },
+    "upcoming": {
+      "title": "Upcoming appointments",
+      "description": "Your next scheduled consultations",
+      "seeAll": "See all",
+      "newAppointment": "New appointment",
+      "emptyTitle": "No appointments scheduled",
+      "emptyDescription": "Create your first appointment to see it here.",
+      "typeBilan": "Assessment",
+      "typeSuivi": "Follow-up"
+    }
+  },
+
+  "patients": {
+    "pageTitle": "Patients",
+    "pageDescription": "Manage patient records and follow-ups",
+    "new": "New patient",
+    "createCta": "Create patient",
+    "searchPlaceholder": "Search patients…",
+    "emptyTitle": "No patients yet",
+    "emptyDescription": "Create your first patient record to get started.",
+    "emptySearchTitle": "No results",
+    "emptySearchDescription": "No patients match your search.",
+    "emptyArchivedTitle": "No archived patients",
+    "emptyArchivedDescription": "Archived patients will appear here.",
+    "filterActive": "Active",
+    "filterArchived": "Archived",
+
+    "form": {
+      "sectionIdentity": "Identity",
+      "sectionContact": "Contact",
+      "sectionClinical": "Clinical data",
+      "firstNameLabel": "First name",
+      "firstNamePlaceholder": "First name",
+      "lastNameLabel": "Last name",
+      "lastNamePlaceholder": "Last name",
+      "birthDateLabel": "Date of birth",
+      "phoneLabel": "Phone",
+      "phonePlaceholder": "+33 6 12 34 56 78",
+      "emailLabel": "Email",
+      "emailPlaceholder": "patient@example.com",
+      "addressLabel": "Address",
+      "addressPlaceholder": "Full postal address",
+      "professionLabel": "Profession",
+      "professionPlaceholder": "Profession",
+      "notesLabel": "Internal notes",
+      "notesPlaceholder": "Notes visible only to you…",
+      "medicalHistoryLabel": "Medical history",
+      "medicalHistoryPlaceholder": "Medical history, known conditions…",
+      "allergiesLabel": "Allergies and intolerances",
+      "allergiesPlaceholder": "Known allergies…",
+      "submitCreate": "Create patient",
+      "submitEdit": "Save changes",
+      "cancel": "Cancel",
+      "errors": {
+        "invalid_input": "Please enter at least a first and last name.",
+        "not_found": "Patient not found.",
+        "unauthorized": "Unauthorised access.",
+        "generic_error": "An error occurred. Please try again."
+      }
+    },
+
+    "detail": {
+      "backToList": "Patients",
+      "editButton": "Edit",
+      "archiveButton": "Archive",
+      "unarchiveButton": "Reactivate",
+      "archivedBadge": "Archived",
+      "tabInfo": "Information",
+      "tabAppointments": "Appointments",
+      "tabConsultations": "Consultations",
+      "tabFollowUps": "Follow-ups",
+      "tabInvoices": "Invoices",
+      "contactSection": "Contact details",
+      "clinicalSection": "Clinical data",
+      "notesSection": "Internal notes",
+      "birthDate": "Date of birth",
+      "phone": "Phone",
+      "email": "Email",
+      "address": "Address",
+      "profession": "Profession",
+      "noData": "—",
+      "noNotes": "No notes recorded.",
+      "noAppointments": "No appointments for this patient.",
+      "noConsultations": "No consultations recorded.",
+      "noInvoices": "No invoices recorded.",
+      "newAppointment": "New appointment"
+    }
+  },
+
+  "appointments": {
+    "pageTitle": "Appointments",
+    "pageDescription": "Schedule and manage your consultations",
+    "new": "New appointment",
+    "scheduleCta": "Schedule appointment",
+    "filterAll": "All",
+    "filterUpcoming": "Upcoming",
+    "filterPast": "Past",
+    "filterToday": "Today",
+    "filterWeek": "This week",
+    "filterMonth": "This month",
+    "prevWeek": "Previous week",
+    "nextWeek": "Next week",
+    "noAppointmentsThisWeek": "No appointments this week.",
+    "emptyTitle": "No appointments scheduled",
+    "emptyDescription": "Create an appointment and link it to a patient to see it here.",
+    "statusScheduled": "Scheduled",
+    "statusCompleted": "Completed",
+    "statusCancelled": "Cancelled",
+    "statusNoShow": "No-show",
+    "typeBilan": "Assessment",
+    "typeSuivi": "Follow-up",
+    "noPatient": "Unknown patient",
+    "duration": "{minutes} min",
+
+    "form": {
+      "createTitle": "New appointment",
+      "editTitle": "Edit appointment",
+      "patientLabel": "Patient",
+      "patientPlaceholder": "— Select a patient —",
+      "startAtLabel": "Start date and time",
+      "endAtLabel": "End date and time",
+      "typeLabel": "Appointment type",
+      "typeBilan": "Vitality assessment",
+      "typeSuivi": "Follow-up consultation",
+      "notesLabel": "Notes",
+      "notesPlaceholder": "Additional information…",
+      "submitCreate": "Create appointment",
+      "submitEdit": "Save changes",
+      "cancel": "Cancel",
+      "cancelAppointment": "Cancel appointment",
+      "createConsultation": "Create a consultation",
+      "errors": {
+        "invalid_input": "Please fill in all required fields.",
+        "end_before_start": "End time must be after start time.",
+        "patient_not_found": "Patient not found.",
+        "not_found": "Appointment not found.",
+        "unauthorized": "Unauthorised access.",
+        "generic_error": "An error occurred. Please try again."
+      }
+    }
+  },
+
+  "consultations": {
+    "pageTitle": "Consultations",
+    "pageDescription": "Vitality assessments and documentary analysis",
+    "new": "New assessment",
+    "createCta": "Create assessment",
+    "filterAll": "All",
+    "filterDraft": "In progress",
+    "filterDone": "Analysed",
+    "emptyTitle": "No consultations recorded",
+    "emptyDescription": "Launch a vitality assessment from a patient record to start the analysis process.",
+    "seePatients": "See patients",
+    "statusDraft": "In progress",
+    "statusReady": "Ready for analysis",
+    "statusAnalysisPending": "Analysis pending",
+    "statusAnalysisRunning": "Analysis running",
+    "statusAnalysisDone": "Analysed",
+    "statusAnalysisError": "Analysis error",
+
+    "form": {
+      "createTitle": "New vitality assessment",
+      "patientLabel": "Patient",
+      "patientPlaceholder": "— Select a patient —",
+      "appointmentLabel": "Linked appointment",
+      "appointmentNone": "— None (optional) —",
+      "contextLabel": "General context",
+      "contextPlaceholder": "Reason for consultation, lifestyle context, patient goals…",
+      "submitCreate": "Create assessment",
+      "cancel": "Cancel",
+      "errors": {
+        "invalid_input": "Please select a patient.",
+        "patient_not_found": "Patient not found.",
+        "appointment_not_found": "Appointment not found.",
+        "already_has_consultation": "This appointment already has an assessment linked.",
+        "not_found": "Consultation not found.",
+        "unauthorized": "Unauthorised access.",
+        "generic_error": "An error occurred. Please try again."
+      }
+    },
+
+    "detail": {
+      "backToList": "Consultations",
+      "patient": "Patient",
+      "appointment": "Linked appointment",
+      "noAppointment": "No linked appointment",
+      "createdAt": "Created on",
+      "markReadyButton": "Mark as ready",
+      "markDraftButton": "Revert to draft",
+      "triggerAnalysisButton": "Run analysis",
+      "retryAnalysisButton": "Retry analysis",
+      "analysisInProgress": "Analysis in progress…",
+      "medicationLoad": "Medication load",
+      "terrainSummary": "Naturopathic terrain",
+      "loadLevelLOW": "Low",
+      "loadLevelMEDIUM": "Moderate",
+      "loadLevelHIGH": "High",
+      "loadLevelCRITICAL": "Critical",
+      "tabContext": "Context",
+      "tabSymptoms": "Symptoms",
+      "tabMedications": "Medications",
+      "tabSupplements": "Supplements",
+      "tabFindings": "Observations",
+      "tabKnowledge": "Analysis",
+      "contextSection": "General context",
+      "contextSave": "Save",
+      "contextEdit": "Edit",
+      "contextEmpty": "No context entered.",
+      "noData": "—",
+      "errors": {
+        "unauthorized": "Unauthorised access.",
+        "generic_error": "An error occurred. Please try again."
+      }
+    },
+
+    "symptoms": {
+      "empty": "No symptoms recorded.",
+      "addButton": "Add a symptom",
+      "cancelButton": "Cancel",
+      "deleteButton": "Delete",
+      "labelField": "Symptom",
+      "labelPlaceholder": "e.g. chronic fatigue, joint pain…",
+      "intensityField": "Intensity (1-10)",
+      "durationField": "Duration",
+      "durationPlaceholder": "e.g. 3 weeks, since 6 months…",
+      "categoryField": "Category",
+      "categoryPlaceholder": "e.g. digestive, neurological…",
+      "submitButton": "Add",
+      "errors": {
+        "invalid_input": "Symptom cannot be empty.",
+        "unauthorized": "Unauthorised access.",
+        "generic_error": "An error occurred."
+      }
+    },
+
+    "medications": {
+      "empty": "No medications recorded.",
+      "addButton": "Add a medication",
+      "cancelButton": "Cancel",
+      "deleteButton": "Delete",
+      "nameField": "Medication",
+      "namePlaceholder": "Medication name",
+      "dosageField": "Dosage",
+      "dosagePlaceholder": "e.g. 500 mg",
+      "frequencyField": "Frequency",
+      "frequencyPlaceholder": "e.g. twice daily",
+      "durationField": "Duration",
+      "durationPlaceholder": "e.g. 3 months",
+      "submitButton": "Add",
+      "errors": {
+        "invalid_input": "Medication name cannot be empty.",
+        "unauthorized": "Unauthorised access.",
+        "generic_error": "An error occurred."
+      }
+    },
+
+    "supplements": {
+      "empty": "No supplements recorded.",
+      "addButton": "Add a supplement",
+      "cancelButton": "Cancel",
+      "deleteButton": "Delete",
+      "nameField": "Supplement",
+      "namePlaceholder": "Supplement name",
+      "dosageField": "Dosage",
+      "dosagePlaceholder": "e.g. 1,000 mg",
+      "durationField": "Duration",
+      "durationPlaceholder": "e.g. 1 month",
+      "submitButton": "Add",
+      "errors": {
+        "invalid_input": "Supplement name cannot be empty.",
+        "unauthorized": "Unauthorised access.",
+        "generic_error": "An error occurred."
+      }
+    },
+
+    "findings": {
+      "empty": "No observations recorded.",
+      "addButton": "Add an observation",
+      "cancelButton": "Cancel",
+      "deleteButton": "Delete",
+      "categoryField": "Category",
+      "titleField": "Title",
+      "titlePlaceholder": "Observation title",
+      "descriptionField": "Description",
+      "descriptionPlaceholder": "Detailed description of the observation…",
+      "submitButton": "Add",
+      "categories": {
+        "SIDE_EFFECT": "Side effect",
+        "INTERACTION": "Interaction",
+        "DEPLETION": "Depletion",
+        "RED_FLAG": "Red flag",
+        "TERRAIN": "Terrain",
+        "PROTOCOL": "Protocol",
+        "QUESTION": "Question"
+      },
+      "errors": {
+        "invalid_input": "Title and description are required.",
+        "unauthorized": "Unauthorised access.",
+        "generic_error": "An error occurred."
+      }
+    }
+  },
+
+  "protocols": {
+    "pageTitle": "Protocols",
+    "pageDescription": "Naturopathic protocol templates",
+    "new": "New protocol",
+    "createCta": "Create protocol",
+    "emptyTitle": "No protocols created",
+    "emptyDescription": "Create your first protocol template to find it here.",
+    "categories": {
+      "DIGESTIVE": "Digestive",
+      "HORMONAL": "Hormonal",
+      "STRESS": "Stress / Nervous system",
+      "DETOX": "Detox / Drainage",
+      "IMMUNITY": "Immunity",
+      "ENERGY": "Energy / Vitality",
+      "OTHER": "Other"
+    },
+    "form": {
+      "createTitle": "New protocol",
+      "editTitle": "Edit protocol",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Anti-inflammatory protocol…",
+      "categoryLabel": "Category",
+      "summaryLabel": "Summary",
+      "summaryPlaceholder": "Short protocol summary…",
+      "contentLabel": "Protocol content",
+      "contentPlaceholder": "Describe the recommendations, suggested supplements, dietary adjustments, naturopathic techniques…",
+      "submitCreate": "Create protocol",
+      "submitEdit": "Save changes",
+      "cancel": "Cancel",
+      "deleteButton": "Delete this protocol",
+      "errors": {
+        "invalid_input": "Title and category are required.",
+        "not_found": "Protocol not found.",
+        "generic_error": "An error occurred. Please try again."
+      }
+    }
+  },
+
+  "followups": {
+    "pageTitle": "Follow-ups",
+    "pageDescription": "Between-session follow-up notes",
+    "new": "New follow-up",
+    "createCta": "Create follow-up",
+    "emptyTitle": "No follow-ups recorded",
+    "emptyDescription": "Create your first follow-up for this patient.",
+    "createdAt": "Created on",
+    "deleteButton": "Delete follow-up",
+    "form": {
+      "createTitle": "New between-session follow-up",
+      "editTitle": "Edit follow-up",
+      "appointmentLabel": "Linked appointment",
+      "appointmentNone": "— None (optional) —",
+      "symptomEvolutionLabel": "Symptom evolution",
+      "symptomEvolutionPlaceholder": "How have symptoms evolved since the last session?",
+      "protocolAdjustmentLabel": "Protocol adjustment",
+      "protocolAdjustmentPlaceholder": "Changes made to the current protocol…",
+      "observationsLabel": "Clinical observations",
+      "observationsPlaceholder": "New observations, interim review…",
+      "nextStepsLabel": "Next steps",
+      "nextStepsPlaceholder": "Actions planned, next patient goals…",
+      "submitCreate": "Create follow-up",
+      "submitEdit": "Save changes",
+      "cancel": "Cancel",
+      "errors": {
+        "invalid_input": "Please fill in at least one field.",
+        "patient_not_found": "Patient not found.",
+        "not_found": "Follow-up not found.",
+        "unauthorized": "Unauthorized.",
+        "generic_error": "An error occurred. Please try again."
+      }
+    }
+  },
+
+  "invoices": {
+    "pageTitle": "Invoices",
+    "pageDescription": "Manage billing and export your revenue ledger",
+    "new": "New invoice",
+    "exportCsv": "Export CSV",
+    "filterAll": "All",
+    "filterDraft": "Draft",
+    "filterIssued": "Issued",
+    "filterPaid": "Paid",
+    "createCta": "Create invoice",
+    "emptyTitle": "No invoices recorded",
+    "emptyDescription": "Create your first invoice. Sequential numbering is handled automatically.",
+    "backToList": "Invoices",
+    "numberLabel": "Invoice no.",
+    "patientLabel": "Patient",
+    "issuedAtLabel": "Issue date",
+    "totalLabel": "Total",
+    "statusDraft": "Draft",
+    "statusIssued": "Issued",
+    "statusPaid": "Paid",
+    "statusCancelled": "Cancelled",
+    "paymentCash": "Cash",
+    "paymentCard": "Card",
+    "paymentTransfer": "Bank transfer",
+    "paymentCheck": "Cheque",
+    "markIssued": "Issue invoice",
+    "markPaid": "Mark as paid",
+    "cancelInvoice": "Cancel",
+    "deleteInvoice": "Delete",
+    "form": {
+      "createTitle": "New invoice",
+      "patientLabel": "Patient",
+      "patientPlaceholder": "— Select a patient —",
+      "paymentMethodLabel": "Payment method",
+      "paymentMethodPlaceholder": "— Not specified —",
+      "issuedAtLabel": "Issue date",
+      "linesTitle": "Line items",
+      "addLine": "Add line",
+      "lineDescription": "Description",
+      "lineDescriptionPlaceholder": "Naturopathic consultation…",
+      "lineQuantity": "Qty",
+      "lineUnitPrice": "Unit price (€)",
+      "lineTotal": "Total",
+      "removeLine": "Remove line",
+      "totalLabel": "Total",
+      "submitCreate": "Create invoice",
+      "cancel": "Cancel",
+      "errors": {
+        "invalid_input": "Please enter at least one line item.",
+        "patient_not_found": "Patient not found.",
+        "not_found": "Invoice not found.",
+        "cannot_delete_non_draft": "Only draft invoices can be deleted.",
+        "unauthorized": "Unauthorized.",
+        "generic_error": "An error occurred. Please try again."
+      }
+    }
+  },
+
+  "knowledge": {
+    "pageTitle": "Knowledge Base",
+    "pageDescription": "Reference documents, semantic chunks and embeddings",
+    "badge": "Phase 6 – 7",
+    "addDocument": "Add document",
+    "backToList": "Knowledge Base",
+    "statDocuments": "Documents",
+    "statDocumentsDesc": "Monographs, official notices",
+    "statChunks": "Indexed chunks",
+    "statChunksDesc": "Vectorised excerpts (with embeddings)",
+    "statMedications": "Medications covered",
+    "statMedicationsDesc": "Normalised keys",
+    "emptyTitle": "Knowledge base empty",
+    "emptyDescription": "Add monographs, notices or studies to enrich AI analyses. Content is automatically chunked and vectorised.",
+    "chunks": "chunks",
+    "source": "source",
+    "deleteDocument": "Delete document",
+    "docTypeMONOGRAPH": "Monograph",
+    "docTypeNOTICE": "Notice",
+    "docTypeINTERACTION_SHEET": "Interaction sheet",
+    "docTypeSTUDY": "Study",
+
+    "form": {
+      "pageTitle": "Add a document",
+      "pageDescription": "The document will be automatically chunked and vectorised.",
+      "titleLabel": "Document title",
+      "titlePlaceholder": "e.g. Atorvastatin monograph",
+      "drugKeyLabel": "Drug / substance key",
+      "drugKeyPlaceholder": "e.g. atorvastatin (lowercase)",
+      "urlLabel": "Source URL (optional)",
+      "sourceTypeLabel": "Source",
+      "sourceTypeMANUAL": "Manual",
+      "sourceTypeBDPM": "BDPM",
+      "sourceTypeANSM": "ANSM",
+      "sourceTypePUBMED": "PubMed",
+      "docTypeLabel": "Document type",
+      "docTypeMONOGRAPH": "Monograph",
+      "docTypeNOTICE": "Notice",
+      "docTypeINTERACTION_SHEET": "Interaction sheet",
+      "docTypeSTUDY": "Study",
+      "contentLabel": "Text content",
+      "contentHint": "Paste the full document text. It will be automatically split into ~600-character chunks and vectorised.",
+      "contentPlaceholder": "Paste the full document content here…",
+      "submit": "Save and vectorise",
+      "submitting": "Vectorising…",
+      "embedNotice": "Embedding generation may take a few seconds."
+    },
+
+    "search": {
+      "placeholder": "Semantic search in knowledge base…",
+      "noResults": "No relevant results found.",
+      "error": "Search error. Please check your connection."
+    }
+  },
+
+  "settings": {
+    "pageTitle": "Settings",
+    "pageDescription": "Manage your profile and account settings",
+    "profile": {
+      "title": "Practitioner profile",
+      "description": "Information displayed in the application and on your documents",
+      "nameLabel": "Full name",
+      "namePlaceholder": "First Last",
+      "emailLabel": "Email",
+      "editNotice": "Profile editing will be available in an upcoming release."
+    },
+    "account": {
+      "title": "Account",
+      "description": "Security and session management",
+      "passwordTitle": "Password",
+      "passwordDescription": "Update your sign-in password",
+      "changePassword": "Change"
+    },
+    "language": {
+      "title": "Language",
+      "description": "Interface display language",
+      "fr": "Français",
+      "en": "English"
+    },
+    "billing": {
+      "title": "Subscription",
+      "description": "Manage your plan and Stripe billing",
+      "currentPlan": "Current plan",
+      "planFree": "Free",
+      "planPro": "PRO",
+      "statusTrialing": "Trial",
+      "statusActive": "Active",
+      "statusPastDue": "Payment overdue",
+      "statusCanceled": "Cancelled",
+      "statusSuspended": "Suspended",
+      "renewsOn": "Renews on {date}",
+      "cancelAtPeriodEnd": "Cancellation scheduled on {date}",
+      "upgradeButton": "Upgrade to PRO",
+      "manageButton": "Manage subscription",
+      "stripeNotConfigured": "Payment not available at this time.",
+      "successBanner": "Your PRO subscription is now active.",
+      "cancelledBanner": "The subscription was not activated."
+    },
+    "danger": {
+      "title": "Danger zone",
+      "description": "Irreversible account actions",
+      "deleteTitle": "Delete account",
+      "deleteDescription": "Permanently deletes all your data",
+      "deleteButton": "Delete"
+    }
+  },
+
+  "pdf": {
+    "downloadInvoice": "Download PDF",
+    "downloadConsultation": "Export PDF",
+    "downloadPatient": "Patient PDF"
+  }
+}

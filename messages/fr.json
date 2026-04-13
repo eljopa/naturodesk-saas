@@ -1,0 +1,669 @@
+{
+  "metadata": {
+    "appName": "NaturoDesk",
+    "appDescription": "Logiciel de gestion de cabinet naturopathique",
+    "pages": {
+      "dashboard": "Tableau de bord",
+      "patients": "Patients",
+      "appointments": "Rendez-vous",
+      "consultations": "Consultations",
+      "protocols": "Protocoles",
+      "invoices": "Factures",
+      "knowledge": "Base documentaire",
+      "settings": "Paramètres",
+      "login": "Connexion",
+      "forgotPassword": "Mot de passe oublié",
+      "resetPassword": "Nouveau mot de passe"
+    }
+  },
+
+  "auth": {
+    "brandName": "NaturoDesk",
+    "disclaimer": "Logiciel d'assistance documentaire à usage professionnel. Ne constitue pas un dispositif médical.",
+    "callbackError": "Le lien a expiré. Veuillez vous reconnecter.",
+
+    "login": {
+      "title": "Bon retour",
+      "subtitle": "Connectez-vous à votre espace praticien",
+      "emailLabel": "Email",
+      "emailPlaceholder": "vous@exemple.com",
+      "passwordLabel": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Se connecter"
+    },
+
+    "forgotPassword": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Saisissez votre email, nous vous enverrons un lien de réinitialisation.",
+      "emailLabel": "Adresse email",
+      "emailPlaceholder": "vous@exemple.com",
+      "submit": "Envoyer le lien",
+      "backToLogin": "← Retour à la connexion",
+      "successMessage": "Si un compte existe pour cet email, vous recevrez un lien de réinitialisation."
+    },
+
+    "resetPassword": {
+      "title": "Nouveau mot de passe",
+      "subtitle": "Choisissez un nouveau mot de passe pour votre compte.",
+      "passwordLabel": "Nouveau mot de passe",
+      "passwordPlaceholder": "Minimum 8 caractères",
+      "confirmPasswordLabel": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Mettre à jour le mot de passe"
+    },
+
+    "errors": {
+      "invalid_credentials": "Email ou mot de passe incorrect.",
+      "invalid_input": "Veuillez saisir un email et un mot de passe valides.",
+      "generic_error": "Une erreur est survenue. Veuillez réessayer.",
+      "email_required": "Veuillez saisir un email valide.",
+      "password_mismatch": "Les mots de passe ne correspondent pas.",
+      "password_too_short": "Le mot de passe doit faire au moins 8 caractères.",
+      "reset_failed": "Impossible de mettre à jour le mot de passe. Veuillez réessayer."
+    }
+  },
+
+  "nav": {
+    "sections": {
+      "cabinet": "Cabinet",
+      "clinique": "Clinique",
+      "ressources": "Ressources"
+    },
+    "items": {
+      "dashboard": "Tableau de bord",
+      "patients": "Patients",
+      "appointments": "Rendez-vous",
+      "consultations": "Consultations",
+      "protocols": "Protocoles",
+      "invoices": "Factures",
+      "knowledge": "Base documentaire",
+      "settings": "Paramètres"
+    }
+  },
+
+  "topbar": {
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "settingsLink": "Paramètres",
+    "logout": "Déconnexion"
+  },
+
+  "onboarding": {
+    "title": "Créer votre profil praticien",
+    "subtitle": "Ces informations apparaîtront dans l'application et sur vos documents.",
+    "firstNameLabel": "Prénom",
+    "firstNamePlaceholder": "Prénom",
+    "lastNameLabel": "Nom",
+    "lastNamePlaceholder": "Nom",
+    "cabinetNameLabel": "Nom du cabinet",
+    "cabinetNamePlaceholder": "Cabinet Dupont Naturopathie",
+    "cabinetNameHelp": "Optionnel — apparaîtra sur vos factures et documents",
+    "submit": "Créer mon profil",
+    "logout": "Se déconnecter",
+    "errors": {
+      "invalid_input": "Veuillez saisir au moins votre prénom et nom.",
+      "already_onboarded": "Votre profil existe déjà.",
+      "generic_error": "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+
+  "dashboard": {
+    "greeting": {
+      "morning": "Bonjour, {name}",
+      "afternoon": "Bon après-midi, {name}",
+      "evening": "Bonsoir, {name}"
+    },
+    "kpi": {
+      "activePatients": "Patients actifs",
+      "upcomingAppointments": "RDV à venir",
+      "ongoingConsultations": "Bilans en cours",
+      "draftInvoices": "Factures brouillon"
+    },
+    "upcoming": {
+      "title": "Prochains rendez-vous",
+      "description": "Vos prochaines consultations planifiées",
+      "seeAll": "Voir tout",
+      "newAppointment": "Nouveau rendez-vous",
+      "emptyTitle": "Aucun rendez-vous planifié",
+      "emptyDescription": "Créez votre premier rendez-vous pour le voir apparaître ici.",
+      "typeBilan": "Bilan",
+      "typeSuivi": "Suivi"
+    }
+  },
+
+  "patients": {
+    "pageTitle": "Patients",
+    "pageDescription": "Gérez vos fiches patients et leur suivi",
+    "new": "Nouveau patient",
+    "createCta": "Créer un patient",
+    "searchPlaceholder": "Rechercher un patient…",
+    "emptyTitle": "Aucun patient pour le moment",
+    "emptyDescription": "Créez votre première fiche patient pour démarrer le suivi.",
+    "emptySearchTitle": "Aucun résultat",
+    "emptySearchDescription": "Aucun patient ne correspond à votre recherche.",
+    "emptyArchivedTitle": "Aucun patient archivé",
+    "emptyArchivedDescription": "Les patients archivés apparaîtront ici.",
+    "filterActive": "Actifs",
+    "filterArchived": "Archivés",
+
+    "form": {
+      "sectionIdentity": "Identité",
+      "sectionContact": "Contact",
+      "sectionClinical": "Données cliniques",
+      "firstNameLabel": "Prénom",
+      "firstNamePlaceholder": "Prénom",
+      "lastNameLabel": "Nom",
+      "lastNamePlaceholder": "Nom",
+      "birthDateLabel": "Date de naissance",
+      "phoneLabel": "Téléphone",
+      "phonePlaceholder": "+33 6 12 34 56 78",
+      "emailLabel": "Email",
+      "emailPlaceholder": "patient@exemple.com",
+      "addressLabel": "Adresse",
+      "addressPlaceholder": "Adresse postale complète",
+      "professionLabel": "Profession",
+      "professionPlaceholder": "Profession",
+      "notesLabel": "Notes internes",
+      "notesPlaceholder": "Notes visibles uniquement par vous…",
+      "medicalHistoryLabel": "Antécédents médicaux",
+      "medicalHistoryPlaceholder": "Antécédents, pathologies connues…",
+      "allergiesLabel": "Allergies et intolérances",
+      "allergiesPlaceholder": "Allergies connues…",
+      "submitCreate": "Créer le patient",
+      "submitEdit": "Enregistrer les modifications",
+      "cancel": "Annuler",
+      "errors": {
+        "invalid_input": "Veuillez saisir au moins le prénom et le nom.",
+        "not_found": "Patient introuvable.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue. Veuillez réessayer."
+      }
+    },
+
+    "detail": {
+      "backToList": "Patients",
+      "editButton": "Modifier",
+      "archiveButton": "Archiver",
+      "unarchiveButton": "Réactiver",
+      "archivedBadge": "Archivé",
+      "tabInfo": "Informations",
+      "tabAppointments": "Rendez-vous",
+      "tabConsultations": "Consultations",
+      "tabFollowUps": "Suivi",
+      "tabInvoices": "Factures",
+      "contactSection": "Coordonnées",
+      "clinicalSection": "Données cliniques",
+      "notesSection": "Notes internes",
+      "birthDate": "Date de naissance",
+      "phone": "Téléphone",
+      "email": "Email",
+      "address": "Adresse",
+      "profession": "Profession",
+      "noData": "—",
+      "noNotes": "Aucune note enregistrée.",
+      "noAppointments": "Aucun rendez-vous pour ce patient.",
+      "noConsultations": "Aucune consultation enregistrée.",
+      "noInvoices": "Aucune facture enregistrée.",
+      "newAppointment": "Nouveau rendez-vous"
+    }
+  },
+
+  "appointments": {
+    "pageTitle": "Rendez-vous",
+    "pageDescription": "Planifiez et gérez vos consultations",
+    "new": "Nouveau rendez-vous",
+    "scheduleCta": "Planifier un rendez-vous",
+    "filterAll": "Tous",
+    "filterUpcoming": "À venir",
+    "filterPast": "Passés",
+    "filterToday": "Aujourd'hui",
+    "filterWeek": "Cette semaine",
+    "filterMonth": "Ce mois",
+    "prevWeek": "Semaine précédente",
+    "nextWeek": "Semaine suivante",
+    "noAppointmentsThisWeek": "Aucun rendez-vous cette semaine.",
+    "emptyTitle": "Aucun rendez-vous planifié",
+    "emptyDescription": "Créez un rendez-vous et associez-le à un patient pour le voir apparaître ici.",
+    "statusScheduled": "Planifié",
+    "statusCompleted": "Effectué",
+    "statusCancelled": "Annulé",
+    "statusNoShow": "Absent",
+    "typeBilan": "Bilan",
+    "typeSuivi": "Suivi",
+    "noPatient": "Patient inconnu",
+    "duration": "{minutes} min",
+
+    "form": {
+      "createTitle": "Nouveau rendez-vous",
+      "editTitle": "Modifier le rendez-vous",
+      "patientLabel": "Patient",
+      "patientPlaceholder": "— Sélectionner un patient —",
+      "startAtLabel": "Date et heure de début",
+      "endAtLabel": "Date et heure de fin",
+      "typeLabel": "Type de rendez-vous",
+      "typeBilan": "Bilan de vitalité",
+      "typeSuivi": "Consultation de suivi",
+      "notesLabel": "Notes",
+      "notesPlaceholder": "Informations complémentaires…",
+      "submitCreate": "Créer le rendez-vous",
+      "submitEdit": "Enregistrer les modifications",
+      "cancel": "Annuler",
+      "cancelAppointment": "Annuler le rendez-vous",
+      "createConsultation": "Créer un bilan",
+      "errors": {
+        "invalid_input": "Veuillez remplir tous les champs requis.",
+        "end_before_start": "La date de fin doit être après la date de début.",
+        "patient_not_found": "Patient introuvable.",
+        "not_found": "Rendez-vous introuvable.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue. Veuillez réessayer."
+      }
+    }
+  },
+
+  "consultations": {
+    "pageTitle": "Consultations",
+    "pageDescription": "Bilans de vitalité et analyses documentaires",
+    "new": "Nouveau bilan",
+    "createCta": "Créer un bilan",
+    "filterAll": "Tous",
+    "filterDraft": "En cours",
+    "filterDone": "Analysés",
+    "emptyTitle": "Aucune consultation enregistrée",
+    "emptyDescription": "Lancez un bilan de vitalité depuis une fiche patient pour démarrer le processus d'analyse.",
+    "seePatients": "Voir les patients",
+    "statusDraft": "En cours",
+    "statusReady": "Prêt pour analyse",
+    "statusAnalysisPending": "Analyse en attente",
+    "statusAnalysisRunning": "Analyse en cours",
+    "statusAnalysisDone": "Analysé",
+    "statusAnalysisError": "Erreur d'analyse",
+
+    "form": {
+      "createTitle": "Nouveau bilan de vitalité",
+      "patientLabel": "Patient",
+      "patientPlaceholder": "— Sélectionner un patient —",
+      "appointmentLabel": "Rendez-vous associé",
+      "appointmentNone": "— Aucun (optionnel) —",
+      "contextLabel": "Contexte général",
+      "contextPlaceholder": "Motif de consultation, contexte de vie, objectifs du patient…",
+      "submitCreate": "Créer le bilan",
+      "cancel": "Annuler",
+      "errors": {
+        "invalid_input": "Veuillez sélectionner un patient.",
+        "patient_not_found": "Patient introuvable.",
+        "appointment_not_found": "Rendez-vous introuvable.",
+        "already_has_consultation": "Ce rendez-vous a déjà un bilan associé.",
+        "not_found": "Consultation introuvable.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue. Veuillez réessayer."
+      }
+    },
+
+    "detail": {
+      "backToList": "Consultations",
+      "patient": "Patient",
+      "appointment": "Rendez-vous associé",
+      "noAppointment": "Aucun rendez-vous associé",
+      "createdAt": "Créé le",
+      "markReadyButton": "Marquer comme prêt",
+      "markDraftButton": "Remettre en brouillon",
+      "triggerAnalysisButton": "Lancer l'analyse",
+      "retryAnalysisButton": "Relancer l'analyse",
+      "analysisInProgress": "Analyse en cours…",
+      "medicationLoad": "Charge médicamenteuse",
+      "terrainSummary": "Terrain naturopathique",
+      "loadLevelLOW": "Faible",
+      "loadLevelMEDIUM": "Modérée",
+      "loadLevelHIGH": "Élevée",
+      "loadLevelCRITICAL": "Critique",
+      "tabContext": "Contexte",
+      "tabSymptoms": "Symptômes",
+      "tabMedications": "Médicaments",
+      "tabSupplements": "Compléments",
+      "tabFindings": "Observations",
+      "tabKnowledge": "Analyse",
+      "contextSection": "Contexte général",
+      "contextSave": "Enregistrer",
+      "contextEdit": "Modifier",
+      "contextEmpty": "Aucun contexte saisi.",
+      "noData": "—",
+      "errors": {
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue. Veuillez réessayer."
+      }
+    },
+
+    "symptoms": {
+      "empty": "Aucun symptôme enregistré.",
+      "addButton": "Ajouter un symptôme",
+      "cancelButton": "Annuler",
+      "deleteButton": "Supprimer",
+      "labelField": "Symptôme",
+      "labelPlaceholder": "ex : fatigue chronique, douleurs articulaires…",
+      "intensityField": "Intensité (1-10)",
+      "durationField": "Durée",
+      "durationPlaceholder": "ex : 3 semaines, depuis 6 mois…",
+      "categoryField": "Catégorie",
+      "categoryPlaceholder": "ex : digestif, neurologique…",
+      "submitButton": "Ajouter",
+      "errors": {
+        "invalid_input": "Le symptôme ne peut pas être vide.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue."
+      }
+    },
+
+    "medications": {
+      "empty": "Aucun médicament enregistré.",
+      "addButton": "Ajouter un médicament",
+      "cancelButton": "Annuler",
+      "deleteButton": "Supprimer",
+      "nameField": "Médicament",
+      "namePlaceholder": "Nom du médicament",
+      "dosageField": "Posologie",
+      "dosagePlaceholder": "ex : 500 mg",
+      "frequencyField": "Fréquence",
+      "frequencyPlaceholder": "ex : 2×/jour",
+      "durationField": "Durée",
+      "durationPlaceholder": "ex : 3 mois",
+      "submitButton": "Ajouter",
+      "errors": {
+        "invalid_input": "Le nom du médicament ne peut pas être vide.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue."
+      }
+    },
+
+    "supplements": {
+      "empty": "Aucun complément enregistré.",
+      "addButton": "Ajouter un complément",
+      "cancelButton": "Annuler",
+      "deleteButton": "Supprimer",
+      "nameField": "Complément",
+      "namePlaceholder": "Nom du complément alimentaire",
+      "dosageField": "Dosage",
+      "dosagePlaceholder": "ex : 1 000 mg",
+      "durationField": "Durée",
+      "durationPlaceholder": "ex : 1 mois",
+      "submitButton": "Ajouter",
+      "errors": {
+        "invalid_input": "Le nom du complément ne peut pas être vide.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue."
+      }
+    },
+
+    "findings": {
+      "empty": "Aucune observation enregistrée.",
+      "addButton": "Ajouter une observation",
+      "cancelButton": "Annuler",
+      "deleteButton": "Supprimer",
+      "categoryField": "Catégorie",
+      "titleField": "Titre",
+      "titlePlaceholder": "Titre de l'observation",
+      "descriptionField": "Description",
+      "descriptionPlaceholder": "Description détaillée de l'observation…",
+      "submitButton": "Ajouter",
+      "categories": {
+        "SIDE_EFFECT": "Effet indésirable",
+        "INTERACTION": "Interaction",
+        "DEPLETION": "Déplétion",
+        "RED_FLAG": "Alerte",
+        "TERRAIN": "Terrain",
+        "PROTOCOL": "Protocole",
+        "QUESTION": "Question"
+      },
+      "errors": {
+        "invalid_input": "Titre et description sont requis.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue."
+      }
+    }
+  },
+
+  "protocols": {
+    "pageTitle": "Protocoles",
+    "pageDescription": "Modèles de protocoles naturopathiques",
+    "new": "Nouveau protocole",
+    "createCta": "Créer un protocole",
+    "emptyTitle": "Aucun protocole créé",
+    "emptyDescription": "Créez votre premier modèle de protocole pour le retrouver ici.",
+    "categories": {
+      "DIGESTIVE": "Digestif",
+      "HORMONAL": "Hormonal",
+      "STRESS": "Stress / Système nerveux",
+      "DETOX": "Détox / Drainage",
+      "IMMUNITY": "Immunité",
+      "ENERGY": "Énergie / Vitalité",
+      "OTHER": "Autre"
+    },
+    "form": {
+      "createTitle": "Nouveau protocole",
+      "editTitle": "Modifier le protocole",
+      "titleLabel": "Titre",
+      "titlePlaceholder": "Protocole anti-inflammatoire…",
+      "categoryLabel": "Catégorie",
+      "summaryLabel": "Résumé",
+      "summaryPlaceholder": "Résumé court du protocole…",
+      "contentLabel": "Contenu du protocole",
+      "contentPlaceholder": "Décrivez les recommandations, les compléments conseillés, les adaptations alimentaires, les techniques naturopathiques…",
+      "submitCreate": "Créer le protocole",
+      "submitEdit": "Enregistrer les modifications",
+      "cancel": "Annuler",
+      "deleteButton": "Supprimer ce protocole",
+      "errors": {
+        "invalid_input": "Le titre et la catégorie sont requis.",
+        "not_found": "Protocole introuvable.",
+        "generic_error": "Une erreur est survenue. Veuillez réessayer."
+      }
+    }
+  },
+
+  "followups": {
+    "pageTitle": "Suivi inter-séances",
+    "pageDescription": "Notes de suivi entre les consultations",
+    "new": "Nouveau suivi",
+    "createCta": "Créer un suivi",
+    "emptyTitle": "Aucun suivi enregistré",
+    "emptyDescription": "Créez votre premier suivi pour cette fiche patient.",
+    "createdAt": "Créé le",
+    "deleteButton": "Supprimer ce suivi",
+    "form": {
+      "createTitle": "Nouveau suivi inter-séances",
+      "editTitle": "Modifier le suivi",
+      "appointmentLabel": "Rendez-vous associé",
+      "appointmentNone": "— Aucun (optionnel) —",
+      "symptomEvolutionLabel": "Évolution des symptômes",
+      "symptomEvolutionPlaceholder": "Comment les symptômes ont-ils évolué depuis la dernière séance ?",
+      "protocolAdjustmentLabel": "Ajustement du protocole",
+      "protocolAdjustmentPlaceholder": "Modifications apportées au protocole en cours…",
+      "observationsLabel": "Observations cliniques",
+      "observationsPlaceholder": "Nouvelles observations, bilan intermédiaire…",
+      "nextStepsLabel": "Prochaines étapes",
+      "nextStepsPlaceholder": "Actions à prévoir, prochains objectifs du patient…",
+      "submitCreate": "Créer le suivi",
+      "submitEdit": "Enregistrer les modifications",
+      "cancel": "Annuler",
+      "errors": {
+        "invalid_input": "Veuillez remplir au moins un champ.",
+        "patient_not_found": "Patient introuvable.",
+        "not_found": "Suivi introuvable.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue. Veuillez réessayer."
+      }
+    }
+  },
+
+  "invoices": {
+    "pageTitle": "Factures",
+    "pageDescription": "Gérez votre facturation et exportez votre livre de recettes",
+    "new": "Nouvelle facture",
+    "exportCsv": "Exporter CSV",
+    "filterAll": "Toutes",
+    "filterDraft": "Brouillon",
+    "filterIssued": "Émises",
+    "filterPaid": "Payées",
+    "createCta": "Créer une facture",
+    "emptyTitle": "Aucune facture enregistrée",
+    "emptyDescription": "Créez votre première facture. La numérotation séquentielle est gérée automatiquement.",
+    "backToList": "Factures",
+    "numberLabel": "N° facture",
+    "patientLabel": "Patient",
+    "issuedAtLabel": "Date d'émission",
+    "totalLabel": "Total TTC",
+    "statusDraft": "Brouillon",
+    "statusIssued": "Émise",
+    "statusPaid": "Payée",
+    "statusCancelled": "Annulée",
+    "paymentCash": "Espèces",
+    "paymentCard": "Carte bancaire",
+    "paymentTransfer": "Virement",
+    "paymentCheck": "Chèque",
+    "markIssued": "Émettre la facture",
+    "markPaid": "Marquer comme payée",
+    "cancelInvoice": "Annuler",
+    "deleteInvoice": "Supprimer",
+    "form": {
+      "createTitle": "Nouvelle facture",
+      "patientLabel": "Patient",
+      "patientPlaceholder": "— Sélectionner un patient —",
+      "paymentMethodLabel": "Mode de paiement",
+      "paymentMethodPlaceholder": "— Non renseigné —",
+      "issuedAtLabel": "Date d'émission",
+      "linesTitle": "Prestations",
+      "addLine": "Ajouter une ligne",
+      "lineDescription": "Désignation",
+      "lineDescriptionPlaceholder": "Consultation naturopathique…",
+      "lineQuantity": "Qté",
+      "lineUnitPrice": "Prix unitaire (€)",
+      "lineTotal": "Total",
+      "removeLine": "Supprimer la ligne",
+      "totalLabel": "Total TTC",
+      "submitCreate": "Créer la facture",
+      "cancel": "Annuler",
+      "errors": {
+        "invalid_input": "Veuillez saisir au moins une ligne de prestation.",
+        "patient_not_found": "Patient introuvable.",
+        "not_found": "Facture introuvable.",
+        "cannot_delete_non_draft": "Seules les factures brouillon peuvent être supprimées.",
+        "unauthorized": "Accès non autorisé.",
+        "generic_error": "Une erreur est survenue. Veuillez réessayer."
+      }
+    }
+  },
+
+  "knowledge": {
+    "pageTitle": "Base documentaire",
+    "pageDescription": "Documents de référence, chunks sémantiques et embeddings",
+    "badge": "Phase 6 – 7",
+    "addDocument": "Ajouter un document",
+    "backToList": "Base documentaire",
+    "statDocuments": "Documents",
+    "statDocumentsDesc": "Monographies, notices BDPM",
+    "statChunks": "Chunks indexés",
+    "statChunksDesc": "Extraits vectorisés (avec embeddings)",
+    "statMedications": "Médicaments couverts",
+    "statMedicationsDesc": "Clés normalisées",
+    "emptyTitle": "Base documentaire vide",
+    "emptyDescription": "Ajoutez des monographies, notices ou études pour enrichir les analyses IA. Le contenu sera automatiquement découpé et vectorisé.",
+    "chunks": "extraits",
+    "source": "source",
+    "deleteDocument": "Supprimer ce document",
+    "docTypeMONOGRAPH": "Monographie",
+    "docTypeNOTICE": "Notice",
+    "docTypeINTERACTION_SHEET": "Fiche interaction",
+    "docTypeSTUDY": "Étude",
+
+    "form": {
+      "pageTitle": "Ajouter un document",
+      "pageDescription": "Le document sera découpé en extraits et vectorisé automatiquement.",
+      "titleLabel": "Titre du document",
+      "titlePlaceholder": "ex : Monographie Atorvastatine",
+      "drugKeyLabel": "Clé médicament / substance",
+      "drugKeyPlaceholder": "ex : atorvastatin (minuscule, sans accents)",
+      "urlLabel": "URL source (optionnel)",
+      "sourceTypeLabel": "Source",
+      "sourceTypeMANUAL": "Manuel",
+      "sourceTypeBDPM": "BDPM",
+      "sourceTypeANSM": "ANSM",
+      "sourceTypePUBMED": "PubMed",
+      "docTypeLabel": "Type de document",
+      "docTypeMONOGRAPH": "Monographie",
+      "docTypeNOTICE": "Notice",
+      "docTypeINTERACTION_SHEET": "Fiche interaction",
+      "docTypeSTUDY": "Étude",
+      "contentLabel": "Contenu textuel",
+      "contentHint": "Collez le texte complet du document. Il sera automatiquement découpé en extraits (~600 caractères) et vectorisé.",
+      "contentPlaceholder": "Collez ici le contenu complet du document…",
+      "submit": "Enregistrer et vectoriser",
+      "submitting": "Vectorisation en cours…",
+      "embedNotice": "La génération des embeddings peut prendre quelques secondes."
+    },
+
+    "search": {
+      "placeholder": "Recherche sémantique dans la base documentaire…",
+      "noResults": "Aucun résultat pertinent trouvé.",
+      "error": "Erreur lors de la recherche. Vérifiez votre connexion."
+    }
+  },
+
+  "settings": {
+    "pageTitle": "Paramètres",
+    "pageDescription": "Gérez votre profil et les paramètres de votre compte",
+    "profile": {
+      "title": "Profil praticien",
+      "description": "Informations affichées dans l'application et sur vos documents",
+      "nameLabel": "Nom complet",
+      "namePlaceholder": "Prénom Nom",
+      "emailLabel": "Email",
+      "editNotice": "La modification du profil sera disponible dans une prochaine version."
+    },
+    "account": {
+      "title": "Compte",
+      "description": "Sécurité et gestion de votre session",
+      "passwordTitle": "Mot de passe",
+      "passwordDescription": "Modifiez votre mot de passe de connexion",
+      "changePassword": "Modifier"
+    },
+    "language": {
+      "title": "Langue",
+      "description": "Langue d'affichage de l'interface",
+      "fr": "Français",
+      "en": "English"
+    },
+    "billing": {
+      "title": "Abonnement",
+      "description": "Gérez votre plan et votre facturation Stripe",
+      "currentPlan": "Plan actuel",
+      "planFree": "Gratuit",
+      "planPro": "PRO",
+      "statusTrialing": "Essai",
+      "statusActive": "Actif",
+      "statusPastDue": "Paiement en retard",
+      "statusCanceled": "Annulé",
+      "statusSuspended": "Suspendu",
+      "renewsOn": "Renouvellement le {date}",
+      "cancelAtPeriodEnd": "Annulation prévue le {date}",
+      "upgradeButton": "Passer en PRO",
+      "manageButton": "Gérer mon abonnement",
+      "stripeNotConfigured": "Paiement non disponible en ce moment.",
+      "successBanner": "Votre abonnement PRO est maintenant actif.",
+      "cancelledBanner": "L'abonnement n'a pas été activé."
+    },
+    "danger": {
+      "title": "Zone de danger",
+      "description": "Actions irréversibles sur votre compte",
+      "deleteTitle": "Supprimer le compte",
+      "deleteDescription": "Supprime définitivement toutes vos données",
+      "deleteButton": "Supprimer"
+    }
+  },
+
+  "pdf": {
+    "downloadInvoice": "Télécharger PDF",
+    "downloadConsultation": "Exporter PDF",
+    "downloadPatient": "Fiche PDF"
+  }
+}
