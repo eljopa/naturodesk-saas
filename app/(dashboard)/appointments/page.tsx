@@ -10,6 +10,7 @@ import {
   WeekCalendar,
   type CalendarAppointment,
 } from "@/components/appointments/week-calendar";
+import { AppointmentsTabs } from "@/components/appointments/appointments-tabs";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata.pages");
@@ -83,6 +84,8 @@ export default async function AppointmentsPage({
           </Button>
         }
       />
+
+      <AppointmentsTabs />
 
       <WeekCalendar
         appointments={appointments}

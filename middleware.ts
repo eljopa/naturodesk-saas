@@ -38,6 +38,8 @@ export async function middleware(request: NextRequest) {
     "/forgot-password",
     "/reset-password",
     "/auth/callback",
+    "/p/",           // pages publiques thérapeutes
+    "/api/public/",  // API publiques (slots, contact, booking)
   ];
   const isPublicRoute = publicPaths.some((path) => pathname.startsWith(path));
 

@@ -36,13 +36,18 @@ model User {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
-  patients         Patient[]
-  appointments     Appointment[]
-  invoices         Invoice[]
-  subscription     Subscription?
-  supportTickets   SupportTicket[]
-  ticketReplies    SupportTicketReply[]
-  auditLogsAdmin   AdminAuditLog[] @relation("AdminAuditLogs")
+  patients             Patient[]
+  appointments         Appointment[]
+  invoices             Invoice[]
+  subscription         Subscription?
+  supportTickets       SupportTicket[]
+  ticketReplies        SupportTicketReply[]
+  auditLogsAdmin       AdminAuditLog[]       @relation("AdminAuditLogs")
+  clinicalAnalyses     ClinicalAnalysis[]
+  webPage              TherapistWebPage?
+  services             ServiceOffering[]
+  practitionerSchedule PractitionerSchedule?
+  contactMessages      ContactMessage[]
 
   @@index([deletedAt])
   @@map("users")
@@ -163,10 +168,11 @@ model Consultation {
   supplements  Supplement[]
   supplementIntakes  ConsultationSupplementIntake[]
   medicationIntakes  ConsultationMedicationIntake[]
-  findings     Finding[]
-  analysisRuns AnalysisRun[]
-  ruleRuns     RuleRun[]
-  patternCases PatternCase[]
+  findings         Finding[]
+  analysisRuns     AnalysisRun[]
+  ruleRuns         RuleRun[]
+  patternCases     PatternCase[]
+  clinicalAnalyses ClinicalAnalysis[]
 
   @@index([patientId])
   @@index([status])
@@ -517,6 +523,7 @@ model KnowledgeFact {
   subjectTerm KnowledgeTerm?    @relation("FactSubject", fields: [subjectTermId], references: [id])
   objectTerm  KnowledgeTerm?    @relation("FactObject", fields: [objectTermId], references: [id])
   citations   Citation[]
+  analysisItems AnalysisItem[]
 
   @@index([chunkId])
   @@index([documentId])
@@ -1035,8 +1042,12 @@ model DrugSubstance {
   drugAliases   DrugAlias[]
   classMembers  DrugClassMember[]
   intakes       ConsultationMedicationIntake[]
+  sideEffects   DrugSideEffect[]
+  depletions    DrugNutrientDepletion[]
+  analysisItems AnalysisItem[]
 
   @@index([normalizedKey])
+  @@index([isActive])
   @@index([drugClass])
   @@map("drug_substances")
 }
@@ -1311,4 +1322,440 @@ model BdpmSyncRecord {
   @@index([source, status])
   @@index([status, startedAt])
   @@map("bdpm_sync_records")
+}
+
+// ---------------------------------------------------------------------------
+// CLINICAL ANALYSIS — Couche d'analyse clinique V1
+//
+// Principe fondamental : une relation clinique n'existe que si elle est dans
+// une table structurée avec sourceId non null et traçable.
+//
+// Hiérarchie des sources :
+//   Tier 1 : DrugSideEffect (effet direct documenté — RCP/HAS)
+//   Tier 2 : DrugNutrientDepletion (déplétion → symptôme, 2 niveaux)
+//   Tier 3 : KnowledgeFact corroboratif seulement (jamais source primaire)
+//   Tier 4 : Symptôme sans correspondance structurée identifiée
+//
+// LLM : reformulation uniquement — ne crée aucune relation clinique.
+// ---------------------------------------------------------------------------
+
+// ── Enums ──────────────────────────────────────────────────────────────────
+
+enum SymptomCategory {
+  GASTROINTESTINAL   // nausée, diarrhée, ballonnement, reflux
+  NEUROLOGICAL       // céphalée, vertiges, paresthésies, tremblements
+  PSYCHIATRIC        // insomnie, anxiété, irritabilité, humeur
+  CARDIOVASCULAR     // palpitations, hypotension, hypertension
+  MUSCULOSKELETAL    // crampes, myalgie, fatigue musculaire, arthralgie
+  DERMATOLOGICAL     // rash, prurit, sécheresse cutanée
+  RESPIRATORY        // dyspnée, toux sèche
+  METABOLIC          // prise de poids, hypoglycémie, déshydratation
+  GENERAL            // fatigue, asthénie, malaise général
+}
+
+enum DrugEffectType {
+  DIRECT_SIDE_EFFECT  // listé en §4.8 du RCP officiel
+  SECONDARY_MECHANISM // effet indirect documenté (ex: diurétique → hypokaliémie → crampes)
+}
+
+enum SideEffectFrequency {
+  VERY_COMMON  // > 1/10           → base score 0.85
+  COMMON       // > 1/100, ≤ 1/10  → base score 0.70
+  UNCOMMON     // > 1/1000, ≤ 1/100 → base score 0.45
+  RARE         // > 1/10000, ≤ 1/1000 → base score 0.25
+  VERY_RARE    // ≤ 1/10000        → base score 0.15
+  UNKNOWN      // non précisé      → base score 0.35
+}
+
+enum SideEffectSeverity {
+  MILD
+  MODERATE
+  SEVERE
+}
+
+enum EffectTemporality {
+  IMMEDIATE  // < 24h (réaction immédiate)
+  EARLY      // jours → 2 semaines (ex: initiation SSRI)
+  DELAYED    // 2–12 semaines
+  CHRONIC    // > 3 mois (ex: déplétions nutritionnelles)
+  WITHDRAWAL // à l'arrêt / sevrage
+  UNKNOWN
+}
+
+/// Niveau de preuve — impose un plafond dur sur le score de confiance.
+/// Plafonds : RCP_ANSM 0.90 | HAS 0.85 | SYSTEMATIC_REVIEW 0.80
+///            CLINICAL_STUDY 0.75 | EXPERT_CONSENSUS 0.60 | CASE_REPORTS 0.50
+enum ClinicalEvidenceLevel {
+  RCP_ANSM
+  HAS_GUIDELINE
+  SYSTEMATIC_REVIEW
+  CLINICAL_STUDY
+  EXPERT_CONSENSUS
+  CASE_REPORTS
+}
+
+/// Type de document source (structurel — détermine les champs pertinents dans ClinicalSource).
+enum ClinicalSourceType {
+  RCP_ANSM
+  HAS_GUIDELINE
+  SYSTEMATIC_REVIEW
+  CLINICAL_STUDY
+  EXPERT_CONSENSUS
+  CASE_REPORTS
+}
+
+/// Tier de résultat — gouverne la hiérarchie d'affichage et le langage utilisé.
+enum AnalysisTier {
+  TIER_1_DIRECT    // DrugSideEffect documenté (RCP ou HAS) — haute fiabilité
+  TIER_2_INDIRECT  // DrugNutrientDepletion ou DrugEffectType.SECONDARY_MECHANISM
+  TIER_3_FACT_ONLY // KnowledgeFact sans DrugSideEffect — prudence maximale
+  TIER_4_UNMATCHED // Aucune correspondance structurée identifiée
+}
+
+/// Statut d'une ClinicalAnalysis.
+/// Nommé explicitement pour éviter la collision avec AnalysisStatus (pipeline général).
+enum ClinicalAnalysisStatus {
+  PENDING
+  RUNNING
+  DONE
+  FAILED
+}
+
+// ── Modèles ────────────────────────────────────────────────────────────────
+
+/// Référence structurée et exploitable pour toute donnée clinique.
+/// Centralisée : un même RCP est créé une seule fois et référencé N fois.
+/// shortLabel est toujours renseigné pour l'affichage humain.
+model ClinicalSource {
+  id          String             @id @default(uuid())
+  type        ClinicalSourceType
+  shortLabel  String             // "RCP Sertraline Viatris 50mg — ANSM 2024"
+
+  // Champs structurés — renseignés selon le type
+  authority   String?            // "ANSM" | "HAS" | "EMA"
+  productName String?            // "Sertraline Viatris 50mg" (RCP uniquement)
+  section     String?            // "§4.8 Effets indésirables"
+  year        Int?
+  authors     String?            // "Ting RZ, Szeto CC et al."
+  journal     String?            // "Diabetes Care"
+  doi         String?
+  pmid        String?
+  url         String?
+
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  sideEffects DrugSideEffect[]
+  depletions  DrugNutrientDepletion[]
+
+  @@index([type])
+  @@map("clinical_sources")
+}
+
+/// Catalogue normalisé des symptômes.
+/// Entité de référence — à distinguer de Symptom (instance par consultation, @@map("symptoms")).
+/// Sert de pivot pour le matching clinique et la normalisation des entrées libres.
+model SymptomTerm {
+  id            String          @id @default(uuid())
+  normalizedKey String          @unique  // slug pivot, ex: "cephalee"
+  label         String                   // "céphalée"
+  labelEn       String?                  // "headache"
+  category      SymptomCategory
+  synonyms      String[]                 // ["mal de tête", "migraine", "tête qui fait mal"]
+  meddraCode    String?                  // MedDRA Preferred Term code (optionnel)
+  isActive      Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  sideEffects        DrugSideEffect[]
+  depletionSymptoms  NutrientDepletionSymptom[]
+  analysisItems      AnalysisItem[]
+
+  @@index([category])
+  @@index([isActive])
+  @@map("symptom_terms")
+}
+
+/// Effet indésirable direct entre une substance active et un symptôme normalisé.
+/// Source de vérité primaire pour le matching clinique Tier 1 (DIRECT) et Tier 2 (SECONDARY_MECHANISM).
+/// sourceId OBLIGATOIRE — aucune donnée clinique sans référence traçable.
+model DrugSideEffect {
+  id              String                @id @default(uuid())
+  drugSubstanceId String
+  symptomTermId   String
+  effectType      DrugEffectType        @default(DIRECT_SIDE_EFFECT)
+  frequency       SideEffectFrequency
+  severity        SideEffectSeverity    @default(MILD)
+  temporality     EffectTemporality     @default(UNKNOWN)
+  evidenceLevel   ClinicalEvidenceLevel
+  sourceId        String                // → ClinicalSource — OBLIGATOIRE
+  mechanism       String?               // mécanisme court sourcé (ex: "action sérotoninergique sur 5-HT3")
+  isActive        Boolean               @default(true)
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  drugSubstance DrugSubstance         @relation(fields: [drugSubstanceId], references: [id])
+  symptomTerm   SymptomTerm           @relation(fields: [symptomTermId], references: [id])
+  source        ClinicalSource        @relation(fields: [sourceId], references: [id])
+  analysisItems AnalysisItem[]
+
+  @@unique([drugSubstanceId, symptomTermId, effectType])
+  @@index([drugSubstanceId])
+  @@index([symptomTermId])
+  @@index([sourceId])
+  @@index([isActive])
+  @@index([evidenceLevel])
+  @@map("drug_side_effects")
+}
+
+/// Déplétion nutritionnelle induite par une substance active.
+/// Représente le niveau intermédiaire de la chaîne : substance → nutriment → symptôme(s).
+/// Rend le mécanisme 2-niveaux explicite, traçable et auditable.
+/// sourceId OBLIGATOIRE — idem DrugSideEffect.
+model DrugNutrientDepletion {
+  id              String                @id @default(uuid())
+  drugSubstanceId String
+  nutrient        String                // "Vitamine B12"
+  nutrientKey     String                // "vitamine-b12" (slug normalisé)
+  mechanism       String                // OBLIGATOIRE — mécanisme de la déplétion sourcé
+  evidenceLevel   ClinicalEvidenceLevel
+  sourceId        String                // → ClinicalSource — OBLIGATOIRE
+  isActive        Boolean               @default(true)
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+
+  drugSubstance DrugSubstance            @relation(fields: [drugSubstanceId], references: [id])
+  source        ClinicalSource           @relation(fields: [sourceId], references: [id])
+  symptoms      NutrientDepletionSymptom[]
+  analysisItems AnalysisItem[]
+
+  @@unique([drugSubstanceId, nutrientKey])
+  @@index([drugSubstanceId])
+  @@index([sourceId])
+  @@index([isActive])
+  @@map("drug_nutrient_depletions")
+}
+
+/// Jonction explicite : déplétion → symptômes consécutifs.
+/// Rend auditable la chaîne complète : substance → nutriment → symptôme.
+model NutrientDepletionSymptom {
+  id          String                @id @default(uuid())
+  depletionId String
+  symptomId   String
+
+  depletion   DrugNutrientDepletion @relation(fields: [depletionId], references: [id])
+  symptom     SymptomTerm           @relation(fields: [symptomId], references: [id])
+
+  @@unique([depletionId, symptomId])
+  @@index([depletionId])
+  @@index([symptomId])
+  @@map("nutrient_depletion_symptoms")
+}
+
+/// Session d'analyse clinique — une analyse par consultation/contexte.
+/// rawSymptoms et drugInputs sont conservés tels quels pour traçabilité complète.
+model ClinicalAnalysis {
+  id             String                 @id @default(uuid())
+  userId         String
+  consultationId String?
+
+  // Input conservé tel quel — jamais modifié après création
+  rawSymptoms    String                 // texte brut patient
+  drugInputs     Json                   // [{ name, dosage?, startedAt?, stoppedAt?, resolvedSubstanceId? }]
+  assessedAt     DateTime               // date de l'analyse — référence pour le calcul de temporalité
+
+  // Output
+  status         ClinicalAnalysisStatus @default(PENDING)
+  summary        String?                // synthèse LLM — reformulation conditionnelle uniquement
+  durationMs     Int?
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id])
+  consultation Consultation? @relation(fields: [consultationId], references: [id])
+  items        AnalysisItem[]
+
+  @@index([userId])
+  @@index([consultationId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("clinical_analyses")
+}
+
+/// Item de résultat d'une ClinicalAnalysis — une correspondance (ou absence) par symptôme × substance.
+///
+/// Source primaire (mutuellement exclusifs) :
+///   sideEffectId        → Tier 1 DIRECT ou Tier 2 SECONDARY_MECHANISM
+///   nutrientDepletionId → Tier 2 INDIRECT
+///   (les deux null)     → Tier 3 FACT_ONLY ou Tier 4 UNMATCHED
+///
+/// knowledgeFactId = corroboration seulement — ne crée jamais une relation clinique.
+///
+/// Scoring multi-facteurs entièrement persisté :
+///   confidenceScore = min(max(frequencyFactor + temporalModifier + corroborationBoost, 0), evidenceCeiling)
+///
+/// symptomTermId nullable : null si symptôme hors catalogue (rawSymptomFragment renseigné à la place).
+model AnalysisItem {
+  id                  String       @id @default(uuid())
+  analysisId          String
+
+  // Symptôme — nullable si hors catalogue
+  symptomTermId       String?      // → SymptomTerm (null si non reconnu)
+  rawSymptomFragment  String?      // texte brut si symptomTermId null (TIER_4_UNMATCHED hors catalogue)
+
+  // Substance source — dénormalisé pour requêtes directes et audit sans jointure
+  drugSubstanceId     String?
+
+  // Source primaire (mutuellement exclusifs)
+  sideEffectId        String?      // → DrugSideEffect
+  nutrientDepletionId String?      // → DrugNutrientDepletion
+
+  // Enrichissement corroboratif — jamais source primaire
+  knowledgeFactId     String?      // → KnowledgeFact (+0.05 max, plafonné par evidenceCeiling)
+
+  // Hiérarchie et scoring — tous les facteurs persistés pour audit complet
+  tier                AnalysisTier
+  confidenceScore     Float        // score final 0.0 → 0.90
+  frequencyFactor     Float        @default(0) // base issu de SideEffectFrequency
+  evidenceCeiling     Float        @default(0) // plafond issu de ClinicalEvidenceLevel
+  temporalModifier    Float        @default(0) // +0.05 cohérent / 0.00 inconnu / -0.15 incohérent
+  corroborationBoost  Float        @default(0) // +0.05 si KnowledgeFact corrobore, sinon 0.00
+
+  explanation         String?      // LLM — reformulation conditionnelle (Tier 1+2 seulement)
+  createdAt           DateTime     @default(now())
+
+  analysis          ClinicalAnalysis       @relation(fields: [analysisId], references: [id])
+  symptomTerm       SymptomTerm?           @relation(fields: [symptomTermId], references: [id])
+  drugSubstance     DrugSubstance?         @relation(fields: [drugSubstanceId], references: [id])
+  sideEffect        DrugSideEffect?        @relation(fields: [sideEffectId], references: [id])
+  nutrientDepletion DrugNutrientDepletion? @relation(fields: [nutrientDepletionId], references: [id])
+  knowledgeFact     KnowledgeFact?         @relation(fields: [knowledgeFactId], references: [id])
+
+  @@index([analysisId])
+  @@index([symptomTermId])
+  @@index([drugSubstanceId])
+  @@index([tier])
+  @@index([sideEffectId])
+  @@index([nutrientDepletionId])
+  @@index([knowledgeFactId])
+  @@map("analysis_items")
+}
+
+// ---------------------------------------------------------------------------
+// PAGE WEB THÉRAPEUTE (Lot A)
+// ---------------------------------------------------------------------------
+
+/// Page web publique du thérapeute.
+/// Relation 1-1 avec User — chaque praticien a au plus une page publique.
+///
+/// Slug : généré automatiquement depuis cabinetName/name, verrouillé
+/// définitivement à la première publication (slugLockedAt) pour préserver le SEO.
+///
+/// heroThemeId : identifiant du thème graphique prédéfini (1–10).
+///
+/// Accès conditionnel au plan Pro : vérifié dans les Server Actions,
+/// pas modélisé en base.
+model TherapistWebPage {
+  id           String    @id @default(uuid())
+  userId       String    @unique
+  slug         String    @unique
+  slugLockedAt DateTime?            // verrouillé à la première publication — immuable après
+  isPublished  Boolean   @default(false)
+  publishedAt  DateTime?
+
+  // Contenu
+  logoUrl         String?
+  heroThemeId     Int       @default(1)  // 1–10 — thèmes graphiques prédéfinis
+  bio             String?               // courte présentation personnelle (quelques lignes)
+  presentation    String?               // approche / texte long
+  servicesDisplay String?               // complément libre affiché sous les ServiceOffering
+  pricingDisplay  String?               // texte libre tarifs (ex: "Consultation 60€")
+  address         String?
+  phone           String?
+  contactEmail    String?               // email public (peut différer de User.email)
+  socialLinks     Json?                 // { instagram?, facebook?, linkedin?, website? }
+
+  // SEO
+  seoTitle       String?
+  seoDescription String?
+
+  // Activation fonctionnalités (contrôle Pro dans les Server Actions)
+  contactFormEnabled  Boolean @default(true)
+  appointmentEnabled  Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([slug])
+  @@index([isPublished])
+  @@map("therapist_web_pages")
+}
+
+/// Prestation proposée par le praticien.
+/// Module métier autonome lié à User — affiché sur la page publique
+/// mais conçu pour être réutilisable (facturation, protocoles, etc.).
+model ServiceOffering {
+  id              String          @id @default(uuid())
+  userId          String
+  name            String
+  description     String?
+  durationMinutes Int
+  price           Float?
+  appointmentType AppointmentType @default(BILAN)
+  isActive        Boolean         @default(true)
+  displayOrder    Int             @default(0)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([isActive])
+  @@map("service_offerings")
+}
+
+/// Disponibilités récurrentes hebdomadaires du praticien.
+/// Source unique de vérité pour le calcul de créneaux disponibles —
+/// partagée entre le module Agenda (dashboard) et la réservation publique.
+///
+/// scheduleJson shape :
+///   { monday: [{from:"09:00",to:"12:00"},{from:"14:00",to:"18:00"}],
+///     tuesday: [], wednesday: [...], thursday: [...],
+///     friday: [...], saturday: [], sunday: [] }
+/// Jours absents ou tableau vide = praticien indisponible ce jour.
+/// Toutes les heures en format "HH:MM", timezone du champ timezone.
+model PractitionerSchedule {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  scheduleJson Json     @default("{}")
+  timezone     String   @default("Europe/Paris")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("practitioner_schedules")
+}
+
+/// Message reçu via le formulaire de contact de la page publique.
+/// Modèle prévu — non exposé en UI dans le Lot A.
+/// En V1 les messages sont transmis par email ; la persistance en base
+/// est prévue pour une future boîte de réception dashboard.
+model ContactMessage {
+  id          String   @id @default(uuid())
+  userId      String                       // thérapeute destinataire
+  senderName  String
+  senderEmail String
+  senderPhone String?
+  message     String
+  isRead      Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("contact_messages")
 }

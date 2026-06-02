@@ -27,6 +27,7 @@ function useItemLabel(key: NavItemKey): string {
     protocols: t("protocols"),
     invoices: t("invoices"),
     knowledge: t("knowledge"),
+    webpage: t("webpage"),
     settings: t("settings"),
   };
   return labels[key];
@@ -98,6 +99,7 @@ function NavSection({
     cabinet: tSections("cabinet"),
     clinique: tSections("clinique"),
     ressources: tSections("ressources"),
+    web: tSections("web"),
   };
   const sectionLabel = sectionKey ? sectionLabels[sectionKey] : null;
 

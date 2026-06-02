@@ -7,6 +7,7 @@ import {
   FileText,
   Database,
   Settings,
+  Globe,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -14,7 +15,7 @@ import type { LucideIcon } from "lucide-react";
 // Types typés — correspondent aux clés dans messages/*/nav.*
 // ---------------------------------------------------------------------------
 
-export type NavSectionKey = "cabinet" | "clinique" | "ressources";
+export type NavSectionKey = "cabinet" | "clinique" | "ressources" | "web";
 export type NavItemKey =
   | "dashboard"
   | "patients"
@@ -23,6 +24,7 @@ export type NavItemKey =
   | "protocols"
   | "invoices"
   | "knowledge"
+  | "webpage"
   | "settings";
 
 export type NavItemConfig = {
@@ -67,6 +69,12 @@ export const NAV_SECTIONS: NavSectionConfig[] = [
     sectionKey: "ressources",
     items: [
       { key: "knowledge", href: "/knowledge", icon: Database },
+    ],
+  },
+  {
+    sectionKey: "web",
+    items: [
+      { key: "webpage", href: "/webpage", icon: Globe },
     ],
   },
 ];

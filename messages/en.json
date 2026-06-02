@@ -10,6 +10,7 @@
       "protocols": "Protocols",
       "invoices": "Invoices",
       "knowledge": "Knowledge Base",
+      "webpage": "My web page",
       "settings": "Settings",
       "login": "Sign In",
       "forgotPassword": "Forgot Password",
@@ -68,7 +69,8 @@
     "sections": {
       "cabinet": "Practice",
       "clinique": "Clinical",
-      "ressources": "Resources"
+      "ressources": "Resources",
+      "web": "Web"
     },
     "items": {
       "dashboard": "Dashboard",
@@ -78,6 +80,7 @@
       "protocols": "Protocols",
       "invoices": "Invoices",
       "knowledge": "Knowledge Base",
+      "webpage": "Web page",
       "settings": "Settings"
     }
   },
@@ -233,6 +236,35 @@
     "typeSuivi": "Follow-up",
     "noPatient": "Unknown patient",
     "duration": "{minutes} min",
+
+    "schedule": {
+      "tabCalendar":     "Calendar",
+      "tabAvailability": "Availability",
+      "pageTitle":       "Availability",
+      "pageDescription": "Set your working hours for online booking",
+      "help":            "These availability windows are used for online booking from your public page.",
+      "timezoneLabel":   "Timezone",
+      "saveButton":      "Save",
+      "copyToAll":       "Copy to other days",
+      "addSlot":         "Add a time slot",
+      "emptyState":      "No availability configured. Enable days and add time slots.",
+      "success":         "Availability saved.",
+      "days": {
+        "monday":    "Monday",
+        "tuesday":   "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday":  "Thursday",
+        "friday":    "Friday",
+        "saturday":  "Saturday",
+        "sunday":    "Sunday"
+      },
+      "errors": {
+        "invalid_input": "Please check the time slots entered.",
+        "overlap":       "Time slots on this day must not overlap.",
+        "from_after_to": "Start time must be before end time.",
+        "generic_error": "An error occurred. Please try again."
+      }
+    },
 
     "form": {
       "createTitle": "New appointment",
@@ -665,5 +697,121 @@
     "downloadInvoice": "Download PDF",
     "downloadConsultation": "Export PDF",
     "downloadPatient": "Patient PDF"
+  },
+
+  "webpage": {
+    "pageTitle": "My web page",
+    "pageDescription": "Create and manage your public professional page",
+
+    "proGate": {
+      "title": "Pro feature",
+      "description": "The professional web page is available with the Pro plan. Share your page with your patients and enable online booking."
+    },
+
+    "status": {
+      "published": "Published",
+      "draft": "Draft",
+      "publishedAt": "Published on {date}",
+      "previewButton": "Preview",
+      "publishButton": "Publish",
+      "unpublishButton": "Unpublish",
+      "saveButton": "Save"
+    },
+
+    "slug": {
+      "label": "Your page address",
+      "help": "Your page will be accessible at /p/{slug}",
+      "lockedHelp": "The address is permanently locked after the first publication.",
+      "copyButton": "Copy",
+      "copied": "Copied!"
+    },
+
+    "sections": {
+      "identity": "Identity & presentation",
+      "services": "Services & pricing",
+      "servicesDescription": "Complement with free text the services listed below.",
+      "contact": "Location & contact",
+      "social": "Social media",
+      "seo": "Search engine optimisation (SEO)",
+      "features": "Page features"
+    },
+
+    "fields": {
+      "heroTheme": "Visual theme",
+      "heroThemeHelp": "Choose the graphic theme for your page header",
+      "bio": "Short bio",
+      "bioPlaceholder": "A few words to introduce yourself…",
+      "bioHelp": "Shown as an introduction, max 500 characters",
+      "presentation": "Approach & full presentation",
+      "presentationPlaceholder": "Describe your therapeutic approach, background, specialities…",
+      "servicesDisplay": "Additional services text",
+      "servicesDisplayPlaceholder": "Additional information about your services, conditions, modalities…",
+      "pricingDisplay": "Pricing (free text)",
+      "pricingDisplayPlaceholder": "E.g. Initial assessment £90 · Follow-up £60",
+      "address": "Practice address",
+      "addressPlaceholder": "12 High Street, London W1A 1AA",
+      "phone": "Public phone number",
+      "phonePlaceholder": "+44 7700 900000",
+      "contactEmail": "Public contact email",
+      "contactEmailPlaceholder": "contact@your-practice.com",
+      "contactEmailHelp": "Can be different from your login email",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/your_account",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/your_page",
+      "linkedin": "LinkedIn",
+      "linkedinPlaceholder": "https://linkedin.com/in/your_profile",
+      "website": "Website",
+      "websitePlaceholder": "https://your-site.com",
+      "seoTitle": "SEO title",
+      "seoTitlePlaceholder": "Naturopath in London — Dupont Practice",
+      "seoTitleHelp": "Max 60 characters — shown in Google search results",
+      "seoDescription": "SEO description",
+      "seoDescriptionPlaceholder": "Certified naturopath in London, specialising in vitality assessments and stress management…",
+      "seoDescriptionHelp": "Max 160 characters",
+      "contactFormEnabled": "Enable contact form on the page",
+      "appointmentEnabled": "Enable online booking on the page"
+    },
+
+    "errors": {
+      "invalid_input": "Please check the form fields.",
+      "pro_plan_required": "This feature is reserved for the Pro plan.",
+      "slug_taken": "This address is already taken. Please choose another one.",
+      "not_found": "Page not found.",
+      "generic_error": "An error occurred. Please try again."
+    },
+
+    "success": {
+      "saved": "Changes saved.",
+      "published": "Your page is now published.",
+      "unpublished": "Your page has been unpublished."
+    },
+
+    "services": {
+      "title": "Services",
+      "description": "Your services will appear on your public page.",
+      "addButton": "Add a service",
+      "emptyTitle": "No services added yet",
+
+      "form": {
+        "typeLabel": "Appointment type",
+        "nameLabel": "Service name",
+        "namePlaceholder": "Initial vitality assessment",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Short description of the service…",
+        "durationLabel": "Duration (minutes)",
+        "durationPlaceholder": "60",
+        "priceLabel": "Price (€)",
+        "pricePlaceholder": "90",
+        "submit": "Save",
+        "cancel": "Cancel",
+        "errors": {
+          "invalid_input": "Please check the fields.",
+          "not_found": "Service not found.",
+          "unauthorized": "Access denied.",
+          "generic_error": "An error occurred. Please try again."
+        }
+      }
+    }
   }
 }

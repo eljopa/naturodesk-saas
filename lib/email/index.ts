@@ -355,3 +355,123 @@ export async function sendSubscriptionActivatedEmail(opts: {
 
   return send({ to: opts.userEmail, subject, html });
 }
+
+// ---------------------------------------------------------------------------
+// Notification nouvelle réservation en ligne (→ thérapeute)
+// ---------------------------------------------------------------------------
+
+interface NewBookingNotificationData {
+  practitionerEmail: string;
+  practitionerName: string;
+  cabinetName: string | null;
+  visitorName: string;
+  visitorEmail: string;
+  visitorPhone: string | null;
+  serviceName: string;
+  appointmentDate: string; // pré-formaté
+  appointmentTime: string; // pré-formaté
+  appointmentDuration: number; // minutes
+}
+
+export async function sendNewBookingNotificationEmail(
+  data: NewBookingNotificationData
+): Promise<SendResult> {
+  const cabinet = data.cabinetName ?? data.practitionerName;
+  const subject = `Nouvelle réservation en ligne — ${data.visitorName} · ${data.appointmentDate}`;
+
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Nouvelle réservation</title></head>
+<body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#0f766e;padding:24px 32px;">
+      <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk</p>
+      <p style="color:#99f6e4;font-size:13px;margin:4px 0 0;">${cabinet}</p>
+    </div>
+    <div style="padding:32px;">
+      <p style="color:#334155;margin:0 0 8px;font-weight:600;">Nouvelle réservation reçue</p>
+      <p style="color:#334155;margin:0 0 24px;">Un nouveau rendez-vous a été créé via votre page web.</p>
+      <div style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:6px;padding:16px 20px;margin-bottom:20px;">
+        <p style="margin:0 0 8px;color:#0f766e;font-weight:600;">Détails du rendez-vous</p>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;color:#334155;">
+          <tr><td style="padding:4px 0;color:#64748b;width:120px;">Prestation</td><td style="padding:4px 0;">${data.serviceName}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Date</td><td style="padding:4px 0;">${data.appointmentDate}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Heure</td><td style="padding:4px 0;">${data.appointmentTime}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Durée</td><td style="padding:4px 0;">${data.appointmentDuration} min</td></tr>
+        </table>
+      </div>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:16px 20px;">
+        <p style="margin:0 0 8px;color:#334155;font-weight:600;">Patient</p>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;color:#334155;">
+          <tr><td style="padding:4px 0;color:#64748b;width:120px;">Nom</td><td style="padding:4px 0;">${data.visitorName}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Email</td><td style="padding:4px 0;">${data.visitorEmail}</td></tr>
+          ${data.visitorPhone ? `<tr><td style="padding:4px 0;color:#64748b;">Téléphone</td><td style="padding:4px 0;">${data.visitorPhone}</td></tr>` : ""}
+        </table>
+      </div>
+      <p style="color:#64748b;font-size:13px;margin-top:24px;">Le rendez-vous est visible dans votre agenda NaturoDesk.</p>
+    </div>
+    <div style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
+      <p style="color:#94a3b8;font-size:12px;margin:0;">NaturoDesk — Logiciel de gestion de cabinet naturopathique</p>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  return send({ to: data.practitionerEmail, subject, html });
+}
+
+// ---------------------------------------------------------------------------
+// Transfert message de contact (→ thérapeute)
+// ---------------------------------------------------------------------------
+
+interface ContactMessageEmailData {
+  practitionerEmail: string;
+  practitionerName: string;
+  cabinetName: string | null;
+  senderName: string;
+  senderEmail: string;
+  senderPhone: string | null;
+  message: string;
+}
+
+export async function sendContactMessageEmail(
+  data: ContactMessageEmailData
+): Promise<SendResult> {
+  const cabinet = data.cabinetName ?? data.practitionerName;
+  const subject = `Message de contact — ${data.senderName}`;
+
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Message de contact</title></head>
+<body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#0f766e;padding:24px 32px;">
+      <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk</p>
+      <p style="color:#99f6e4;font-size:13px;margin:4px 0 0;">${cabinet}</p>
+    </div>
+    <div style="padding:32px;">
+      <p style="color:#334155;margin:0 0 8px;font-weight:600;">Nouveau message reçu via votre page web</p>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:16px 20px;margin-bottom:20px;">
+        <table style="width:100%;border-collapse:collapse;font-size:14px;color:#334155;">
+          <tr><td style="padding:4px 0;color:#64748b;width:120px;">De</td><td style="padding:4px 0;">${data.senderName}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Email</td><td style="padding:4px 0;"><a href="mailto:${data.senderEmail}" style="color:#0f766e;">${data.senderEmail}</a></td></tr>
+          ${data.senderPhone ? `<tr><td style="padding:4px 0;color:#64748b;">Téléphone</td><td style="padding:4px 0;">${data.senderPhone}</td></tr>` : ""}
+        </table>
+      </div>
+      <div style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:6px;padding:16px 20px;">
+        <p style="margin:0 0 8px;color:#0f766e;font-weight:600;">Message</p>
+        <p style="margin:0;color:#334155;font-size:14px;line-height:1.6;white-space:pre-wrap;">${data.message}</p>
+      </div>
+      <p style="color:#64748b;font-size:13px;margin-top:24px;">
+        Répondez directement à cet email pour contacter ${data.senderName}.
+      </p>
+    </div>
+    <div style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
+      <p style="color:#94a3b8;font-size:12px;margin:0;">NaturoDesk — Logiciel de gestion de cabinet naturopathique</p>
+    </div>
+  </div>
+</body>
+</html>`;
+
+  return send({ to: data.practitionerEmail, subject, html });
+}

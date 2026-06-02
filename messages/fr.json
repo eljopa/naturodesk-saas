@@ -10,6 +10,7 @@
       "protocols": "Protocoles",
       "invoices": "Factures",
       "knowledge": "Base documentaire",
+      "webpage": "Ma page web",
       "settings": "Paramètres",
       "login": "Connexion",
       "forgotPassword": "Mot de passe oublié",
@@ -68,7 +69,8 @@
     "sections": {
       "cabinet": "Cabinet",
       "clinique": "Clinique",
-      "ressources": "Ressources"
+      "ressources": "Ressources",
+      "web": "Web"
     },
     "items": {
       "dashboard": "Tableau de bord",
@@ -78,6 +80,7 @@
       "protocols": "Protocoles",
       "invoices": "Factures",
       "knowledge": "Base documentaire",
+      "webpage": "Page web",
       "settings": "Paramètres"
     }
   },
@@ -233,6 +236,35 @@
     "typeSuivi": "Suivi",
     "noPatient": "Patient inconnu",
     "duration": "{minutes} min",
+
+    "schedule": {
+      "tabCalendar":     "Agenda",
+      "tabAvailability": "Disponibilités",
+      "pageTitle":       "Disponibilités",
+      "pageDescription": "Définissez vos horaires pour la réservation en ligne",
+      "help":            "Ces disponibilités sont utilisées pour la réservation en ligne depuis votre page publique.",
+      "timezoneLabel":   "Fuseau horaire",
+      "saveButton":      "Enregistrer",
+      "copyToAll":       "Copier sur les autres jours",
+      "addSlot":         "Ajouter une plage",
+      "emptyState":      "Aucune disponibilité configurée. Activez des jours et ajoutez des plages horaires.",
+      "success":         "Disponibilités enregistrées.",
+      "days": {
+        "monday":    "Lundi",
+        "tuesday":   "Mardi",
+        "wednesday": "Mercredi",
+        "thursday":  "Jeudi",
+        "friday":    "Vendredi",
+        "saturday":  "Samedi",
+        "sunday":    "Dimanche"
+      },
+      "errors": {
+        "invalid_input": "Veuillez vérifier les horaires saisis.",
+        "overlap":       "Les plages de ce jour ne doivent pas se chevaucher.",
+        "from_after_to": "L'heure de début doit être avant l'heure de fin.",
+        "generic_error": "Une erreur est survenue. Veuillez réessayer."
+      }
+    },
 
     "form": {
       "createTitle": "Nouveau rendez-vous",
@@ -665,5 +697,121 @@
     "downloadInvoice": "Télécharger PDF",
     "downloadConsultation": "Exporter PDF",
     "downloadPatient": "Fiche PDF"
+  },
+
+  "webpage": {
+    "pageTitle": "Ma page web",
+    "pageDescription": "Créez et gérez votre page professionnelle publique",
+
+    "proGate": {
+      "title": "Fonctionnalité Pro",
+      "description": "La page web professionnelle est disponible avec le plan Pro. Partagez votre page avec vos patients et permettez la prise de rendez-vous en ligne."
+    },
+
+    "status": {
+      "published": "Publiée",
+      "draft": "Brouillon",
+      "publishedAt": "Publiée le {date}",
+      "previewButton": "Aperçu",
+      "publishButton": "Publier",
+      "unpublishButton": "Dépublier",
+      "saveButton": "Enregistrer"
+    },
+
+    "slug": {
+      "label": "Adresse de votre page",
+      "help": "Votre page sera accessible à l'adresse /p/{slug}",
+      "lockedHelp": "L'adresse est verrouillée définitivement après la première publication.",
+      "copyButton": "Copier",
+      "copied": "Copié !"
+    },
+
+    "sections": {
+      "identity": "Identité & présentation",
+      "services": "Prestations & tarifs",
+      "servicesDescription": "Complétez avec un texte libre les prestations listées ci-dessous.",
+      "contact": "Coordonnées & contact",
+      "social": "Réseaux sociaux",
+      "seo": "Référencement (SEO)",
+      "features": "Fonctionnalités de la page"
+    },
+
+    "fields": {
+      "heroTheme": "Thème visuel",
+      "heroThemeHelp": "Choisissez le thème graphique de l'en-tête de votre page",
+      "bio": "Présentation courte",
+      "bioPlaceholder": "Quelques mots pour vous présenter…",
+      "bioHelp": "Affichée en introduction, max 500 caractères",
+      "presentation": "Approche & présentation longue",
+      "presentationPlaceholder": "Décrivez votre approche thérapeutique, votre parcours, vos spécialités…",
+      "servicesDisplay": "Texte complémentaire prestations",
+      "servicesDisplayPlaceholder": "Informations complémentaires sur vos prestations, conditions, modalités…",
+      "pricingDisplay": "Tarifs (texte libre)",
+      "pricingDisplayPlaceholder": "Ex : Bilan initial 90 € · Suivi 60 €",
+      "address": "Adresse du cabinet",
+      "addressPlaceholder": "12 rue des Lilas, 75001 Paris",
+      "phone": "Téléphone public",
+      "phonePlaceholder": "06 00 00 00 00",
+      "contactEmail": "Email de contact public",
+      "contactEmailPlaceholder": "contact@votre-cabinet.fr",
+      "contactEmailHelp": "Peut être différent de votre email de connexion",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/votre_compte",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/votre_page",
+      "linkedin": "LinkedIn",
+      "linkedinPlaceholder": "https://linkedin.com/in/votre_profil",
+      "website": "Site web",
+      "websitePlaceholder": "https://votre-site.fr",
+      "seoTitle": "Titre SEO",
+      "seoTitlePlaceholder": "Naturopathe à Paris — Cabinet Dupont",
+      "seoTitleHelp": "Max 60 caractères — apparaît dans les résultats Google",
+      "seoDescription": "Description SEO",
+      "seoDescriptionPlaceholder": "Naturopathe certifiée à Paris, spécialisée en bilan de vitalité et accompagnement du stress…",
+      "seoDescriptionHelp": "Max 160 caractères",
+      "contactFormEnabled": "Activer le formulaire de contact sur la page",
+      "appointmentEnabled": "Activer la réservation en ligne sur la page"
+    },
+
+    "errors": {
+      "invalid_input": "Veuillez vérifier les champs du formulaire.",
+      "pro_plan_required": "Cette fonctionnalité est réservée au plan Pro.",
+      "slug_taken": "Cette adresse est déjà utilisée. Veuillez en choisir une autre.",
+      "not_found": "Page introuvable.",
+      "generic_error": "Une erreur est survenue. Veuillez réessayer."
+    },
+
+    "success": {
+      "saved": "Modifications enregistrées.",
+      "published": "Votre page est maintenant publiée.",
+      "unpublished": "Votre page a été dépubliée."
+    },
+
+    "services": {
+      "title": "Prestations",
+      "description": "Vos prestations apparaîtront sur votre page publique.",
+      "addButton": "Ajouter une prestation",
+      "emptyTitle": "Aucune prestation ajoutée",
+
+      "form": {
+        "typeLabel": "Type de rendez-vous",
+        "nameLabel": "Nom de la prestation",
+        "namePlaceholder": "Bilan de vitalité initial",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Courte description de la prestation…",
+        "durationLabel": "Durée (minutes)",
+        "durationPlaceholder": "60",
+        "priceLabel": "Tarif (€)",
+        "pricePlaceholder": "90",
+        "submit": "Enregistrer",
+        "cancel": "Annuler",
+        "errors": {
+          "invalid_input": "Veuillez vérifier les champs.",
+          "not_found": "Prestation introuvable.",
+          "unauthorized": "Accès non autorisé.",
+          "generic_error": "Erreur lors de l'enregistrement. Veuillez réessayer."
+        }
+      }
+    }
   }
 }
