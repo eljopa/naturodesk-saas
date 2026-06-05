@@ -41,15 +41,17 @@ export async function middleware(request: NextRequest) {
   ];
   const alwaysPublicPaths = [
     ...authPaths,
-    "/",             // home marketing
+    "/",                  // home marketing
+    "/fonctionnalites",
     "/tarifs",
     "/blog",
     "/a-propos",
-    "/faq",
+    "/faq",               // redirects to /ressources/centre-aide
+    "/ressources/",
     "/contact",
     "/legal/",
-    "/p/",           // pages publiques thérapeutes
-    "/api/public/",  // API publiques (slots, contact, booking)
+    "/p/",                // pages publiques thérapeutes
+    "/api/public/",       // API publiques (slots, contact, booking)
     "/api/marketing/",
   ];
   const isAlwaysPublic = alwaysPublicPaths.some((path) =>

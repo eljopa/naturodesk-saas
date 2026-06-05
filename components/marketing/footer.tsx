@@ -6,8 +6,8 @@ export async function MarketingFooter() {
   const t = await getTranslations("marketing.footer");
   const year = new Date().getFullYear();
 
-  const linkStyle = { color: "var(--nd-ink)" } as const;
-  const linkCls = "text-[14.5px] opacity-80 hover:opacity-100 transition-opacity";
+  const lc = "text-[14.5px] opacity-80 hover:opacity-100 transition-opacity";
+  const ls = { color: "var(--nd-ink)" } as const;
 
   return (
     <footer style={{ background: "var(--nd-cream-deep)", borderTop: "1px solid var(--nd-line)", padding: "64px 0 36px" }}>
@@ -25,21 +25,20 @@ export async function MarketingFooter() {
           <div>
             <ColHead>{t("groups.product")}</ColHead>
             <div className="flex flex-col gap-2.5">
-              <Link href="/#cabinet" className={linkCls} style={linkStyle}>{t("links.manage")}</Link>
-              <Link href="/#activite" className={linkCls} style={linkStyle}>{t("links.page")}</Link>
-              <Link href="/#moteur" className={linkCls} style={linkStyle}>{t("links.engine")}</Link>
-              <Link href="/tarifs" className={linkCls} style={linkStyle}>{t("links.pricing")}</Link>
+              <Link href="/fonctionnalites" className={lc} style={ls}>{t("links.fonctionnalites")}</Link>
+              <Link href="/tarifs"          className={lc} style={ls}>{t("links.pricing")}</Link>
+              <Link href="/a-propos"        className={lc} style={ls}>{t("links.about")}</Link>
             </div>
           </div>
 
-          {/* Entreprise */}
+          {/* Ressources */}
           <div>
-            <ColHead>{t("groups.company")}</ColHead>
+            <ColHead>{t("groups.ressources")}</ColHead>
             <div className="flex flex-col gap-2.5">
-              <Link href="/a-propos" className={linkCls} style={linkStyle}>{t("links.about")}</Link>
-              <Link href="/contact" className={linkCls} style={linkStyle}>{t("links.contact")}</Link>
-              <Link href="/blog" className={linkCls} style={linkStyle}>{t("links.allPosts")}</Link>
-              <Link href="/faq" className={linkCls} style={linkStyle}>{t("links.faq")}</Link>
+              <Link href="/blog"                    className={lc} style={ls}>{t("links.blog")}</Link>
+              <Link href="/ressources/guides"       className={lc} style={ls}>{t("links.guides")}</Link>
+              <Link href="/ressources/centre-aide"  className={lc} style={ls}>{t("links.centreAide")}</Link>
+              <Link href="/contact"                 className={lc} style={ls}>{t("links.contact")}</Link>
             </div>
           </div>
 
@@ -47,10 +46,10 @@ export async function MarketingFooter() {
           <div>
             <ColHead>{t("groups.legal")}</ColHead>
             <div className="flex flex-col gap-2.5">
-              <Link href="/legal/confidentialite" className={linkCls} style={linkStyle}>{t("links.privacy")}</Link>
-              <Link href="/legal/cgu" className={linkCls} style={linkStyle}>{t("links.terms")}</Link>
-              <Link href="/legal/mentions" className={linkCls} style={linkStyle}>{t("links.mentions")}</Link>
-              <Link href="/legal/cookies" className={linkCls} style={linkStyle}>{t("links.cookies")}</Link>
+              <Link href="/legal/confidentialite" className={lc} style={ls}>{t("links.privacy")}</Link>
+              <Link href="/legal/cgu"             className={lc} style={ls}>{t("links.terms")}</Link>
+              <Link href="/legal/mentions"        className={lc} style={ls}>{t("links.mentions")}</Link>
+              <Link href="/legal/cookies"         className={lc} style={ls}>{t("links.cookies")}</Link>
             </div>
           </div>
         </div>

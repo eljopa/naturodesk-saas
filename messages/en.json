@@ -817,17 +817,46 @@
 
   "marketing": {
     "nav": {
-      "cabinet": "Manage practice",
-      "activite": "Grow activity",
-      "moteur": "Analysis engine",
+      "produit": "Product",
+      "fonctionnalites": "Features",
       "pricing": "Pricing",
-      "blog": "Blog",
+      "ressources": "Resources",
       "about": "About",
-      "contact": "Contact",
       "login": "Sign in",
       "cta": "Sign up",
       "openMenu": "Open menu",
-      "closeMenu": "Close menu"
+      "closeMenu": "Close menu",
+      "produitMenu": {
+        "cabinetTitle": "Practice management",
+        "dossiers": "Patient records",
+        "dossiersDesc": "Complete, structured patient files",
+        "bilans": "Vitality assessments",
+        "bilansDesc": "Scored assessments by organ system",
+        "protocoles": "Protocols",
+        "protocolesDesc": "Reusable, adaptable templates",
+        "agenda": "Agenda & appointments",
+        "agendaDesc": "Schedule, bookings and reminders",
+        "facturation": "Billing",
+        "facturationDesc": "Invoices and exports in two clicks",
+        "autresTitle": "Assistance & visibility",
+        "assistance": "Clinical assistance",
+        "assistanceDesc": "Interactions, side effects, official data",
+        "pagePro": "Professional page",
+        "pageProDesc": "Your showcase + online booking"
+      },
+      "ressourcesMenu": {
+        "blog": "Blog",
+        "blogDesc": "Articles & naturopathy news",
+        "guides": "Practical guides",
+        "guidesDesc": "Tutorials to get started",
+        "centreAide": "Help centre",
+        "centreAideDesc": "FAQ and documentation",
+        "webinaires": "Webinars",
+        "webinairesDesc": "Coming soon",
+        "roadmap": "Roadmap",
+        "roadmapDesc": "Coming soon",
+        "soon": "Soon"
+      }
     },
 
     "footer": {
@@ -835,18 +864,17 @@
       "rights": "All rights reserved.",
       "groups": {
         "product": "Product",
-        "blog": "Blog",
+        "ressources": "Resources",
         "company": "Company",
         "legal": "Legal"
       },
       "links": {
-        "manage": "Manage practice",
-        "page": "Professional page",
-        "engine": "Analysis engine",
+        "fonctionnalites": "Features",
         "pricing": "Pricing",
         "about": "About",
-        "faq": "FAQ",
-        "allPosts": "All articles",
+        "blog": "Blog",
+        "guides": "Practical guides",
+        "centreAide": "Help centre",
         "contact": "Contact",
         "privacy": "Privacy",
         "terms": "Terms",
@@ -1043,6 +1071,90 @@
       }
     },
 
+    "fonctionnalites": {
+      "meta": {
+        "title": "Features",
+        "description": "All NaturoDesk features: patient records, assessments, protocols, schedule, billing, analysis engine and professional page."
+      },
+      "hero": {
+        "eyebrow": "The product",
+        "title": "Everything you need to practise.",
+        "subtitle": "NaturoDesk centralises your entire practice — from the first consultation to billing — in a single platform built for naturopaths."
+      },
+      "cabinet": {
+        "eyebrow": "Practice management",
+        "title": "The heart of your practice, finally organised.",
+        "dossiers": {
+          "title": "Patient records",
+          "desc": "Create a complete file for each patient: identity, medical history, allergies, internal notes and full consultation history. Everything one click away."
+        },
+        "bilans": {
+          "title": "Vitality assessments",
+          "desc": "Enter symptoms, medications and supplements for each patient. NaturoDesk automatically structures the assessment and generates a vitality score by organ system."
+        },
+        "protocoles": {
+          "title": "Protocols",
+          "desc": "Create reusable naturopathic protocol templates by category (digestive, hormonal, stress…). Adapt them in seconds for each patient."
+        },
+        "agenda": {
+          "title": "Agenda & appointments",
+          "desc": "Manage your schedule, create custom consultation types (initial assessment, follow-up), and see your week at a glance."
+        },
+        "facturation": {
+          "title": "Billing",
+          "desc": "Create invoices in two clicks from a consultation. Automatic numbering, PDF export, payment tracking. Your bookkeeping, simplified."
+        }
+      },
+      "analyse": {
+        "eyebrow": "Clinical assistance",
+        "title": "An analysis engine grounded in official health data.",
+        "desc": "Query the BDPM database to check drug interactions, side effects and precautions. A decision-support tool — never a substitute for your clinical judgement.",
+        "disclaimer": "You always remain the decision-maker. NaturoDesk informs your judgement, it does not replace it."
+      },
+      "pagePro": {
+        "eyebrow": "Professional page",
+        "title": "Your online showcase, connected to your agenda.",
+        "desc": "Publish a professional page in your image in minutes: bio, specialities, rates and online booking synced with your agenda in real time.",
+        "l1": "Dedicated URL — naturodesk.com/your-name",
+        "l2": "Local SEO & visibility",
+        "l3": "Integrated contact form",
+        "l4": "Online booking connected to your schedule"
+      }
+    },
+    "ressources": {
+      "guides": {
+        "meta": { "title": "Practical guides", "description": "Guides and tutorials to get started with NaturoDesk." },
+        "eyebrow": "Practical guides",
+        "title": "Everything to get started.",
+        "subtitle": "Step-by-step tutorials, best practices and tips to get the most out of NaturoDesk.",
+        "emptyTitle": "Guides coming soon",
+        "emptyDesc": "We're preparing detailed guides to support you. Check back soon!"
+      },
+      "centreAide": {
+        "meta": { "title": "Help centre", "description": "Frequently asked questions about NaturoDesk." },
+        "eyebrow": "Help centre",
+        "title": "How can we help?",
+        "subtitle": "Find the answer to your questions quickly."
+      },
+      "webinaires": {
+        "meta": { "title": "Webinars", "description": "NaturoDesk webinars — coming soon." },
+        "eyebrow": "Webinars",
+        "title": "Coming soon.",
+        "subtitle": "Live sessions to master NaturoDesk and deepen your practice. Leave your email to be notified."
+      },
+      "roadmap": {
+        "meta": { "title": "Roadmap", "description": "Upcoming NaturoDesk features." },
+        "eyebrow": "Roadmap",
+        "title": "What's coming.",
+        "subtitle": "Discover the features in development and vote for your priorities."
+      },
+      "comingSoon": {
+        "notifyLabel": "Your email",
+        "notifyPlaceholder": "you@example.com",
+        "notifyButton": "Notify me",
+        "notifySuccess": "Thanks, we'll reach out as soon as it's ready!"
+      }
+    },
     "blog": {
       "meta": {
         "title": "Blog",
