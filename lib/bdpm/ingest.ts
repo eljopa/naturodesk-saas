@@ -60,6 +60,107 @@ export interface IngestResult {
 }
 
 // ---------------------------------------------------------------------------
+// upsertSubstance — gestion robuste des conflits de clés
+// ---------------------------------------------------------------------------
+//
+// Deux clés uniques existent sur DrugSubstance :
+//   - substanceCode : identifiant BDPM (source de vérité pour les codes COMPO)
+//   - normalizedKey : pivot sémantique (source de vérité pour le matching)
+//
+// Problème courant lors de la première ingestion réelle après un seed :
+//   Le seed utilise des substanceCodes arbitraires (ex: "03210" pour sertraline).
+//   BDPM réel utilise "03210" pour une substance DIFFÉRENTE, et un autre code
+//   pour sertraline. L'upsert naïf par normalizedKey échoue si substanceCode
+//   est déjà pris par un autre enregistrement.
+//
+// 5 cas gérés :
+//   1. byKey && byCode && same id  → record cohérent, simple UPDATE champs sémantiques
+//   2. byKey && byCode && diff ids → CONFLIT : le record byCode est un fantôme (code BDPM
+//                                   assigné à une mauvaise substance). On orpheline byCode,
+//                                   on met à jour byKey avec le vrai code.
+//   3. byKey seul                  → record sémantiquement correct, substanceCode libéré.
+//                                   UPDATE substanceCode + champs.
+//   4. byCode seul                 → record avec bon code mais mauvais normalizedKey
+//                                   (seed avec normalizedKey différent). UPDATE normalizedKey.
+//   5. aucun                       → CREATE.
+
+async function upsertSubstance(
+  db: import("@prisma/client").PrismaClient,
+  opts: {
+    code:          string;
+    name:          string;
+    canonicalName: string;
+    normalizedKey: string;
+    batchRef:      string;
+  },
+): Promise<void> {
+  const { code, name, canonicalName, normalizedKey, batchRef } = opts;
+
+  const [byKey, byCode] = await Promise.all([
+    db.drugSubstance.findUnique({ where: { normalizedKey }, select: { id: true, substanceCode: true } }),
+    db.drugSubstance.findUnique({ where: { substanceCode: code }, select: { id: true, normalizedKey: true } }),
+  ]);
+
+  if (byKey && byCode && byKey.id === byCode.id) {
+    // Cas 1 — record déjà cohérent (substanceCode et normalizedKey corrects)
+    await db.drugSubstance.update({
+      where: { id: byKey.id },
+      data:  { name, canonicalName, batchId: batchRef, isActive: true },
+    });
+    return;
+  }
+
+  if (byKey && byCode) {
+    // Cas 2 — CONFLIT : deux records distincts revendiquent cette substance.
+    //   byKey : normalizedKey correct, substanceCode stale (seed ou ancienne ingestion)
+    //   byCode : substanceCode correct (BDPM), normalizedKey incorrect (autre substance)
+    //
+    // Résolution : byKey est la source de vérité sémantique.
+    //   → byCode devient orphelin (préfixe __orphan_ + désactivé)
+    //   → byKey reçoit le vrai substanceCode BDPM
+    const orphanCode = `__orphan_${byCode.id.slice(0, 12)}`;
+    console.log(
+      `[bdpm] ⚙ Conflit substanceCode résolu — ` +
+      `code=${code} normalizedKey=${normalizedKey} ` +
+      `(orphan: byCode.id=${byCode.id} normalizedKey=${byCode.normalizedKey})`
+    );
+    await db.drugSubstance.update({
+      where: { id: byCode.id },
+      data:  { substanceCode: orphanCode, isActive: false },
+    });
+    await db.drugSubstance.update({
+      where: { id: byKey.id },
+      data:  { substanceCode: code, name, canonicalName, batchId: batchRef, isActive: true },
+    });
+    return;
+  }
+
+  if (byKey) {
+    // Cas 3 — record trouvé par normalizedKey, slot substanceCode libre
+    await db.drugSubstance.update({
+      where: { id: byKey.id },
+      data:  { substanceCode: code, name, canonicalName, batchId: batchRef, isActive: true },
+    });
+    return;
+  }
+
+  if (byCode) {
+    // Cas 4 — record trouvé par substanceCode, normalizedKey différent et slot libre
+    // Ce record a un normalizedKey stale → on le met à jour avec les données BDPM
+    await db.drugSubstance.update({
+      where: { id: byCode.id },
+      data:  { normalizedKey, name, canonicalName, batchId: batchRef, isActive: true },
+    });
+    return;
+  }
+
+  // Cas 5 — aucun record existant → CREATE
+  await db.drugSubstance.create({
+    data: { substanceCode: code, name, canonicalName, normalizedKey, batchId: batchRef },
+  });
+}
+
+// ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
 
@@ -137,48 +238,20 @@ export async function ingestBdpm(
     }
 
     let substancesUpserted = 0;
-    // Track normalizedKeys already processed this batch to avoid in-batch duplicates
+    // Track normalizedKeys already processed this batch to avoid in-batch duplicates.
+    // BDPM peut avoir deux codes différents qui normalisent vers la même clé
+    // (ex: "METFORMINE" et "METFORMINES") — le premier wins.
     const seenNormalizedKeys = new Set<string>();
-    for (const [code, { name }] of uniqueSubstances) {
-      const canonicalName  = toCanonicalFrench(name);
-      const normalizedKey  = buildNormalizedKey(canonicalName);
 
-      // Two BDPM substance codes can normalize to the same key — first one wins.
+    for (const [code, { name }] of uniqueSubstances) {
+      const canonicalName = toCanonicalFrench(name);
+      const normalizedKey = buildNormalizedKey(canonicalName);
+
       if (seenNormalizedKeys.has(normalizedKey)) continue;
       seenNormalizedKeys.add(normalizedKey);
 
-      try {
-        // Upsert by normalizedKey (the matching pivot), not by substanceCode.
-        // This handles conflicts when a manual seed used a different substanceCode
-        // for the same substance (same normalizedKey).
-        await db.drugSubstance.upsert({
-          where:  { normalizedKey },
-          create: {
-            substanceCode: code,
-            name,
-            canonicalName,
-            normalizedKey,
-            batchId: batchRef,
-          },
-          update: {
-            substanceCode: code,
-            name,
-            canonicalName,
-            batchId:  batchRef,
-            isActive: true,
-          },
-        });
-        substancesUpserted++;
-      } catch (err: unknown) {
-        // substanceCode unique conflict: another record already holds this real code.
-        // It means this substance was already upserted (e.g. race or prior partial run).
-        const msg = err instanceof Error ? err.message : String(err);
-        if (msg.includes("Unique constraint")) {
-          errors.push(`Substance skip (substanceCode conflict): ${code} / ${normalizedKey}`);
-        } else {
-          throw err;
-        }
-      }
+      await upsertSubstance(db, { code, name, canonicalName, normalizedKey, batchRef });
+      substancesUpserted++;
     }
 
     // Charger la map substanceCode → DB id
