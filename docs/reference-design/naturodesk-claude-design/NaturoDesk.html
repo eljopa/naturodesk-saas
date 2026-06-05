@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr" data-hero="split" data-serif="playfair">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NaturoDesk — Le système d'exploitation du naturopathe moderne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,500&family=Mulish:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="naturodesk.css" />
+<style>
+  /* mobile menu + page-local bits */
+  .mobile-menu { display: none; position: fixed; inset: 78px 0 auto 0; background: var(--cream); border-bottom: 1px solid var(--line); padding: 18px 24px 26px; z-index: 49; box-shadow: var(--sh-md); }
+  .mobile-menu.open { display: block; }
+  .mobile-menu a { display: block; padding: 13px 4px; font-weight: 700; color: var(--forest); border-bottom: 1px solid var(--line-soft); }
+  .mobile-menu .btn { width: 100%; justify-content: center; margin-top: 16px; }
+  .blob { position: absolute; border-radius: 50%; filter: blur(2px); }
+</style>
+<link id="gfont-Roboto" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&amp;display=swap">
+</head>
+<body style="font-family: Mulish">
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#top">
+      <img class="brand-logo" src="assets/naturodesk-horizontal-navapp.png" alt="NaturoDesk" />
+    </a>
+    <nav class="nav__links">
+      <a href="#cabinet" data-en="Manage practice">Gérer le cabinet</a>
+      <a href="#activite" data-en="Grow activity">Développer l'activité</a>
+      <a href="#moteur" data-en="Analysis engine">Moteur d'analyse</a>
+      <a href="#tarifs" data-en="Pricing">Tarifs</a>
+    </nav>
+    <div class="nav__right">
+      <div class="lang">
+        <button data-lang="fr" class="active">FR</button>
+        <button data-lang="en">EN</button>
+      </div>
+      <a href="#inscription" class="btn btn--ghost" data-en="Sign in">Connexion</a>
+      <a href="#inscription" class="btn btn--primary" data-en="Sign up">S'inscrire</a>
+      <button class="nav__burger" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+<div class="mobile-menu">
+  <a href="#cabinet" data-en="Manage practice">Gérer le cabinet</a>
+  <a href="#activite" data-en="Grow activity">Développer l'activité</a>
+  <a href="#moteur" data-en="Analysis engine">Moteur d'analyse</a>
+  <a href="#tarifs" data-en="Pricing">Tarifs</a>
+  <a href="#inscription" class="btn btn--primary" data-en="Sign up">S'inscrire</a>
+</div>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="hero bg-cream">
+  <svg class="hero__leaf" style="top:-80px;right:-60px;width:520px;height:520px" viewBox="0 0 200 200" fill="none">
+    <path d="M100 10C40 30 20 90 30 150c50 20 120 0 140-60C150 40 120 18 100 10Z" fill="#E8EDE0"/>
+  </svg>
+  <div class="blob" style="bottom:-120px;left:-80px;width:340px;height:340px;background:#F3E7DC;opacity:.55"></div>
+
+  <!-- ---- V1 : SPLIT ---- -->
+  <div class="hero-variant v-split">
+    <div class="wrap hero__inner">
+      <div class="hero__head reveal">
+        <div class="badge-row">
+          <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5"/></svg><span data-en="All-in-one for naturopaths">Tout-en-un pour naturopathes</span></span>
+        </div>
+        <h1 class="display" data-en="Launch, run and grow your naturopathy practice.">Lancez, gérez et développez votre cabinet de naturopathie.</h1>
+        <p class="lede" data-en="NaturoDesk brings your schedule, patient records, protocols and your own professional page together in one platform — designed for naturopaths, not borrowed from generic software.">NaturoDesk réunit votre agenda, vos dossiers patients, vos protocoles et votre page professionnelle dans une seule plateforme — pensée pour les naturopathes, pas empruntée à un logiciel générique.</p>
+        <div class="hero__cta">
+          <a href="#inscription" class="btn btn--primary btn--lg" data-en="Get started free">Commencer gratuitement</a>
+          <a href="#cabinet" class="btn btn--ghost btn--lg" data-en="Watch the tour">Voir la démo</a>
+        </div>
+        <div class="hero__note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-en="Free 14-day trial · No card required">14 jours d'essai gratuit · Sans carte bancaire</span>
+        </div>
+      </div>
+      <div class="hero__visual reveal">
+        <div class="app" data-mock="agenda"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---- V2 : EDITORIAL ---- -->
+  <div class="hero-variant v-editorial">
+    <div class="wrap hero__inner">
+      <div class="hero__head reveal">
+        <p class="eyebrow eyebrow--center" data-en="The operating system for modern naturopaths">Le système d'exploitation du naturopathe moderne</p>
+        <h1 class="display" data-en="Everything your practice needs, in one calm place.">Tout votre cabinet, réuni dans un espace serein.</h1>
+        <p class="lede" data-en="Schedule, patient records, vitality assessments, protocols, billing and your own professional page — finally a single platform built for naturopaths.">Agenda, dossiers patients, bilans de vitalité, protocoles, facturation et votre page professionnelle — enfin une seule plateforme conçue pour les naturopathes.</p>
+        <div class="hero__cta">
+          <a href="#inscription" class="btn btn--primary btn--lg" data-en="Get started free">Commencer gratuitement</a>
+          <a href="#cabinet" class="btn btn--ghost btn--lg" data-en="Watch the tour">Voir la démo</a>
+        </div>
+        <div class="hero__note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-en="Free 14-day trial · No card required">14 jours d'essai gratuit · Sans carte bancaire</span>
+        </div>
+      </div>
+      <div class="hero__visual reveal">
+        <div class="app" data-mock="agenda-wide" style="max-width:980px;margin:0 auto"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---- V3 : LAYERED ---- -->
+  <div class="hero-variant v-layered">
+    <div class="wrap hero__inner">
+      <div class="hero__head reveal">
+        <div class="badge-row">
+          <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21c-5-3-8-6-8-11a4 4 0 0 1 8-1 4 4 0 0 1 8 1c0 5-3 8-8 11Z"/></svg><span data-en="Built for naturopaths">Conçu pour les naturopathes</span></span>
+        </div>
+        <h1 class="display" data-en="The home base for your whole practice.">Le quartier général de toute votre activité.</h1>
+        <p class="lede" data-en="From your first patients to daily follow-ups — manage, grow and centralise everything without juggling five different tools.">De vos premiers patients à votre suivi quotidien — gérez, développez et centralisez tout sans jongler entre cinq outils différents.</p>
+        <div class="hero__cta">
+          <a href="#inscription" class="btn btn--primary btn--lg" data-en="Get started free">Commencer gratuitement</a>
+          <a href="#cabinet" class="text-link" data-en="Watch the tour →">Voir la démo →</a>
+        </div>
+        <div class="hero__note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-en="Free 14-day trial · No card required">14 jours d'essai gratuit · Sans carte bancaire</span>
+        </div>
+      </div>
+      <div class="hero__visual reveal">
+        <div class="hero__stage">
+          <div class="float-card" style="top:0;left:0;width:64%;z-index:2"><div class="app" data-mock="agenda-mini"></div></div>
+          <div class="float-card" style="top:170px;right:0;width:50%;z-index:3"><div class="app" data-mock="bilan-mini"></div></div>
+          <div class="float-card" style="bottom:-10px;left:40px;width:46%;z-index:4"><div class="app" data-mock="moteur-mini"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST STRIP ============ -->
+<section class="section--tight bg-cream" style="padding-top:8px">
+  <div class="wrap">
+    <p style="text-align:center;color:var(--muted);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0 0 26px" data-en="One platform replaces all your scattered tools">Une plateforme qui remplace tous vos outils éparpillés</p>
+    <div style="display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap">
+      <span class="chip chip--line">Agenda</span>
+      <span class="chip chip--line">Dossiers patients</span>
+      <span class="chip chip--line">Bilans de vitalité</span>
+      <span class="chip chip--line">Protocoles</span>
+      <span class="chip chip--line">Facturation</span>
+      <span class="chip chip--line" data-en="Pro page &amp; booking">Page pro &amp; RDV</span>
+      <span class="chip chip--line" data-en="Analysis engine">Moteur d'analyse</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PILLAR 1 — CABINET ============ -->
+<section class="section bg-deep" id="cabinet">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="tag-num">1</div>
+      <p class="eyebrow" data-en="Manage your practice">Gérer son cabinet</p>
+      <h2 class="h2" data-en="Your entire practice, beautifully centralised.">Tout votre cabinet, enfin centralisé.</h2>
+      <p class="lede" style="margin-bottom:0" data-en="Schedule, patient records, vitality assessments, protocols and billing — everything connected, nothing lost between apps.">Agenda, dossiers patients, bilans de vitalité, protocoles et facturation — tout est relié, plus rien ne se perd entre vos applications.</p>
+    </div>
+
+    <div class="feature reveal">
+      <div class="feature__text">
+        <h3 class="h3" data-en="An agenda that thinks like a practitioner">Un agenda pensé comme un praticien</h3>
+        <p style="color:var(--muted);margin:0" data-en="Online booking, automatic reminders, consultation types and durations — your week organises itself so you focus on your patients.">Prise de rendez-vous en ligne, rappels automatiques, types et durées de consultation — votre semaine s'organise seule pour que vous vous concentriez sur vos patients.</p>
+        <ul class="feature__list">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-en="<b>Online booking</b> synced with your real availability"><b>Réservation en ligne</b> synchronisée avec vos disponibilités réelles</span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-en="<b>Automatic SMS &amp; email reminders</b> to reduce no-shows"><b>Rappels SMS &amp; e-mail automatiques</b> pour limiter les oublis</span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-en="<b>Consultation history</b> one click from each appointment"><b>Historique des consultations</b> à un clic de chaque rendez-vous</span></li>
+        </ul>
+      </div>
+      <div class="feature__visual"><div class="app" data-mock="agenda"></div></div>
+    </div>
+
+    <div class="feature feature--rev reveal" style="margin-top:90px">
+      <div class="feature__text">
+        <h3 class="h3" data-en="Patient records &amp; vitality assessments">Dossiers patients &amp; bilans de vitalité</h3>
+        <p style="color:var(--muted);margin:0" data-en="A complete, structured record for every patient: history, motives, vitality assessment and the protocols you build over time.">Un dossier complet et structuré pour chaque patient : antécédents, motifs, bilan de vitalité et les protocoles que vous construisez dans le temps.</p>
+        <ul class="feature__list">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-en="<b>Structured vitality assessment</b> with a clear score per system"><b>Bilan de vitalité structuré</b> avec un score clair par système</span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-en="<b>Reusable protocols</b> you adapt for each patient"><b>Protocoles réutilisables</b> que vous adaptez pour chaque patient</span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span data-en="<b>Invoicing in two clicks</b>, generated from the consultation"><b>Facturation en deux clics</b>, générée depuis la consultation</span></li>
+        </ul>
+      </div>
+      <div class="feature__visual"><div class="app" data-mock="fiche"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PILLAR 2 — ACTIVITÉ (page pro) ============ -->
+<section class="section bg-cream" id="activite">
+  <div class="wrap">
+    <div class="feature reveal">
+      <div class="feature__text">
+        <div class="tag-num">2</div>
+        <p class="eyebrow" data-en="Grow your activity">Développer son activité</p>
+        <h2 class="h2" data-en="Your own professional page — your first patients find you.">Votre page professionnelle — vos premiers patients vous trouvent.</h2>
+        <p style="color:var(--muted);margin:0 0 6px;font-size:18px" data-en="Far more than a directory listing: a real, elegant landing page with your dedicated URL, online booking, your specialities, your rates — optimised for search and local visibility.">Bien plus qu'une fiche annuaire : une véritable page d'accueil élégante avec votre URL dédiée, la prise de rendez-vous en ligne, vos spécialités, vos tarifs — optimisée pour le référencement et la visibilité locale.</p>
+        <ul class="feature__list">
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" stroke-linecap="round"/></svg></span><span data-en="<b>A dedicated URL</b> — naturodesk.com/votre-nom"><b>Une URL dédiée</b> — naturodesk.com/votre-nom</span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21 21-4.3-4.3M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z"/></svg></span><span data-en="<b>SEO &amp; local visibility</b> so you appear in nearby searches"><b>Référencement &amp; visibilité locale</b> pour apparaître dans les recherches proches</span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span><span data-en="<b>Integrated booking</b> connected to your agenda in real time"><b>Prise de rendez-vous intégrée</b>, reliée à votre agenda en temps réel</span></li>
+        </ul>
+        <div class="hero__cta" style="margin-top:30px">
+          <a href="#inscription" class="btn btn--primary" data-en="Create my page">Créer ma page</a>
+        </div>
+      </div>
+      <div class="feature__visual"><div class="app app--browser" data-mock="pagepro"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PILLAR 3 — MOTEUR D'ANALYSE ============ -->
+<section class="section bg-sage" id="moteur">
+  <div class="wrap">
+    <div class="feature feature--rev reveal">
+      <div class="feature__text">
+        <div class="tag-num">3</div>
+        <p class="eyebrow" data-en="Clinical assistance">Assistance clinique</p>
+        <h2 class="h2" data-en="An analysis engine grounded in official health data.">Un moteur d'analyse fondé sur des données officielles de santé.</h2>
+        <p style="color:var(--muted);margin:0;font-size:18px" data-en="Look up plants and supplements, check interactions, side effects and precautions — drawing on official health databases. A decision-support tool, never an oracle.">Consultez plantes et compléments, vérifiez interactions, effets secondaires et précautions — à partir de bases de données officielles de santé. Un outil d'aide à la décision, jamais un oracle.</p>
+        <div class="decision">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6l-8-3Z"/></svg></span>
+          <p data-en="<b>You always remain the decision-maker.</b> NaturoDesk informs your judgement — it never replaces it. No AI agent, no chatbot."><b>Vous restez toujours décisionnaire.</b> NaturoDesk éclaire votre jugement — il ne le remplace jamais. Aucun agent IA, aucun chatbot.</p>
+        </div>
+      </div>
+      <div class="feature__visual"><div class="app" data-mock="moteur"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHY / VALUE CARDS ============ -->
+<section class="section bg-cream">
+  <div class="wrap">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow eyebrow--center" data-en="Why naturopaths choose NaturoDesk">Pourquoi les naturopathes choisissent NaturoDesk</p>
+      <h2 class="h2" data-en="Less admin. More presence with your patients.">Moins d'administratif. Plus de présence auprès de vos patients.</h2>
+    </div>
+    <div class="cards cards--3 reveal">
+      <div class="card">
+        <div class="ic-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg></div>
+        <h3 class="h3" data-en="Save real time">Gagnez un temps réel</h3>
+        <p data-en="One platform instead of five. Less switching, fewer forgotten details, hours back every week.">Une plateforme au lieu de cinq. Moins de bascules, moins d'oublis, des heures regagnées chaque semaine.</p>
+      </div>
+      <div class="card">
+        <div class="ic-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6l-8-3Z"/></svg></div>
+        <h3 class="h3" data-en="Look professional from day one">Paraissez pro dès le départ</h3>
+        <p data-en="A polished professional page and clean documents make a strong impression on every new patient.">Une page professionnelle soignée et des documents nets font forte impression sur chaque nouveau patient.</p>
+      </div>
+      <div class="card">
+        <div class="ic-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18v13H3zM3 7l3-4h12l3 4M9 12h6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 class="h3" data-en="Build with confidence">Construisez en confiance</h3>
+        <p data-en="Reusable protocols and official references help you secure your recommendations, patient after patient.">Protocoles réutilisables et références officielles vous aident à sécuriser vos recommandations, patient après patient.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="section bg-deep">
+  <div class="wrap">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow eyebrow--center" data-en="They built their practice on NaturoDesk">Ils ont construit leur cabinet sur NaturoDesk</p>
+      <h2 class="h2" data-en="Trusted by naturopaths getting started.">La confiance des naturopathes qui s'installent.</h2>
+    </div>
+    <div class="cards cards--3 reveal">
+      <figure class="quote-card">
+        <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div>
+        <blockquote data-en="&ldquo;I launched my practice with my page online in an afternoon. My first patients found me through it.&rdquo;">«&nbsp;J'ai lancé mon cabinet avec ma page en ligne en une après-midi. Mes premiers patients sont venus par là.&nbsp;»</blockquote>
+        <figcaption class="who"><image-slot id="t1" placeholder="Photo"></image-slot><div><div class="n">Camille Renaud</div><div class="r" data-en="Naturopath · Lyon">Naturopathe · Lyon</div></div></figcaption>
+      </figure>
+      <figure class="quote-card">
+        <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div>
+        <blockquote data-en="&ldquo;Records, assessments and protocols in one place. I stopped juggling three tools and a notebook.&rdquo;">«&nbsp;Dossiers, bilans et protocoles au même endroit. J'ai arrêté de jongler entre trois outils et un carnet.&nbsp;»</blockquote>
+        <figcaption class="who"><image-slot id="t2" placeholder="Photo"></image-slot><div><div class="n">Thomas Bélanger</div><div class="r" data-en="Naturopath · Nantes">Naturopathe · Nantes</div></div></figcaption>
+      </figure>
+      <figure class="quote-card">
+        <div class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg></div>
+        <blockquote data-en="&ldquo;The analysis engine reassures me on interactions — I keep the final call, but I check faster.&rdquo;">«&nbsp;Le moteur d'analyse me rassure sur les interactions — je garde la décision, mais je vérifie plus vite.&nbsp;»</blockquote>
+        <figcaption class="who"><image-slot id="t3" placeholder="Photo"></image-slot><div><div class="n">Sophie Marchand</div><div class="r" data-en="Naturopath · Bordeaux">Naturopathe · Bordeaux</div></div></figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section class="section bg-cream" id="tarifs">
+  <div class="wrap">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow eyebrow--center" data-en="Simple, honest pricing">Des tarifs simples et honnêtes</p>
+      <h2 class="h2" data-en="One subscription. Your whole practice.">Un abonnement. Tout votre cabinet.</h2>
+      <p class="lede" style="margin-left:auto;margin-right:auto" data-en="Start free for 14 days. No card required, cancel anytime.">Commencez par 14 jours gratuits. Sans carte bancaire, résiliable à tout moment.</p>
+    </div>
+    <div class="price-grid reveal">
+      <div class="plan">
+        <h3 class="h3" data-en="Start">Démarrage</h3>
+        <p class="desc" data-en="To launch your practice and find your first patients.">Pour lancer votre activité et trouver vos premiers patients.</p>
+        <div class="price">19€ <small data-en="/ month">/ mois</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Professional page + dedicated URL">Page professionnelle + URL dédiée</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Online booking &amp; agenda">Agenda &amp; réservation en ligne</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Up to 30 patient records">Jusqu'à 30 dossiers patients</span></li>
+        </ul>
+        <a href="#inscription" class="btn btn--ghost" data-en="Start free">Commencer</a>
+      </div>
+      <div class="plan plan--feat">
+        <span class="plan__tag" data-en="Most popular">Le plus choisi</span>
+        <h3 class="h3" data-en="Practice">Cabinet</h3>
+        <p class="desc" data-en="Everything to run and grow a full practice.">Tout pour gérer et développer un cabinet complet.</p>
+        <div class="price">39€ <small data-en="/ month">/ mois</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Everything in Start, unlimited">Tout Démarrage, en illimité</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Vitality assessments &amp; protocols">Bilans de vitalité &amp; protocoles</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Billing &amp; patient follow-up">Facturation &amp; suivi patient</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Analysis engine included">Moteur d'analyse inclus</span></li>
+        </ul>
+        <a href="#inscription" class="btn btn--primary" data-en="Start free">Commencer</a>
+      </div>
+      <div class="plan">
+        <h3 class="h3" data-en="Studio">Collectif</h3>
+        <p class="desc" data-en="For multi-practitioner offices and centres.">Pour les cabinets et centres à plusieurs praticiens.</p>
+        <div class="price">79€ <small data-en="/ month">/ mois</small></div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Everything in Practice">Tout Cabinet</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Up to 5 practitioners">Jusqu'à 5 praticiens</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg><span data-en="Shared agenda &amp; priority support">Agenda partagé &amp; support prioritaire</span></li>
+        </ul>
+        <a href="#inscription" class="btn btn--ghost" data-en="Contact us">Nous contacter</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section bg-deep">
+  <div class="wrap">
+    <div class="section-head section-head--center reveal">
+      <p class="eyebrow eyebrow--center" data-en="Questions">Questions fréquentes</p>
+      <h2 class="h2" data-en="Everything you might be wondering.">Tout ce que vous vous demandez peut-être.</h2>
+    </div>
+    <div class="faq reveal">
+      <div class="faq__item">
+        <button class="faq__q"><span data-en="Is NaturoDesk an AI tool?">NaturoDesk est-il un outil d'IA ?</span><span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></button>
+        <div class="faq__a"><div class="faq__a-inner" data-en="No. NaturoDesk is a complete platform to run your practice. Its analysis engine is a decision-support tool based on official health databases — never a chatbot or an AI agent. You always remain the decision-maker.">Non. NaturoDesk est une plateforme complète pour gérer votre cabinet. Son moteur d'analyse est un outil d'aide à la décision fondé sur des bases de données officielles de santé — jamais un chatbot ni un agent IA. Vous restez toujours décisionnaire.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q"><span data-en="Do I really get my own professional page?">Ai-je vraiment ma propre page professionnelle ?</span><span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></button>
+        <div class="faq__a"><div class="faq__a-inner" data-en="Yes — a real landing page with your dedicated URL, your specialities, rates, contact and integrated booking, optimised for search and local visibility.">Oui — une véritable page d'accueil avec votre URL dédiée, vos spécialités, tarifs, contact et la prise de rendez-vous intégrée, optimisée pour le référencement et la visibilité locale.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q"><span data-en="Can I move my existing patients in?">Puis-je importer mes patients existants ?</span><span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></button>
+        <div class="faq__a"><div class="faq__a-inner" data-en="Absolutely. You can import your patient list and recreate your protocols, then everything stays centralised and connected within NaturoDesk.">Bien sûr. Vous pouvez importer votre liste de patients et recréer vos protocoles, puis tout reste centralisé et relié au sein de NaturoDesk.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q"><span data-en="Is my patients' data secure?">Les données de mes patients sont-elles sécurisées ?</span><span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></button>
+        <div class="faq__a"><div class="faq__a-inner" data-en="Yes. Data is hosted in Europe, encrypted, and handled with the confidentiality your practice requires.">Oui. Les données sont hébergées en Europe, chiffrées, et traitées avec la confidentialité qu'exige votre pratique.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q"><span data-en="What happens after the free trial?">Que se passe-t-il après l'essai gratuit ?</span><span class="pm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></svg></span></button>
+        <div class="faq__a"><div class="faq__a-inner" data-en="You choose a plan if you wish to continue. No card is required to start, and you can cancel anytime.">Vous choisissez un abonnement si vous souhaitez continuer. Aucune carte n'est requise pour démarrer, et vous résiliez à tout moment.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="section bg-cream" id="inscription">
+  <div class="wrap">
+    <div class="cta-final reveal">
+      <svg class="cta-final__glow" viewBox="0 0 1200 400" preserveAspectRatio="none"><defs><radialGradient id="g1" cx="20%" cy="0%" r="80%"><stop offset="0%" stop-color="#5E7349" stop-opacity=".7"/><stop offset="100%" stop-color="#3D4A33" stop-opacity="0"/></radialGradient><radialGradient id="g2" cx="90%" cy="100%" r="70%"><stop offset="0%" stop-color="#B5895F" stop-opacity=".45"/><stop offset="100%" stop-color="#3D4A33" stop-opacity="0"/></radialGradient></defs><rect width="1200" height="400" fill="url(#g1)"/><rect width="1200" height="400" fill="url(#g2)"/></svg>
+      <div style="position:relative">
+        <p class="eyebrow eyebrow--center" style="color:var(--sand)" data-en="Build your practice on NaturoDesk">Construisez votre cabinet sur NaturoDesk</p>
+        <h2 class="h2" style="font-size:clamp(32px,4vw,52px)" data-en="The tool naturopaths were waiting for.">Enfin l'outil que les naturopathes attendaient.</h2>
+        <p class="lede" data-en="Launch, manage and grow your practice serenely — everything in one place.">Lancez, gérez et développez votre activité sereinement — tout au même endroit.</p>
+        <div class="hero__cta">
+          <a href="#" class="btn btn--onforest btn--lg" data-en="Sign up free">S'inscrire gratuitement</a>
+          <a href="#cabinet" class="btn btn--lg" style="background:transparent;color:#EEE9DC;border-color:rgba(238,233,220,.4)" data-en="Watch the tour">Voir la démo</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer__grid">
+      <div>
+        <a class="brand" href="#top" style="margin-bottom:14px"><img class="brand-logo" src="assets/naturodesk-horizontal-navapp.png" alt="NaturoDesk" /></a>
+        <p style="color:var(--muted);font-size:14.5px;max-width:30ch;margin:0" data-en="The operating system for the modern naturopath.">Le système d'exploitation du naturopathe moderne.</p>
+      </div>
+      <div>
+        <h4 data-en="Product">Produit</h4>
+        <a href="#cabinet" data-en="Manage practice">Gérer le cabinet</a>
+        <a href="#activite" data-en="Professional page">Page professionnelle</a>
+        <a href="#moteur" data-en="Analysis engine">Moteur d'analyse</a>
+        <a href="#tarifs" data-en="Pricing">Tarifs</a>
+      </div>
+      <div>
+        <h4 data-en="Resources">Ressources</h4>
+        <a href="#" data-en="Guide for new practices">Guide installation</a>
+        <a href="#" data-en="Blog">Blog</a>
+        <a href="#faq" data-en="Help center">Centre d'aide</a>
+      </div>
+      <div>
+        <h4 data-en="Company">Entreprise</h4>
+        <a href="#" data-en="About">À propos</a>
+        <a href="#" data-en="Contact">Contact</a>
+        <a href="#" data-en="Legal">Mentions légales</a>
+      </div>
+    </div>
+    <div class="footer__bot">
+      <span>© 2026 NaturoDesk. <span data-en="All rights reserved.">Tous droits réservés.</span></span>
+      <span data-en="Data hosted in Europe · Encrypted">Données hébergées en Europe · Chiffrées</span>
+    </div>
+  </div>
+</footer>
+
+<div id="tweaks-root"></div>
+
+<!-- thumbnail for bundler -->
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#799664"/><path d="M50 26c-14 5-19 24-15 40 13 5 31 0 36-15-5-16-13-22-21-25Z" fill="#FAF7F0"/></svg>
+</template>
+
+<script src="image-slot.js"></script>
+<script src="mockups.js"></script>
+<script src="naturodesk.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks-app.jsx"></script>
+</body>
+</html>

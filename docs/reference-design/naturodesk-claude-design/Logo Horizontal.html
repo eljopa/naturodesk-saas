@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>NaturoDesk — Logo horizontal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Mulish:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --cream:#FAF7F0; --cream-deep:#F3ECDF; --paper:#FFFFFF;
+    --sage:#799664; --sage-deep:#5E7349; --sage-tint:#E8EDE0; --sage-wash:#F1F4EC;
+    --forest:#3D4A33; --ink:#2C3327; --taupe:#92806E; --copper:#B5895F;
+    --muted:#74786C; --line:#E7E0D3; --line-soft:#EFE9DD;
+    --serif:"Playfair Display",Georgia,serif; --sans:"Mulish",system-ui,sans-serif;
+    --r:18px; --sh:0 2px 8px rgba(61,74,51,.06),0 1px 2px rgba(61,74,51,.05);
+    --sh-md:0 16px 44px -22px rgba(61,74,51,.28),0 3px 10px rgba(61,74,51,.05);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  header.top{padding:64px 0 8px;}
+  .eyebrow{font-size:12px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--sage-deep);display:flex;align-items:center;gap:10px;margin:0 0 16px;}
+  .eyebrow::before{content:"";width:26px;height:1.5px;background:var(--copper);}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.6vw,52px);color:var(--forest);letter-spacing:-.015em;margin:0 0 14px;}
+  .sub{color:var(--muted);font-size:18px;max-width:62ch;margin:0 0 8px;}
+  h2{font-family:var(--serif);font-weight:500;font-size:27px;color:var(--forest);margin:0 0 4px;letter-spacing:-.01em;}
+  .sec-note{color:var(--muted);font-size:14.5px;margin:0 0 24px;}
+  section{padding:48px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+
+  /* hero stage */
+  .stage{background:var(--paper);border:1px solid var(--line-soft);border-radius:26px;box-shadow:var(--sh-md);padding:72px 48px;display:flex;justify-content:center;align-items:center;}
+  .stage img{height:96px;width:auto;}
+  @media(max-width:560px){.stage img{height:58px;}.stage{padding:48px 24px;}}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr;}}
+
+  .tile{border-radius:var(--r);border:1px solid var(--line-soft);overflow:hidden;box-shadow:var(--sh);}
+  .tile .show{display:flex;align-items:center;justify-content:center;padding:46px 26px;min-height:150px;}
+  .tile .cap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;border-top:1px solid var(--line-soft);background:var(--paper);}
+  .cap b{font-size:13.5px;color:var(--forest);font-weight:800;}
+  .cap span{font-size:12px;color:var(--muted);}
+  .bg-paper{background:var(--paper);} .bg-cream{background:var(--cream);} .bg-deep{background:var(--cream-deep);}
+  .bg-forest{background:var(--forest);} .bg-sage{background:var(--sage);}
+  .show img.h{height:46px;width:auto;} .show img.icon{height:74px;width:auto;}
+
+  .dl{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;color:var(--sage-deep);border:1px solid var(--line);border-radius:99px;padding:6px 13px;text-decoration:none;background:var(--paper);transition:.18s;}
+  .dl:hover{border-color:var(--sage);background:var(--sage-wash);}
+  .dl svg{width:13px;height:13px;}
+
+  /* navbar mock */
+  .navmock{border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;box-shadow:var(--sh);}
+  .navbar{display:flex;align-items:center;gap:26px;height:70px;padding:0 26px;background:rgba(250,247,240,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .navbar.dark{background:var(--forest);border-bottom-color:rgba(255,255,255,.08);}
+  .navbar img{height:30px;width:auto;}
+  .navbar .nlinks{display:flex;gap:22px;margin-left:8px;}
+  .navbar .nlinks a{font-size:13.5px;font-weight:600;color:var(--ink);opacity:.8;text-decoration:none;}
+  .navbar.dark .nlinks a{color:#EDEBDF;opacity:.78;}
+  .navbar .spacer{margin-left:auto;}
+  .navbar .cta{background:var(--sage);color:#fff;font-size:13px;font-weight:700;border:none;border-radius:99px;padding:9px 18px;}
+  .navbar.dark .cta{background:#E6D6C8;color:var(--forest);}
+  .navfill{height:70px;background:repeating-linear-gradient(45deg,var(--cream),var(--cream) 12px,#f6f2e9 12px,#f6f2e9 24px);}
+  .navbar.dark + .navfill{background:repeating-linear-gradient(45deg,#36422d,#36422d 12px,#3b472f 12px,#3b472f 24px);}
+
+  /* app sidebar mock */
+  .appmock{display:grid;grid-template-columns:220px 1fr;border:1px solid var(--line-soft);border-radius:16px;overflow:hidden;box-shadow:var(--sh);min-height:260px;}
+  .side{background:#FAF8F3;border-right:1px solid var(--line-soft);padding:20px 16px;}
+  .side.dark{background:var(--forest);border-right-color:rgba(255,255,255,.08);}
+  .side img{height:26px;width:auto;margin:6px 4px 20px;}
+  .si{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:9px;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:3px;}
+  .si.dark{color:rgba(237,235,223,.7);}
+  .si .d{width:15px;height:15px;border-radius:5px;background:var(--sage-tint);} .si.dark .d{background:rgba(255,255,255,.12);}
+  .si.on{background:var(--sage-tint);color:var(--sage-deep);} .si.dark.on{background:rgba(255,255,255,.1);color:#fff;}
+  .appbody{background:var(--paper);padding:24px;}
+  .appbody .ln{height:11px;border-radius:6px;background:var(--line-soft);margin-bottom:12px;}
+
+  /* clearspace */
+  .clearbox{position:relative;background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r);padding:40px;display:flex;justify-content:center;}
+  .clearframe{position:relative;padding:var(--cs);outline:2px dashed var(--sage-soft, #AAB59F);outline-offset:0;}
+  .clearframe::before,.clearframe::after{content:"";position:absolute;background:var(--sage-tint);}
+  .clearframe img{height:60px;width:auto;display:block;}
+  .specrow{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;}
+  .spec{flex:1;min-width:200px;background:var(--paper);border:1px solid var(--line-soft);border-radius:14px;padding:18px 20px;}
+  .spec .k{font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--taupe);margin:0 0 6px;}
+  .spec .v{font-size:14.5px;color:var(--forest);}
+  .minrow{display:flex;align-items:flex-end;gap:32px;flex-wrap:wrap;padding:30px;background:var(--paper);border:1px solid var(--line-soft);border-radius:var(--r);}
+  .minrow .it{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .minrow .it span{font-size:12px;color:var(--muted);font-weight:600;}
+  .donts{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:560px){.donts{grid-template-columns:1fr;}}
+
+  .footer{padding:40px 0 70px;color:var(--muted);font-size:13px;}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="eyebrow">Identité de marque</p>
+    <h1>Logo horizontal — Naturodesk</h1>
+    <p class="sub">Déclinaison horizontale premium pour navbar et application. L'icône et son identité chromatique sont conservées à l'identique ; le mot-symbole adopte un <strong style="color:var(--forest)">vert forêt soutenu</strong> pour une lisibilité nette sur fond crème.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO LOCKUP -->
+  <section style="border-top:none;padding-top:24px">
+    <div class="stage">
+      <img src="assets/naturodesk-horizontal-navapp.png" alt="Logo horizontal NaturoDesk" />
+    </div>
+    <div class="specrow" style="margin-top:20px">
+      <a class="dl" href="assets/naturodesk-horizontal-navapp.png" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>Lockup Navbar / App · vert forêt (PNG)</a>
+      <a class="dl" href="assets/naturodesk-horizontal-light.png" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>Lockup fond sombre (PNG)</a>
+      <a class="dl" href="assets/naturodesk-icon.png" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>Icône seule (PNG)</a>
+      <a class="dl" href="assets/naturodesk-horizontal.png" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke-linecap="round" stroke-linejoin="round"/></svg>Bichromie d'origine (PNG)</a>
+    </div>
+  </section>
+
+  <!-- LEGIBILITY COMPARISON -->
+  <section>
+    <h2>Lisibilité sur fond crème</h2>
+    <p class="sec-note">Le mot-symbole passe d'une bichromie (le « desk » cuivré se fondait dans le beige) à un vert forêt soutenu, tout en gardant l'icône intacte.</p>
+    <div class="grid2">
+      <div class="tile">
+        <div class="show bg-deep"><img class="h" src="assets/naturodesk-horizontal.png" alt="" /></div>
+        <div class="cap"><b>Bichromie</b><span>« desk » peu lisible</span></div>
+      </div>
+      <div class="tile" style="border-color:var(--sage)">
+        <div class="show bg-deep"><img class="h" src="assets/naturodesk-horizontal-navapp.png" alt="" /></div>
+        <div class="cap"><b>Vert forêt</b><span style="color:var(--sage-deep);font-weight:700">✓ Recommandé</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VARIANTS -->
+  <section>
+    <h2>Variantes</h2>
+    <p class="sec-note">Fond transparent. Mot-symbole vert forêt pour les fonds clairs ; version inversée (crème) pour les fonds sombres.</p>
+    <div class="grid2">
+      <div class="tile">
+        <div class="show bg-paper"><img class="h" src="assets/naturodesk-horizontal-navapp.png" alt="" /></div>
+        <div class="cap"><b>Navbar · blanc</b><span>Usage principal</span></div>
+      </div>
+      <div class="tile">
+        <div class="show bg-deep"><img class="h" src="assets/naturodesk-horizontal-navapp.png" alt="" /></div>
+        <div class="cap"><b>Navbar · crème</b><span>Site & landing</span></div>
+      </div>
+      <div class="tile">
+        <div class="show bg-forest"><img class="h" src="assets/naturodesk-horizontal-light.png" alt="" /></div>
+        <div class="cap"><b>Inversé · forêt</b><span>UI sombre</span></div>
+      </div>
+      <div class="tile">
+        <div class="show bg-sage"><img class="h" src="assets/naturodesk-horizontal-light.png" alt="" /></div>
+        <div class="cap"><b>Inversé · sauge</b><span>Bandeaux & e-mails</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ICON -->
+  <section>
+    <h2>Icône seule</h2>
+    <p class="sec-note">Pour favicon, avatar, app mobile et tout espace réduit ou carré.</p>
+    <div class="grid3">
+      <div class="tile"><div class="show bg-paper"><img class="icon" src="assets/naturodesk-icon.png" alt="" /></div><div class="cap"><b>Sur blanc</b><span>App / favicon</span></div></div>
+      <div class="tile"><div class="show bg-deep"><img class="icon" src="assets/naturodesk-icon.png" alt="" /></div><div class="cap"><b>Sur crème</b><span>Navbar tuile</span></div></div>
+      <div class="tile"><div class="show bg-forest"><img class="icon" src="assets/naturodesk-icon.png" alt="" /></div><div class="cap"><b>Sur forêt</b><span>UI sombre</span></div></div>
+    </div>
+  </section>
+
+  <!-- IN CONTEXT : NAVBAR -->
+  <section>
+    <h2>En contexte — navbar</h2>
+    <p class="sec-note">Hauteur de logo recommandée : 28–34 px sur une barre de 64–80 px.</p>
+    <div class="navmock" style="margin-bottom:20px">
+      <div class="navbar">
+        <img src="assets/naturodesk-horizontal-navapp.png" alt="" />
+        <nav class="nlinks"><a>Cabinet</a><a>Activité</a><a>Moteur d'analyse</a><a>Tarifs</a></nav>
+        <span class="spacer"></span>
+        <button class="cta">S'inscrire</button>
+      </div>
+      <div class="navfill"></div>
+    </div>
+    <div class="navmock">
+      <div class="navbar dark">
+        <img src="assets/naturodesk-horizontal-light.png" alt="" />
+        <nav class="nlinks"><a>Cabinet</a><a>Activité</a><a>Moteur d'analyse</a><a>Tarifs</a></nav>
+        <span class="spacer"></span>
+        <button class="cta">S'inscrire</button>
+      </div>
+      <div class="navfill"></div>
+    </div>
+  </section>
+
+  <!-- IN CONTEXT : APP -->
+  <section>
+    <h2>En contexte — application</h2>
+    <p class="sec-note">Dans la barre latérale, claire ou sombre.</p>
+    <div class="grid2">
+      <div class="appmock">
+        <div class="side">
+          <img src="assets/naturodesk-horizontal-navapp.png" alt="" />
+          <div class="si on"><span class="d"></span>Tableau de bord</div>
+          <div class="si"><span class="d"></span>Agenda</div>
+          <div class="si"><span class="d"></span>Patients</div>
+          <div class="si"><span class="d"></span>Protocoles</div>
+        </div>
+        <div class="appbody">
+          <div class="ln" style="width:46%;height:16px;margin-bottom:18px"></div>
+          <div class="ln" style="width:92%"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:88%"></div>
+        </div>
+      </div>
+      <div class="appmock">
+        <div class="side dark">
+          <img src="assets/naturodesk-horizontal-light.png" alt="" />
+          <div class="si dark on"><span class="d"></span>Tableau de bord</div>
+          <div class="si dark"><span class="d"></span>Agenda</div>
+          <div class="si dark"><span class="d"></span>Patients</div>
+          <div class="si dark"><span class="d"></span>Protocoles</div>
+        </div>
+        <div class="appbody">
+          <div class="ln" style="width:46%;height:16px;margin-bottom:18px"></div>
+          <div class="ln" style="width:92%"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:88%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLEARSPACE + MIN SIZE -->
+  <section>
+    <h2>Zone de protection & taille minimale</h2>
+    <p class="sec-note">Préservez une marge libre autour du logo égale à la hauteur de l'icône (« x »). Ne descendez pas sous les tailles minimales.</p>
+    <div class="grid2" style="align-items:start">
+      <div class="clearbox">
+        <div class="clearframe" style="--cs:60px">
+          <img src="assets/naturodesk-horizontal-navapp.png" alt="" />
+        </div>
+      </div>
+      <div>
+        <div class="specrow" style="margin-top:0">
+          <div class="spec"><p class="k">Marge libre</p><p class="v">≥ 1× hauteur d'icône sur chaque côté</p></div>
+          <div class="spec"><p class="k">Ratio</p><p class="v">≈ 4,5 : 1 (largeur : hauteur)</p></div>
+        </div>
+        <div class="minrow" style="margin-top:18px">
+          <div class="it"><img src="assets/naturodesk-horizontal-navapp.png" style="height:34px" alt="" /><span>Web · 28 px min</span></div>
+          <div class="it"><img src="assets/naturodesk-horizontal-navapp.png" style="height:22px" alt="" /><span>App · 20 px min</span></div>
+          <div class="it"><img src="assets/naturodesk-icon.png" style="height:32px" alt="" /><span>Icône · 16 px min</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DO / DONT -->
+  <section>
+    <h2>À éviter</h2>
+    <div class="donts">
+      <div class="tile"><div class="show bg-paper"><img class="h" src="assets/naturodesk-horizontal-navapp.png" style="transform:scaleX(1.4);height:40px" alt="" /></div><div class="cap"><b>Ne pas déformer</b><span>Conserver le ratio</span></div></div>
+      <div class="tile"><div class="show" style="background:#C0432F"><img class="h" src="assets/naturodesk-horizontal-navapp.png" style="height:40px" alt="" /></div><div class="cap"><b>Pas de fond saturé</b><span>Lisibilité & calme</span></div></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="footer"><div class="wrap">NaturoDesk · Système de marque — logo horizontal. Fichiers PNG transparents haute résolution (2032 × 447).</div></div>
+
+</body>
+</html>

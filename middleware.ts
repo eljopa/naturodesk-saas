@@ -33,32 +33,43 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Routes accessibles sans authentification
-  const publicPaths = [
+  const authPaths = [
     "/login",
     "/forgot-password",
     "/reset-password",
     "/auth/callback",
+  ];
+  const alwaysPublicPaths = [
+    ...authPaths,
+    "/",             // home marketing
+    "/tarifs",
+    "/blog",
+    "/a-propos",
+    "/faq",
+    "/contact",
+    "/legal/",
     "/p/",           // pages publiques thérapeutes
     "/api/public/",  // API publiques (slots, contact, booking)
+    "/api/marketing/",
   ];
-  const isPublicRoute = publicPaths.some((path) => pathname.startsWith(path));
+  const isAlwaysPublic = alwaysPublicPaths.some((path) =>
+    path === "/" ? pathname === "/" : pathname.startsWith(path)
+  );
 
   // Les routes /admin/* sont protégées par le rôle ADMIN côté serveur (requireAdmin()).
   // Le middleware garantit uniquement que l'utilisateur est authentifié.
   // Redirection non-admin → /dashboard gérée par requireAdmin() dans le layout.
 
-  // Non connecté → redirige vers /login en conservant la destination
-  if (!user && !isPublicRoute) {
+  // Non connecté + route protégée → redirige vers /login
+  if (!user && !isAlwaysPublic) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
-    if (pathname !== "/") {
-      loginUrl.searchParams.set("redirectTo", pathname);
-    }
+    loginUrl.searchParams.set("redirectTo", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // Déjà connecté sur une page auth → redirige vers le dashboard
-  if (user && isPublicRoute && pathname !== "/auth/callback") {
+  // Déjà connecté sur une page auth pure → redirige vers le dashboard
+  if (user && authPaths.some((p) => pathname.startsWith(p)) && pathname !== "/auth/callback") {
     const dashboardUrl = request.nextUrl.clone();
     dashboardUrl.pathname = "/dashboard";
     return NextResponse.redirect(dashboardUrl);

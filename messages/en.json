@@ -813,5 +813,388 @@
         }
       }
     }
+  },
+
+  "marketing": {
+    "nav": {
+      "cabinet": "Manage practice",
+      "activite": "Grow activity",
+      "moteur": "Analysis engine",
+      "pricing": "Pricing",
+      "blog": "Blog",
+      "about": "About",
+      "contact": "Contact",
+      "login": "Sign in",
+      "cta": "Sign up",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu"
+    },
+
+    "footer": {
+      "tagline": "The all-in-one practice management software for independent naturopaths.",
+      "rights": "All rights reserved.",
+      "groups": {
+        "product": "Product",
+        "blog": "Blog",
+        "company": "Company",
+        "legal": "Legal"
+      },
+      "links": {
+        "manage": "Manage practice",
+        "page": "Professional page",
+        "engine": "Analysis engine",
+        "pricing": "Pricing",
+        "about": "About",
+        "faq": "FAQ",
+        "allPosts": "All articles",
+        "contact": "Contact",
+        "privacy": "Privacy",
+        "terms": "Terms",
+        "mentions": "Legal notices",
+        "cookies": "Cookies"
+      },
+      "hosted": "Data hosted in Europe · Encrypted"
+    },
+
+    "home": {
+      "meta": {
+        "title": "NaturoDesk — The operating system for the modern naturopath",
+        "description": "NaturoDesk brings your schedule, patient records, protocols and professional page together in one platform built for naturopaths."
+      },
+      "hero": {
+        "badge": "All-in-one for naturopaths",
+        "headline": "Launch, run and grow your naturopathy practice.",
+        "subtitle": "NaturoDesk brings your schedule, patient records, protocols and professional page together in one platform — designed for naturopaths, not borrowed from generic software.",
+        "ctaPrimary": "Get started free",
+        "ctaSecondary": "Watch the tour",
+        "trust": "Free 14-day trial · No card required"
+      },
+      "trust": {
+        "label": "One platform replaces all your scattered tools",
+        "t1": "Schedule", "t2": "Patient records", "t3": "Vitality assessments",
+        "t4": "Protocols", "t5": "Billing", "t6": "Pro page & booking", "t7": "Analysis engine"
+      },
+      "p1": {
+        "num": "1",
+        "eyebrow": "Manage your practice",
+        "title": "Your entire practice, beautifully centralised.",
+        "subtitle": "Schedule, patient records, vitality assessments, protocols and billing — everything connected, nothing lost between apps.",
+        "f1Title": "An agenda that thinks like a practitioner",
+        "f1Desc": "Online booking, automatic reminders, consultation types and durations — your week organises itself.",
+        "f1L1Bold": "Online booking", "f1L1Rest": " synced with your real availability",
+        "f1L2Bold": "Automatic SMS & email reminders", "f1L2Rest": " to reduce no-shows",
+        "f1L3Bold": "Consultation history", "f1L3Rest": " one click from each appointment",
+        "f2Title": "Patient records & vitality assessments",
+        "f2Desc": "A complete, structured record for every patient: history, motives, vitality assessment and protocols.",
+        "f2L1Bold": "Structured vitality assessment", "f2L1Rest": " with a clear score per system",
+        "f2L2Bold": "Reusable protocols", "f2L2Rest": " you adapt for each patient",
+        "f2L3Bold": "Invoicing in two clicks", "f2L3Rest": ", generated from the consultation"
+      },
+      "p2": {
+        "num": "2",
+        "eyebrow": "Grow your activity",
+        "title": "Your own professional page — your first patients find you.",
+        "subtitle": "Far more than a directory listing: a real, elegant landing page with your dedicated URL, online booking, your specialities, your rates — optimised for search and local visibility.",
+        "l1Bold": "A dedicated URL", "l1Rest": " — naturodesk.com/your-name",
+        "l2Bold": "SEO & local visibility", "l2Rest": " so you appear in nearby searches",
+        "l3Bold": "Integrated booking", "l3Rest": " connected to your agenda in real time",
+        "cta": "Create my page"
+      },
+      "p3": {
+        "num": "3",
+        "eyebrow": "Clinical assistance",
+        "title": "An analysis engine grounded in official health data.",
+        "subtitle": "Look up plants and supplements, check interactions, side effects and precautions — drawing on official health databases. A decision-support tool, never an oracle.",
+        "decisionBold": "You always remain the decision-maker.",
+        "decisionRest": " NaturoDesk informs your judgement — it never replaces it. No AI agent, no chatbot."
+      },
+      "why": {
+        "eyebrow": "Why naturopaths choose NaturoDesk",
+        "title": "Less admin. More presence with your patients.",
+        "c1Title": "Save real time",
+        "c1Desc": "One platform instead of five. Less switching, fewer forgotten details, hours back every week.",
+        "c2Title": "Look professional from day one",
+        "c2Desc": "A polished professional page and clean documents make a strong impression on every new patient.",
+        "c3Title": "Build with confidence",
+        "c3Desc": "Reusable protocols and official references help you secure your recommendations, patient after patient."
+      },
+      "testimonials": {
+        "eyebrow": "They built their practice on NaturoDesk",
+        "title": "Trusted by naturopaths getting started.",
+        "t1Quote": "I launched my practice with my page online in an afternoon. My first patients found me through it.",
+        "t1Name": "Camille Renaud", "t1Role": "Naturopath · Lyon",
+        "t2Quote": "Records, assessments and protocols in one place. I stopped juggling three tools and a notebook.",
+        "t2Name": "Thomas Bélanger", "t2Role": "Naturopath · Nantes",
+        "t3Quote": "The analysis engine reassures me on interactions — I keep the final call, but I check faster.",
+        "t3Name": "Sophie Marchand", "t3Role": "Naturopath · Bordeaux"
+      },
+      "pricing": {
+        "eyebrow": "Simple, honest pricing",
+        "title": "One subscription. Your whole practice.",
+        "subtitle": "Start free for 14 days. No card required, cancel anytime.",
+        "plan1Name": "Start", "plan1Desc": "To launch your practice and find your first patients.",
+        "plan1Price": "€19", "plan1Period": "/ month",
+        "plan1L1": "Professional page + dedicated URL",
+        "plan1L2": "Online booking & agenda",
+        "plan1L3": "Up to 30 patient records",
+        "plan1Cta": "Get started",
+        "plan2Name": "Practice", "plan2Desc": "Everything to run and grow a full practice.",
+        "plan2Price": "€39", "plan2Period": "/ month", "plan2Badge": "Most popular",
+        "plan2L1": "Everything in Start, unlimited",
+        "plan2L2": "Vitality assessments & protocols",
+        "plan2L3": "Billing & patient follow-up",
+        "plan2L4": "Analysis engine included",
+        "plan2Cta": "Get started",
+        "plan3Name": "Studio", "plan3Desc": "For multi-practitioner offices and centres.",
+        "plan3Price": "€79", "plan3Period": "/ month",
+        "plan3L1": "Everything in Practice",
+        "plan3L2": "Up to 5 practitioners",
+        "plan3L3": "Shared agenda & priority support",
+        "plan3Cta": "Contact us"
+      },
+      "faq": {
+        "eyebrow": "Questions",
+        "title": "Everything you might be wondering.",
+        "q1": "Is NaturoDesk an AI tool?",
+        "a1": "No. NaturoDesk is a complete platform to run your practice. Its analysis engine is a decision-support tool based on official health databases — never a chatbot or an AI agent. You always remain the decision-maker.",
+        "q2": "Do I really get my own professional page?",
+        "a2": "Yes — a real landing page with your dedicated URL, your specialities, rates, contact and integrated booking, optimised for search and local visibility.",
+        "q3": "Can I move my existing patients in?",
+        "a3": "Absolutely. You can import your patient list and recreate your protocols, then everything stays centralised and connected within NaturoDesk.",
+        "q4": "Is my patients' data secure?",
+        "a4": "Yes. Data is hosted in Europe, encrypted, and handled with the confidentiality your practice requires.",
+        "q5": "What happens after the free trial?",
+        "a5": "You choose a plan if you wish to continue. No card is required to start, and you can cancel anytime."
+      },
+      "finalCta": {
+        "eyebrow": "Build your practice on NaturoDesk",
+        "title": "The tool naturopaths were waiting for.",
+        "subtitle": "Launch, manage and grow your practice serenely — everything in one place.",
+        "ctaPrimary": "Sign up free",
+        "ctaSecondary": "Watch the tour"
+      }
+    },
+
+    "pricing": {
+      "meta": {
+        "title": "Pricing",
+        "description": "Simple, transparent pricing for independent naturopaths."
+      },
+      "title": "Simple, transparent pricing",
+      "subtitle": "A free plan to get started, a Pro plan to go further.",
+      "toggleMonthly": "Monthly",
+      "toggleAnnual": "Annual",
+      "annualDiscount": "2 months free",
+      "perMonth": "/ mo",
+      "billedAnnually": "Billed annually",
+      "plans": {
+        "free": {
+          "name": "Free",
+          "price": "€0",
+          "description": "Get started with no commitment.",
+          "cta": "Start for free",
+          "feature1": "Up to 10 patients",
+          "feature2": "Appointment management",
+          "feature3": "Consultations & protocols",
+          "feature4": "Basic invoicing",
+          "feature5": "PDF export"
+        },
+        "pro": {
+          "name": "Pro",
+          "priceMonthly": "€29",
+          "priceAnnual": "€24",
+          "description": "For naturopaths in full practice.",
+          "cta": "Try free for 14 days",
+          "badge": "Recommended",
+          "feature1": "Unlimited patients",
+          "feature2": "Professional web page",
+          "feature3": "Online booking",
+          "feature4": "AI assessment analysis",
+          "feature5": "Advanced PDF & exports",
+          "feature6": "Automated emails",
+          "feature7": "Priority support"
+        }
+      },
+      "faqTitle": "Pricing FAQ",
+      "faq": {
+        "q1": "Can I change my plan at any time?",
+        "a1": "Yes, you can upgrade to Pro or downgrade to Free at any time from your settings, with no cancellation fees.",
+        "q2": "Does the Pro trial require a credit card?",
+        "a2": "No. The 14-day trial is fully accessible without entering a payment method.",
+        "q3": "What happens when the trial ends?",
+        "a3": "Your account automatically switches to the Free plan. Your data is preserved and you can subscribe at any time.",
+        "q4": "Is my data secure?",
+        "a4": "All data is hosted in Europe, encrypted at rest and in transit, and is never shared with third parties."
+      }
+    },
+
+    "blog": {
+      "meta": {
+        "title": "Blog",
+        "description": "Tips, guides and news for naturopaths managing their practice."
+      },
+      "title": "NaturoDesk Blog",
+      "subtitle": "Practical tips, guides and news for naturopaths.",
+      "categories": {
+        "all": "All",
+        "practice": "Practice",
+        "software": "Software",
+        "naturopathy": "Naturopathy",
+        "business": "Business"
+      },
+      "readMore": "Read more →",
+      "readingTime": "{minutes} min",
+      "emptyTitle": "No articles yet",
+      "emptyDescription": "We're working on our first articles. Check back soon!",
+      "backToBlog": "← Back to blog",
+      "publishedOn": "Published on {date}",
+      "by": "By {author}",
+      "notFound": "Article not found",
+      "notFoundDescription": "This article does not exist or has been removed."
+    },
+
+    "about": {
+      "meta": {
+        "title": "About",
+        "description": "Discover the mission and story of NaturoDesk."
+      },
+      "title": "About NaturoDesk",
+      "heroSubtitle": "We believe naturopaths deserve tools as good as their expertise.",
+      "mission": {
+        "title": "Our mission",
+        "body": "Give naturopaths simple, reliable and compliant tools so they can focus on what truly matters: caring for their patients."
+      },
+      "story": {
+        "title": "Our story",
+        "body": "NaturoDesk was born from a simple observation: naturopaths lack tools adapted to their specific practice. Between overly complex medical software and overly limited generic tools, we built a solution designed from the ground up for naturopathy practitioners."
+      },
+      "values": {
+        "title": "Our values",
+        "v1Title": "Simplicity",
+        "v1Body": "Clean interfaces designed for daily practice without cognitive overload.",
+        "v2Title": "Security",
+        "v2Body": "Data hosted in Europe, GDPR-compliant architecture, end-to-end encryption.",
+        "v3Title": "Proximity",
+        "v3Body": "Responsive support, close to practitioner feedback to continuously improve the product."
+      },
+      "cta": {
+        "title": "Ready to try NaturoDesk?",
+        "subtitle": "Create your free account, no credit card required.",
+        "button": "Start for free"
+      }
+    },
+
+    "faq": {
+      "meta": {
+        "title": "FAQ",
+        "description": "Answers to the most frequently asked questions about NaturoDesk."
+      },
+      "title": "Frequently asked questions",
+      "subtitle": "Everything you need to know before getting started.",
+      "stillQuestion": "Still have questions?",
+      "contactLink": "Contact us",
+      "sections": {
+        "general": "General",
+        "pricing": "Pricing & subscription",
+        "data": "Data & privacy",
+        "features": "Features"
+      },
+      "general": {
+        "q1": "Who is NaturoDesk for?",
+        "a1": "NaturoDesk is designed for independent naturopaths, whether beginners or experienced, practising in a clinic, at home or via teleconsultation.",
+        "q2": "Is NaturoDesk available on mobile?",
+        "a2": "Yes, the interface is fully responsive and optimised for smartphones, tablets and computers.",
+        "q3": "Do I need to install any software?",
+        "a3": "No, NaturoDesk is a web application. All you need is a browser and an internet connection."
+      },
+      "pricing": {
+        "q1": "Does the free trial require a credit card?",
+        "a1": "No, you can create an account and access the Pro trial for 14 days without entering a payment method.",
+        "q2": "Can I cancel my subscription at any time?",
+        "a2": "Yes, with no commitment or fees. You keep Pro access until the end of the current period.",
+        "q3": "Do you offer a discount for students or new practitioners?",
+        "a3": "Contact us — we consider requests on a case-by-case basis to support practitioners early in their career."
+      },
+      "data": {
+        "q1": "Where is my data hosted?",
+        "a1": "All your data is hosted in Europe on GDPR-compliant infrastructure. It never leaves European territory.",
+        "q2": "Can I export my data?",
+        "a2": "Yes. You can export your patients, invoices and consultations from the interface at any time.",
+        "q3": "Who has access to my patient data?",
+        "a3": "Only you. NaturoDesk never accesses the content of your patient records. Your data belongs to you."
+      },
+      "features": {
+        "q1": "What is the professional web page?",
+        "a1": "The Pro plan includes a public web page in your name, with a bio, services, contact form and online booking.",
+        "q2": "Does the AI analysis work with all medications?",
+        "a2": "The analysis is based on the BDPM (French national drug database), covering the vast majority of medications prescribed in France.",
+        "q3": "Can I import my existing patients?",
+        "a3": "Patient import is planned for an upcoming release. Contact us if you have specific needs."
+      }
+    },
+
+    "contact": {
+      "meta": {
+        "title": "Contact",
+        "description": "Contact the NaturoDesk team. We reply within 24 hours."
+      },
+      "title": "Contact us",
+      "subtitle": "A question, a suggestion or need help? We reply within 24 hours on working days.",
+      "form": {
+        "nameLabel": "Name",
+        "namePlaceholder": "Your name",
+        "emailLabel": "Email",
+        "emailPlaceholder": "you@example.com",
+        "subjectLabel": "Subject",
+        "subjectPlaceholder": "Summarise your request in a few words",
+        "messageLabel": "Message",
+        "messagePlaceholder": "Describe your request in detail…",
+        "submit": "Send message",
+        "submitting": "Sending…",
+        "successTitle": "Message sent!",
+        "successBody": "Thank you, we'll get back to you within 24 hours.",
+        "errorGeneric": "An error occurred. Please try again or write to us directly."
+      },
+      "info": {
+        "title": "Other ways to reach us",
+        "emailLabel": "Email",
+        "email": "support@naturodesk.fr",
+        "responseTime": "Reply within 24 h on working days"
+      }
+    },
+
+    "legal": {
+      "privacy": {
+        "meta": {
+          "title": "Privacy Policy",
+          "description": "How NaturoDesk collects, uses and protects your personal data."
+        },
+        "title": "Privacy Policy",
+        "lastUpdated": "Last updated: {date}"
+      },
+      "terms": {
+        "meta": {
+          "title": "Terms of Service",
+          "description": "Terms of use for the NaturoDesk service."
+        },
+        "title": "Terms of Service",
+        "lastUpdated": "Last updated: {date}"
+      },
+      "mentions": {
+        "meta": {
+          "title": "Legal notices",
+          "description": "Legal information about NaturoDesk."
+        },
+        "title": "Legal notices"
+      },
+      "cookies": {
+        "meta": {
+          "title": "Cookie policy",
+          "description": "How NaturoDesk uses cookies."
+        },
+        "title": "Cookie policy",
+        "lastUpdated": "Last updated: {date}"
+      }
+    }
   }
 }

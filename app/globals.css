@@ -6,17 +6,59 @@
    ========================================================================= */
 
 @theme inline {
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans:   var(--font-geist-sans);
+  --font-mono:   var(--font-geist-mono);
+  --font-serif:  var(--font-playfair), Georgia, serif;
 
-  /* Brand */
-  --color-brand-50: #f0fdfa;
+  /* App brand (teal) */
+  --color-brand-50:  #f0fdfa;
   --color-brand-100: #ccfbf1;
   --color-brand-200: #99f6e4;
   --color-brand-500: #14b8a6;
   --color-brand-600: #0d9488;
   --color-brand-700: #0f766e;
   --color-brand-800: #115e59;
+
+  /* ── NaturoDesk marketing palette ── */
+  --color-nd-cream:       #FAF7F0;
+  --color-nd-cream-deep:  #F3ECDF;
+  --color-nd-paper:       #FFFFFF;
+  --color-nd-forest:      #3D4A33;
+  --color-nd-ink:         #2C3327;
+  --color-nd-sage:        #799664;
+  --color-nd-sage-deep:   #5E7349;
+  --color-nd-sage-soft:   #AAB59F;
+  --color-nd-sage-tint:   #E8EDE0;
+  --color-nd-sage-wash:   #F1F4EC;
+  --color-nd-taupe:       #92806E;
+  --color-nd-taupe-soft:  #B7A892;
+  --color-nd-sand:        #E6D6C8;
+  --color-nd-rose:        #DCC2B2;
+  --color-nd-copper:      #B5895F;
+  --color-nd-copper-deep: #9A6F47;
+  --color-nd-muted:       #74786C;
+  --color-nd-line:        #E7E0D3;
+  --color-nd-line-soft:   #EFE9DD;
+}
+
+/* CSS custom props also available for ::before / pseudo-elements */
+:root {
+  --nd-cream:        #FAF7F0;
+  --nd-cream-deep:   #F3ECDF;
+  --nd-forest:       #3D4A33;
+  --nd-ink:          #2C3327;
+  --nd-sage:         #799664;
+  --nd-sage-deep:    #5E7349;
+  --nd-sage-tint:    #E8EDE0;
+  --nd-sage-wash:    #F1F4EC;
+  --nd-copper:       #B5895F;
+  --nd-copper-deep:  #9A6F47;
+  --nd-muted:        #74786C;
+  --nd-line:         #E7E0D3;
+  --nd-line-soft:    #EFE9DD;
+  --nd-sand:         #E6D6C8;
+  --nd-taupe:        #92806E;
+  --nd-ease:         cubic-bezier(.22,.61,.36,1);
 }
 
 /* Base */
@@ -29,6 +71,210 @@ body {
   background-color: #f8fafc; /* slate-50 */
   color: #0f172a; /* slate-900 */
   font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* =========================================================================
+   Marketing — Animations
+   ========================================================================= */
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes spin-cw {
+  to { transform: rotate(360deg); }
+}
+@keyframes spin-ccw {
+  to { transform: rotate(-360deg); }
+}
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; transform: scale(1.06); }
+}
+@keyframes dot-travel {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  8%   { opacity: 0.85; }
+  92%  { opacity: 0.85; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+
+/* SVG wheel utilities */
+.svg-ring-cw  { transform-box: fill-box; transform-origin: center; animation: spin-cw  28s linear infinite; }
+.svg-ring-ccw { transform-box: fill-box; transform-origin: center; animation: spin-ccw 40s linear infinite; }
+.svg-pulse    { transform-box: fill-box; transform-origin: center; animation: pulse-ring 3s ease-in-out infinite; }
+
+/* Traveling dots on analysis lines */
+.dot-t1 { offset-path: path('M 250 250 L 250 100'); animation: dot-travel 5s linear infinite; }
+.dot-t2 { offset-path: path('M 250 250 L 393 204'); animation: dot-travel 5s linear 1s infinite; }
+.dot-t3 { offset-path: path('M 250 250 L 338 371'); animation: dot-travel 5s linear 2s infinite; }
+.dot-t4 { offset-path: path('M 250 250 L 162 371'); animation: dot-travel 5s linear 3s infinite; }
+.dot-t5 { offset-path: path('M 250 250 L 107 204'); animation: dot-travel 5s linear 4s infinite; }
+
+/* Hero text entrance */
+.anim-hero-1 { animation: fade-up 0.8s ease-out 0.1s both; }
+.anim-hero-2 { animation: fade-up 0.8s ease-out 0.25s both; }
+.anim-hero-3 { animation: fade-up 0.8s ease-out 0.4s both; }
+.anim-hero-4 { animation: fade-up 0.8s ease-out 0.55s both; }
+.anim-hero-5 { animation: fade-up 0.8s ease-out 0.7s both; }
+.anim-wheel  { animation: fade-in 1.2s ease-out 0.6s both; }
+
+/* =========================================================================
+   Marketing — Reference design classes
+   ========================================================================= */
+
+/* Landing page wrapper — applies marketing fonts */
+.nd-landing {
+  font-family: var(--font-mulish), system-ui, sans-serif;
+  color: var(--nd-ink);
+  background: var(--nd-cream);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+/* Eyebrow label */
+.nd-eyebrow {
+  font-family: var(--font-mulish), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--nd-sage-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 22px;
+}
+.nd-eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1.5px;
+  background: var(--nd-copper);
+  display: inline-block;
+  flex-shrink: 0;
+}
+.nd-eyebrow--center { justify-content: center; }
+
+/* Scroll-reveal (transform-only, always visible) */
+.nd-reveal { }
+.nd-reveal.in { animation: nd-reveal-up .7s var(--nd-ease) both; }
+@keyframes nd-reveal-up {
+  from { transform: translateY(22px); }
+  to   { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .nd-reveal.in { animation: none; } }
+
+/* ── App mockup chrome ── */
+.nd-app {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 40px 90px -40px rgba(61,74,51,.32), 0 12px 30px -16px rgba(61,74,51,.14);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.7);
+}
+.nd-app-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  background: #FBFAF6;
+  border-bottom: 1px solid var(--nd-line-soft);
+}
+.nd-app-dots { display: flex; gap: 6px; }
+.nd-app-dots span {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.nd-app-dots span:nth-child(1) { background: #E5B8A8; }
+.nd-app-dots span:nth-child(2) { background: #E6D2A6; }
+.nd-app-dots span:nth-child(3) { background: #A8C29A; }
+.nd-app-url {
+  margin-left: 10px;
+  font-size: 12px;
+  color: var(--nd-muted);
+  background: #fff;
+  border: 1px solid var(--nd-line);
+  border-radius: 999px;
+  padding: 4px 13px;
+  font-weight: 600;
+  font-family: var(--font-mulish), system-ui, sans-serif;
+}
+.nd-app-body {
+  display: grid;
+  grid-template-columns: 192px 1fr;
+  min-height: 340px;
+}
+.nd-app-side {
+  background: #FAF8F3;
+  border-right: 1px solid var(--nd-line-soft);
+  padding: 18px 12px;
+}
+.nd-app-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--nd-forest);
+  font-size: 15px;
+  margin: 4px 6px 18px;
+  font-family: var(--font-playfair), Georgia, serif;
+}
+.nd-app-brand .dot {
+  width: 20px; height: 20px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--nd-sage), #AAB59F);
+  flex-shrink: 0;
+}
+.nd-app-main { padding: 22px 24px; }
+.nd-navitem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--nd-muted);
+  margin-bottom: 2px;
+  font-family: var(--font-mulish), system-ui, sans-serif;
+}
+.nd-navitem svg { width: 15px; height: 15px; flex-shrink: 0; }
+.nd-navitem.active { background: var(--nd-sage-tint); color: var(--nd-sage-deep); }
+
+/* Chips */
+.nd-chip {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 999px;
+  font-family: var(--font-mulish), system-ui, sans-serif;
+}
+.nd-chip-sage { background: var(--nd-sage-tint); color: var(--nd-sage-deep); }
+.nd-chip-sand { background: #F3E7DC;             color: var(--nd-copper-deep); }
+.nd-chip-line { background: #fff; border: 1px solid var(--nd-line); color: var(--nd-muted); }
+.nd-chip-sev-red  { background: rgba(194,107,90,.12); color: #C26B5A; }
+.nd-chip-sev-amber { background: rgba(201,154,78,.12); color: #C99A4E; }
+
+/* Avatar */
+.nd-avatar {
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--nd-sand), #DCC2B2);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 800;
+  flex-shrink: 0;
+  font-family: var(--font-mulish), system-ui, sans-serif;
+}
+
+/* Responsive mockup */
+@media (max-width: 640px) {
+  .nd-app-body { grid-template-columns: 1fr; }
+  .nd-app-side { display: none; }
 }
 
 /* Scrollbar discret */
