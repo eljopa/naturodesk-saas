@@ -663,6 +663,8 @@
     "docTypeNOTICE": "Notice",
     "docTypeINTERACTION_SHEET": "Interaction sheet",
     "docTypeSTUDY": "Study",
+    "docTypeFACT_SHEET": "Fact sheet",
+    "docTypePRODUCT_LABEL": "Product label",
 
     "form": {
       "pageTitle": "Add a document",
@@ -682,6 +684,8 @@
       "docTypeNOTICE": "Notice",
       "docTypeINTERACTION_SHEET": "Interaction sheet",
       "docTypeSTUDY": "Study",
+      "docTypeFACT_SHEET": "Fact sheet",
+      "docTypePRODUCT_LABEL": "Product label",
       "contentLabel": "Text content",
       "contentHint": "Paste the full document text. It will be automatically split into ~600-character chunks and vectorised.",
       "contentPlaceholder": "Paste the full document content here…",

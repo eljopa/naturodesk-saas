@@ -663,6 +663,8 @@
     "docTypeNOTICE": "Notice",
     "docTypeINTERACTION_SHEET": "Fiche interaction",
     "docTypeSTUDY": "Étude",
+    "docTypeFACT_SHEET": "Fiche pratique",
+    "docTypePRODUCT_LABEL": "Étiquette produit",
 
     "form": {
       "pageTitle": "Ajouter un document",
@@ -682,6 +684,8 @@
       "docTypeNOTICE": "Notice",
       "docTypeINTERACTION_SHEET": "Fiche interaction",
       "docTypeSTUDY": "Étude",
+      "docTypeFACT_SHEET": "Fiche pratique",
+      "docTypePRODUCT_LABEL": "Étiquette produit",
       "contentLabel": "Contenu textuel",
       "contentHint": "Collez le texte complet du document. Il sera automatiquement découpé en extraits (~600 caractères) et vectorisé.",
       "contentPlaceholder": "Collez ici le contenu complet du document…",
