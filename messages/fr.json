@@ -11,6 +11,7 @@
       "invoices": "Factures",
       "knowledge": "Base documentaire",
       "webpage": "Ma page web",
+      "messages": "Messagerie",
       "settings": "Paramètres",
       "login": "Connexion",
       "forgotPassword": "Mot de passe oublié",
@@ -81,6 +82,7 @@
       "invoices": "Factures",
       "knowledge": "Base documentaire",
       "webpage": "Page web",
+      "messages": "Messages",
       "settings": "Paramètres"
     }
   },
@@ -123,6 +125,7 @@
       "ongoingConsultations": "Bilans en cours",
       "draftInvoices": "Factures brouillon"
     },
+    "online": "En ligne",
     "upcoming": {
       "title": "Prochains rendez-vous",
       "description": "Vos prochaines consultations planifiées",
@@ -132,7 +135,55 @@
       "emptyDescription": "Créez votre premier rendez-vous pour le voir apparaître ici.",
       "typeBilan": "Bilan",
       "typeSuivi": "Suivi"
+    },
+    "messages": {
+      "title": "Messages non lus",
+      "description": "Messages en attente via votre page web",
+      "seeAll": "Voir tout",
+      "emptyTitle": "Aucun nouveau message",
+      "emptyDescription": "Les messages de vos visiteurs apparaîtront ici.",
+      "noWebPage": "Activez votre page web pour recevoir des messages."
     }
+  },
+
+  "messages": {
+    "pageTitle": "Messagerie",
+    "pageDescription": "Messages reçus via votre page web",
+    "emptyTitle": "Aucun message pour le moment",
+    "emptyDescription": "Les messages de vos visiteurs apparaîtront ici dès la publication de votre page web.",
+    "emptySearchTitle": "Aucun résultat",
+    "emptySearchDescription": "Aucun message ne correspond à votre recherche.",
+    "searchPlaceholder": "Rechercher (nom, email, message)…",
+    "filterAll": "Tous",
+    "filterUnread": "Non lus",
+    "filterRead": "Lus",
+    "filterReplied": "Répondus",
+    "filterArchived": "Archivés",
+    "statusUnread": "Non lu",
+    "statusRead": "Lu",
+    "statusReplied": "Répondu",
+    "statusArchived": "Archivé",
+    "backToList": "← Messagerie",
+    "senderSection": "Coordonnées",
+    "messageSection": "Message",
+    "notesSection": "Note interne",
+    "notesPlaceholder": "Note privée (jamais transmise à l'expéditeur)…",
+    "notesHint": "Cette note est visible uniquement par vous.",
+    "saveNote": "Sauvegarder",
+    "noteSaved": "Note sauvegardée",
+    "copyEmail": "Copier",
+    "copied": "Copié !",
+    "replyByEmail": "Répondre par email",
+    "markRead": "Marquer comme lu",
+    "markUnread": "Marquer comme non lu",
+    "markReplied": "Marquer comme répondu",
+    "archive": "Archiver",
+    "restore": "Restaurer",
+    "repliedAt": "Répondu le {date}",
+    "readAt": "Lu le {date}",
+    "archivedAt": "Archivé le {date}",
+    "receivedAt": "Reçu {date}",
+    "noPhone": "—"
   },
 
   "patients": {
@@ -236,6 +287,11 @@
     "typeSuivi": "Suivi",
     "noPatient": "Patient inconnu",
     "duration": "{minutes} min",
+    "sourceOnline": "En ligne",
+    "tabOnlineBookings": "En ligne",
+    "onlineBookingsEmptyTitle": "Aucune réservation en ligne",
+    "onlineBookingsEmptyDescription": "Les rendez-vous pris via votre page publique apparaîtront ici. Assurez-vous que votre page est publiée et que des disponibilités sont configurées.",
+    "onlineBookingsGoToPage": "Gérer ma page web",
 
     "schedule": {
       "tabCalendar":     "Agenda",

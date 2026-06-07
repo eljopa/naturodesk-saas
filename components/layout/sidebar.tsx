@@ -28,6 +28,7 @@ function useItemLabel(key: NavItemKey): string {
     invoices: t("invoices"),
     knowledge: t("knowledge"),
     webpage: t("webpage"),
+    messages: t("messages"),
     settings: t("settings"),
   };
   return labels[key];
@@ -39,9 +40,11 @@ function useItemLabel(key: NavItemKey): string {
 
 function NavLink({
   item,
+  numericBadge,
   onClick,
 }: {
   item: NavItemConfig;
+  numericBadge?: number;
   onClick?: () => void;
 }) {
   const pathname = usePathname();
@@ -72,9 +75,16 @@ function NavLink({
         )}
       />
       <span>{label}</span>
-      {item.badge && (
+      {/* Badge statique string */}
+      {item.badge && !numericBadge && (
         <span className="ml-auto text-xs bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md">
           {item.badge}
+        </span>
+      )}
+      {/* Badge dynamique numérique — messages non lus */}
+      {numericBadge && numericBadge > 0 && (
+        <span className="ml-auto text-xs font-semibold bg-teal-600 text-white px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center tabular-nums">
+          {numericBadge > 99 ? "99+" : numericBadge}
         </span>
       )}
     </Link>
@@ -88,10 +98,12 @@ function NavLink({
 function NavSection({
   sectionKey,
   items,
+  badgeCounts,
   onItemClick,
 }: {
   sectionKey?: NavSectionKey;
   items: NavItemConfig[];
+  badgeCounts?: Partial<Record<NavItemKey, number>>;
   onItemClick?: () => void;
 }) {
   const tSections = useTranslations("nav.sections");
@@ -113,7 +125,11 @@ function NavSection({
       <ul className="space-y-0.5">
         {items.map((item) => (
           <li key={item.href}>
-            <NavLink item={item} onClick={onItemClick} />
+            <NavLink
+              item={item}
+              numericBadge={badgeCounts?.[item.key]}
+              onClick={onItemClick}
+            />
           </li>
         ))}
       </ul>
@@ -128,9 +144,10 @@ function NavSection({
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
+  badgeCounts?: Partial<Record<NavItemKey, number>>;
 }
 
-export function Sidebar({ open, onClose }: SidebarProps) {
+export function Sidebar({ open, onClose, badgeCounts }: SidebarProps) {
   const tAuth = useTranslations("auth");
   const tTopbar = useTranslations("topbar");
 
@@ -184,6 +201,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
               key={i}
               sectionKey={section.sectionKey}
               items={section.items}
+              badgeCounts={badgeCounts}
               onItemClick={onClose}
             />
           ))}

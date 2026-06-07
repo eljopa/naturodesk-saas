@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
+import { ChevronLeft, ChevronRight, Plus, Globe } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +28,7 @@ export interface CalendarAppointment {
   status: "SCHEDULED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
   patientFirstName: string;
   patientLastName: string;
+  source?: string | null;
 }
 
 interface WeekCalendarProps {
@@ -257,6 +258,12 @@ export function WeekCalendar({ appointments, weekStart, locale }: WeekCalendarPr
                         {heightPx >= 44 && (
                           <p className="leading-tight opacity-70 truncate">{timeStr}</p>
                         )}
+                        {appt.source === "online_booking" && heightPx >= 56 && (
+                          <span className="inline-flex items-center gap-0.5 leading-tight mt-0.5 text-violet-700 opacity-90">
+                            <Globe className="w-2.5 h-2.5 shrink-0" />
+                            {t("sourceOnline")}
+                          </span>
+                        )}
                       </Link>
                     );
                   })}
@@ -314,16 +321,24 @@ export function WeekCalendar({ appointments, weekStart, locale }: WeekCalendarPr
                           })}
                         </p>
                       </div>
-                      <span
-                        className={cn(
-                          "shrink-0 text-xs font-medium px-2 py-0.5 rounded-full",
-                          appt.type === "BILAN"
-                            ? "bg-teal-100 text-teal-700"
-                            : "bg-blue-100 text-blue-700"
+                      <div className="shrink-0 flex items-center gap-1.5">
+                        {appt.source === "online_booking" && (
+                          <span className="inline-flex items-center gap-0.5 text-xs font-medium px-2 py-0.5 rounded-full bg-violet-100 text-violet-700">
+                            <Globe className="w-3 h-3" />
+                            {t("sourceOnline")}
+                          </span>
                         )}
-                      >
-                        {appt.type === "BILAN" ? t("typeBilan") : t("typeSuivi")}
-                      </span>
+                        <span
+                          className={cn(
+                            "text-xs font-medium px-2 py-0.5 rounded-full",
+                            appt.type === "BILAN"
+                              ? "bg-teal-100 text-teal-700"
+                              : "bg-blue-100 text-blue-700"
+                          )}
+                        >
+                          {appt.type === "BILAN" ? t("typeBilan") : t("typeSuivi")}
+                        </span>
+                      </div>
                     </Link>
                   </li>
                 );

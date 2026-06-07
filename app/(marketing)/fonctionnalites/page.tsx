@@ -140,7 +140,7 @@ export default async function FonctionnalitesPage() {
           <Link href="/login"
             className="inline-flex items-center px-8 py-4 rounded-full font-bold text-white text-[16px] transition-all duration-200 hover:opacity-90"
             style={{ background: "var(--nd-sage)", boxShadow: "0 10px 24px -10px rgba(94,115,73,.65)" }}>
-            S'inscrire gratuitement
+            S&apos;inscrire gratuitement
           </Link>
         </div>
       </section>

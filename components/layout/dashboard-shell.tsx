@@ -3,11 +3,13 @@
 import { useState } from "react";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
+import type { NavItemKey } from "./nav-config";
 
 interface DashboardShellProps {
   children: React.ReactNode;
   userName: string;
   userEmail: string;
+  badgeCounts?: Partial<Record<NavItemKey, number>>;
 }
 
 /**
@@ -18,6 +20,7 @@ export function DashboardShell({
   children,
   userName,
   userEmail,
+  badgeCounts,
 }: DashboardShellProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -27,6 +30,7 @@ export function DashboardShell({
       <Sidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        badgeCounts={badgeCounts}
       />
 
       {/* Zone principale — offset de la sidebar sur lg+ */}

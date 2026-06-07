@@ -176,7 +176,7 @@ async function parseCisBdpm(content: string, batchId: string): Promise<ParseResu
 async function parseCisCompo(content: string, batchId: string): Promise<ParseResult> {
   const lines = content.split("\n").filter((l) => l.trim());
   let chunksCreated = 0;
-  let factsCreated = 0;
+  const factsCreated = 0;
 
   const BATCH_SIZE = 500;
 

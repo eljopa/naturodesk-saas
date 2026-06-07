@@ -125,7 +125,7 @@ function FicheMockup() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 114px", gap: 14, alignItems: "center", background: "var(--nd-sage-wash)", border: "1px solid var(--nd-sage-tint)", borderRadius: 13, padding: "14px 16px", marginBottom: 14 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--nd-sage-deep)", marginBottom: 7 }}>Motif principal</div>
-              <div style={{ fontSize: 13.5, color: "var(--nd-forest)", lineHeight: 1.5 }}>Fatigue chronique et troubles digestifs. Objectif : retrouver de l'énergie et réguler le transit.</div>
+              <div style={{ fontSize: 13.5, color: "var(--nd-forest)", lineHeight: 1.5 }}>Fatigue chronique et troubles digestifs. Objectif : retrouver de l&apos;énergie et réguler le transit.</div>
             </div>
             <Ring score={72} size={104} />
           </div>

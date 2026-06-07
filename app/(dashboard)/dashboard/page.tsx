@@ -7,6 +7,8 @@ import {
   FileText,
   ArrowRight,
   Clock,
+  Mail,
+  Globe,
 } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { requireUser } from "@/lib/auth";
@@ -87,6 +89,7 @@ export default async function DashboardPage() {
     pendingConsultationCount,
     draftInvoiceCount,
     upcomingAppointments,
+    unreadMessages,
   ] = await Promise.all([
     db.patient
       .count({ where: { userId: user.id, isArchived: false } })
@@ -105,9 +108,24 @@ export default async function DashboardPage() {
     db.appointment
       .findMany({
         where: { userId: user.id, startAt: { gte: now }, status: "SCHEDULED" },
-        include: { patient: true },
+        select: {
+          id: true,
+          startAt: true,
+          type: true,
+          status: true,
+          source: true,
+          patient: { select: { firstName: true, lastName: true } },
+        },
         orderBy: { startAt: "asc" },
         take: 5,
+      })
+      .catch(() => []),
+    db.contactMessage
+      .findMany({
+        where: { userId: user.id, status: "UNREAD" },
+        orderBy: { createdAt: "desc" },
+        take: 3,
+        select: { id: true, senderName: true, senderEmail: true, message: true, createdAt: true },
       })
       .catch(() => []),
   ]);
@@ -165,6 +183,56 @@ export default async function DashboardPage() {
           color="amber"
         />
       </div>
+
+      {/* Messages non lus */}
+      {unreadMessages.length > 0 && (
+        <Card className="mb-6">
+          <div className="px-6 pt-6 pb-4 flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-semibold text-slate-900">
+                {t("messages.title")}
+              </h2>
+              <p className="text-sm text-slate-500 mt-0.5">
+                {t("messages.description")}
+              </p>
+            </div>
+            <Button variant="secondary" size="sm" asChild>
+              <Link href="/webpage/messages">{t("messages.seeAll")}</Link>
+            </Button>
+          </div>
+          <CardContent className="pt-0">
+            <ul className="divide-y divide-slate-100">
+              {unreadMessages.map((msg) => (
+                <li key={msg.id}>
+                  <Link
+                    href={`/webpage/messages/${msg.id}`}
+                    className="flex items-start gap-3 py-3 hover:bg-slate-50 transition-colors -mx-2 px-2 rounded-lg group"
+                  >
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-50 text-teal-600 shrink-0 mt-0.5">
+                      <Mail className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-slate-900 group-hover:text-teal-700 transition-colors">
+                        {msg.senderName}
+                        <span className="ml-2 text-xs font-normal text-slate-400">
+                          {msg.senderEmail}
+                        </span>
+                      </p>
+                      <p className="text-xs text-slate-500 mt-0.5 truncate">
+                        {msg.message.slice(0, 120)}
+                        {msg.message.length > 120 ? "…" : ""}
+                      </p>
+                    </div>
+                    <span className="text-xs text-slate-400 shrink-0 mt-0.5">
+                      {msg.createdAt.toLocaleDateString(locale, { day: "numeric", month: "short" })}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Prochains rendez-vous */}
       <Card>
@@ -224,11 +292,19 @@ export default async function DashboardPage() {
                       </p>
                     </div>
                   </div>
-                  <Badge variant={appt.type === "BILAN" ? "default" : "info"}>
-                    {appt.type === "BILAN"
-                      ? t("upcoming.typeBilan")
-                      : t("upcoming.typeSuivi")}
-                  </Badge>
+                  <div className="shrink-0 flex items-center gap-1.5">
+                    {appt.source === "online_booking" && (
+                      <span className="inline-flex items-center gap-0.5 text-xs font-medium px-2 py-0.5 rounded-full bg-violet-100 text-violet-700">
+                        <Globe className="w-3 h-3" />
+                        {t("online")}
+                      </span>
+                    )}
+                    <Badge variant={appt.type === "BILAN" ? "default" : "info"}>
+                      {appt.type === "BILAN"
+                        ? t("upcoming.typeBilan")
+                        : t("upcoming.typeSuivi")}
+                    </Badge>
+                  </div>
                 </li>
               ))}
             </ul>

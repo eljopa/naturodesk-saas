@@ -1739,23 +1739,38 @@ model PractitionerSchedule {
   @@map("practitioner_schedules")
 }
 
+// Statut d'un message de contact reçu via la page publique.
+// Machine d'état : UNREAD → READ → REPLIED / ARCHIVED
+enum ContactMessageStatus {
+  UNREAD
+  READ
+  REPLIED
+  ARCHIVED
+}
+
 /// Message reçu via le formulaire de contact de la page publique.
-/// Modèle prévu — non exposé en UI dans le Lot A.
-/// En V1 les messages sont transmis par email ; la persistance en base
-/// est prévue pour une future boîte de réception dashboard.
+/// isRead conservé temporairement pour compatibilité — suppression migration future.
 model ContactMessage {
-  id          String   @id @default(uuid())
-  userId      String                       // thérapeute destinataire
+  id          String               @id @default(uuid())
+  userId      String
   senderName  String
   senderEmail String
   senderPhone String?
   message     String
-  isRead      Boolean  @default(false)
-  createdAt   DateTime @default(now())
+  isRead      Boolean              @default(false)  // déprécié — utiliser status
+  status      ContactMessageStatus @default(UNREAD)
+  readAt      DateTime?
+  repliedAt   DateTime?
+  archivedAt  DateTime?
+  notes       String?              // note interne praticien — jamais transmise
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
 
   user User @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([isRead])
+  @@index([status])
+  @@index([createdAt])
   @@map("contact_messages")
 }

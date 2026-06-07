@@ -8,6 +8,7 @@ import {
   Database,
   Settings,
   Globe,
+  Inbox,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -25,6 +26,7 @@ export type NavItemKey =
   | "invoices"
   | "knowledge"
   | "webpage"
+  | "messages"
   | "settings";
 
 export type NavItemConfig = {
@@ -75,6 +77,7 @@ export const NAV_SECTIONS: NavSectionConfig[] = [
     sectionKey: "web",
     items: [
       { key: "webpage", href: "/webpage", icon: Globe },
+      { key: "messages", href: "/webpage/messages", icon: Inbox },
     ],
   },
 ];

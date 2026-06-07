@@ -11,6 +11,7 @@
       "invoices": "Invoices",
       "knowledge": "Knowledge Base",
       "webpage": "My web page",
+      "messages": "Inbox",
       "settings": "Settings",
       "login": "Sign In",
       "forgotPassword": "Forgot Password",
@@ -81,6 +82,7 @@
       "invoices": "Invoices",
       "knowledge": "Knowledge Base",
       "webpage": "Web page",
+      "messages": "Messages",
       "settings": "Settings"
     }
   },
@@ -123,6 +125,7 @@
       "ongoingConsultations": "Ongoing consultations",
       "draftInvoices": "Draft invoices"
     },
+    "online": "Online",
     "upcoming": {
       "title": "Upcoming appointments",
       "description": "Your next scheduled consultations",
@@ -132,7 +135,55 @@
       "emptyDescription": "Create your first appointment to see it here.",
       "typeBilan": "Assessment",
       "typeSuivi": "Follow-up"
+    },
+    "messages": {
+      "title": "Unread messages",
+      "description": "Messages awaiting reply via your web page",
+      "seeAll": "See all",
+      "emptyTitle": "No new messages",
+      "emptyDescription": "Visitor messages from your web page will appear here.",
+      "noWebPage": "Enable your web page to receive messages."
     }
+  },
+
+  "messages": {
+    "pageTitle": "Inbox",
+    "pageDescription": "Messages received through your web page",
+    "emptyTitle": "No messages yet",
+    "emptyDescription": "Visitor messages will appear here once your web page is published.",
+    "emptySearchTitle": "No results",
+    "emptySearchDescription": "No messages match your search.",
+    "searchPlaceholder": "Search (name, email, message)…",
+    "filterAll": "All",
+    "filterUnread": "Unread",
+    "filterRead": "Read",
+    "filterReplied": "Replied",
+    "filterArchived": "Archived",
+    "statusUnread": "Unread",
+    "statusRead": "Read",
+    "statusReplied": "Replied",
+    "statusArchived": "Archived",
+    "backToList": "← Inbox",
+    "senderSection": "Contact details",
+    "messageSection": "Message",
+    "notesSection": "Internal note",
+    "notesPlaceholder": "Private note (never sent to the sender)…",
+    "notesHint": "This note is only visible to you.",
+    "saveNote": "Save",
+    "noteSaved": "Note saved",
+    "copyEmail": "Copy",
+    "copied": "Copied!",
+    "replyByEmail": "Reply by email",
+    "markRead": "Mark as read",
+    "markUnread": "Mark as unread",
+    "markReplied": "Mark as replied",
+    "archive": "Archive",
+    "restore": "Restore",
+    "repliedAt": "Replied on {date}",
+    "readAt": "Read on {date}",
+    "archivedAt": "Archived on {date}",
+    "receivedAt": "Received {date}",
+    "noPhone": "—"
   },
 
   "patients": {
@@ -236,6 +287,11 @@
     "typeSuivi": "Follow-up",
     "noPatient": "Unknown patient",
     "duration": "{minutes} min",
+    "sourceOnline": "Online",
+    "tabOnlineBookings": "Online",
+    "onlineBookingsEmptyTitle": "No online bookings",
+    "onlineBookingsEmptyDescription": "Appointments booked via your public page will appear here. Make sure your page is published and availability is configured.",
+    "onlineBookingsGoToPage": "Manage my web page",
 
     "schedule": {
       "tabCalendar":     "Calendar",
