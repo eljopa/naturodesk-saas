@@ -240,7 +240,7 @@ function OnlineBookingList({
                 <span
                   className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                     appt.type === "BILAN"
-                      ? "bg-teal-100 text-teal-700"
+                      ? "bg-nd-sage-tint text-nd-sage-deep"
                       : "bg-blue-100 text-blue-700"
                   }`}
                 >

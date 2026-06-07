@@ -1,4 +1,4 @@
-import { Leaf } from "lucide-react";
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 
 export default async function AuthLayout({
@@ -9,19 +9,21 @@ export default async function AuthLayout({
   const t = await getTranslations("auth");
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-nd-cream flex flex-col items-center justify-center p-4">
       {/* Branding */}
-      <div className="flex items-center gap-2 mb-8">
-        <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-teal-700">
-          <Leaf className="w-5 h-5 text-white" />
-        </div>
-        <span className="text-xl font-semibold text-slate-900 tracking-tight">
-          {t("brandName")}
-        </span>
+      <div className="mb-8">
+        <Image
+          src="/images/logo-nav.png"
+          alt="NaturoDesk"
+          width={148}
+          height={34}
+          className="h-9 w-auto"
+          priority
+        />
       </div>
 
       {/* Carte */}
-      <div className="w-full max-w-sm bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+      <div className="w-full max-w-sm bg-white rounded-2xl border border-nd-line shadow-sm p-8">
         {children}
       </div>
 

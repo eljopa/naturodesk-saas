@@ -64,7 +64,7 @@ function getHeightPx(startAt: Date, endAt: Date): number {
 }
 
 const APPT_STYLE = {
-  BILAN: "bg-teal-50 border-l-[3px] border-teal-600 text-teal-900 hover:bg-teal-100",
+  BILAN: "bg-nd-sage-tint border-l-[3px] border-nd-sage text-nd-forest hover:bg-nd-sage-wash",
   SUIVI: "bg-blue-50 border-l-[3px] border-blue-500 text-blue-900 hover:bg-blue-100",
   muted: "bg-slate-50 border-l-[3px] border-slate-300 text-slate-400 opacity-60 hover:bg-slate-100",
 } as const;
@@ -147,7 +147,7 @@ export function WeekCalendar({ appointments, weekStart, locale }: WeekCalendarPr
 
         <Link
           href="/appointments/new"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-teal-700 text-white text-sm font-medium hover:bg-teal-800 transition-colors"
+          className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-nd-sage text-white text-sm font-medium hover:bg-nd-sage-deep transition-colors"
         >
           <Plus className="w-4 h-4" />
           {t("new")}
@@ -155,7 +155,7 @@ export function WeekCalendar({ appointments, weekStart, locale }: WeekCalendarPr
       </div>
 
       {/* ── Desktop grid (hidden on mobile) ── */}
-      <div className="hidden sm:block rounded-xl border border-slate-200 bg-white overflow-hidden">
+      <div className="hidden sm:block rounded-2xl border border-nd-line bg-white overflow-hidden">
         {/* Day headers */}
         <div className="grid grid-cols-[56px_repeat(7,1fr)] border-b border-slate-200">
           <div className="border-r border-slate-100" />
@@ -164,16 +164,16 @@ export function WeekCalendar({ appointments, weekStart, locale }: WeekCalendarPr
               key={day.iso}
               className={cn(
                 "py-3 px-1 text-center border-r border-slate-100 last:border-r-0",
-                day.isToday && "bg-teal-50"
+                day.isToday && "bg-nd-sage-wash"
               )}
             >
-              <p className={cn("text-xs font-medium uppercase tracking-wide", day.isToday ? "text-teal-600" : "text-slate-500")}>
+              <p className={cn("text-xs font-medium uppercase tracking-wide", day.isToday ? "text-nd-sage" : "text-slate-500")}>
                 {day.dayName}
               </p>
               <span
                 className={cn(
                   "inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold mt-0.5",
-                  day.isToday ? "bg-teal-600 text-white" : "text-slate-900"
+                  day.isToday ? "bg-nd-sage text-white" : "text-slate-900"
                 )}
               >
                 {day.dayNum}
@@ -206,7 +206,7 @@ export function WeekCalendar({ appointments, weekStart, locale }: WeekCalendarPr
                   key={day.iso}
                   className={cn(
                     "relative border-r border-slate-100 last:border-r-0",
-                    day.isToday && "bg-teal-50/20"
+                    day.isToday && "bg-nd-sage-wash"
                   )}
                   style={{ height: TOTAL_H }}
                 >
@@ -332,7 +332,7 @@ export function WeekCalendar({ appointments, weekStart, locale }: WeekCalendarPr
                           className={cn(
                             "text-xs font-medium px-2 py-0.5 rounded-full",
                             appt.type === "BILAN"
-                              ? "bg-teal-100 text-teal-700"
+                              ? "bg-nd-sage-tint text-nd-sage-deep"
                               : "bg-blue-100 text-blue-700"
                           )}
                         >

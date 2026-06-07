@@ -126,7 +126,7 @@ function ServiceForm({
             name="appointmentType"
             defaultValue={service?.appointmentType ?? "BILAN"}
             disabled={isPending}
-            className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 disabled:opacity-50"
+            className="w-full rounded-lg border border-nd-line px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-nd-sage focus:border-nd-sage disabled:opacity-50"
           >
             <option value="BILAN">Bilan de vitalité</option>
             <option value="SUIVI">Consultation de suivi</option>
@@ -260,7 +260,7 @@ export function ServicesManager({ services: initial }: ServicesManagerProps) {
       <CardContent>
         {/* Formulaire d'ajout */}
         {isAdding && (
-          <div className="mb-4 p-4 rounded-lg border border-teal-200 bg-teal-50/30">
+          <div className="mb-4 p-4 rounded-lg border border-nd-sage-tint bg-nd-sage-wash">
             <ServiceForm onCancel={() => setIsAdding(false)} />
           </div>
         )}
@@ -272,7 +272,7 @@ export function ServicesManager({ services: initial }: ServicesManagerProps) {
           <div>
             {initial.map((service) =>
               editingId === service.id ? (
-                <div key={service.id} className="my-2 p-4 rounded-lg border border-teal-200 bg-teal-50/30">
+                <div key={service.id} className="my-2 p-4 rounded-lg border border-nd-sage-tint bg-nd-sage-wash">
                   <ServiceForm
                     service={service}
                     onCancel={() => setEditingId(null)}

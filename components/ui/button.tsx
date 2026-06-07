@@ -17,9 +17,9 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-teal-700 text-white hover:bg-teal-800 focus-visible:ring-teal-600 border-transparent",
+    "bg-nd-sage text-white hover:bg-nd-sage-deep focus-visible:ring-nd-sage border-transparent",
   secondary:
-    "bg-white text-slate-700 hover:bg-slate-50 focus-visible:ring-slate-400 border-slate-200",
+    "bg-white text-slate-700 hover:bg-slate-50 focus-visible:ring-slate-400 border-nd-line",
   ghost:
     "bg-transparent text-slate-600 hover:bg-slate-100 focus-visible:ring-slate-400 border-transparent",
   destructive:
@@ -38,7 +38,7 @@ function buildButtonClass(
   extra?: string
 ) {
   return cn(
-    "inline-flex items-center justify-center font-medium rounded-lg border",
+    "inline-flex items-center justify-center font-medium rounded-full border",
     "transition-colors duration-150",
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
     "disabled:opacity-50 disabled:pointer-events-none",

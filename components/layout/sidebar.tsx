@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Leaf, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import {
@@ -62,15 +63,15 @@ function NavLink({
       className={cn(
         "group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-150",
         isActive
-          ? "bg-teal-50 text-teal-700"
-          : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+          ? "bg-nd-sage-tint text-nd-sage-deep"
+          : "text-slate-600 hover:bg-nd-cream hover:text-nd-forest"
       )}
     >
       <item.icon
         className={cn(
           "w-4 h-4 shrink-0 transition-colors",
           isActive
-            ? "text-teal-600"
+            ? "text-nd-sage"
             : "text-slate-400 group-hover:text-slate-600"
         )}
       />
@@ -83,7 +84,7 @@ function NavLink({
       )}
       {/* Badge dynamique numérique — messages non lus */}
       {numericBadge && numericBadge > 0 && (
-        <span className="ml-auto text-xs font-semibold bg-teal-600 text-white px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center tabular-nums">
+        <span className="ml-auto text-xs font-semibold bg-nd-sage text-white px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center tabular-nums">
           {numericBadge > 99 ? "99+" : numericBadge}
         </span>
       )}
@@ -118,7 +119,7 @@ function NavSection({
   return (
     <div>
       {sectionLabel && (
-        <p className="px-3 mb-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wider">
+        <p className="px-3 mb-1.5 text-xs font-semibold text-nd-muted uppercase tracking-wider">
           {sectionLabel}
         </p>
       )}
@@ -148,7 +149,6 @@ interface SidebarProps {
 }
 
 export function Sidebar({ open, onClose, badgeCounts }: SidebarProps) {
-  const tAuth = useTranslations("auth");
   const tTopbar = useTranslations("topbar");
 
   return (
@@ -164,25 +164,27 @@ export function Sidebar({ open, onClose, badgeCounts }: SidebarProps) {
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white border-r border-slate-200",
+          "fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-nd-cream-deep border-r border-nd-line",
           "transition-transform duration-200 ease-in-out",
           "lg:translate-x-0",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {/* Header */}
-        <div className="flex items-center justify-between h-16 px-5 border-b border-slate-100 shrink-0">
+        <div className="flex items-center justify-between h-16 px-5 border-b border-nd-line shrink-0">
           <Link
             href="/dashboard"
-            className="flex items-center gap-2.5"
+            className="flex items-center"
             onClick={onClose}
           >
-            <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-teal-700 shrink-0">
-              <Leaf className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-base font-semibold text-slate-900 tracking-tight">
-              {tAuth("brandName")}
-            </span>
+            <Image
+              src="/images/logo-nav.png"
+              alt="NaturoDesk"
+              width={148}
+              height={34}
+              className="h-8 w-auto"
+              priority
+            />
           </Link>
 
           <button
@@ -208,7 +210,7 @@ export function Sidebar({ open, onClose, badgeCounts }: SidebarProps) {
         </nav>
 
         {/* Navigation bas */}
-        <div className="px-3 py-4 border-t border-slate-100">
+        <div className="px-3 py-4 border-t border-nd-line">
           <ul className="space-y-0.5">
             {NAV_BOTTOM.map((item) => (
               <li key={item.href}>

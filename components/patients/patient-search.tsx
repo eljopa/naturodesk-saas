@@ -44,7 +44,7 @@ export function PatientSearch() {
         defaultValue={searchParams.get("q") ?? ""}
         onChange={handleChange}
         placeholder={t("searchPlaceholder")}
-        className="w-full sm:w-64 rounded-lg border border-slate-300 bg-white pl-9 pr-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 transition-colors hover:border-slate-400"
+        className="w-full sm:w-64 rounded-lg border border-nd-line bg-white pl-9 pr-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-nd-sage focus:border-nd-sage transition-colors hover:border-nd-muted"
       />
     </div>
   );

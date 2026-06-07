@@ -188,7 +188,7 @@ export default async function PatientPage({
             className={cn(
               "px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors",
               activeTab === tab
-                ? "border-teal-600 text-teal-700"
+                ? "border-nd-sage text-nd-sage-deep"
                 : "border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300"
             )}
           >
@@ -462,7 +462,7 @@ export default async function PatientPage({
                             year: "numeric",
                           })}
                           {fu.appointment && (
-                            <span className="ml-2 text-teal-600">
+                            <span className="ml-2 text-nd-sage">
                               · {fu.appointment.startAt.toLocaleDateString(locale, {
                                 day: "numeric",
                                 month: "short",

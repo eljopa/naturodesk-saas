@@ -150,7 +150,7 @@ export default async function MessageDetailPage({ params }: MessageDetailPagePro
                   {/* Répondre */}
                   <a
                     href={mailtoHref}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-teal-50 text-teal-700 border border-teal-200 hover:bg-teal-100 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-nd-sage-tint text-nd-sage-deep border border-nd-sage-tint hover:bg-nd-sage-wash transition-colors"
                   >
                     <Mail className="w-3.5 h-3.5" />
                     {t("replyByEmail")}
@@ -164,7 +164,7 @@ export default async function MessageDetailPage({ params }: MessageDetailPagePro
                   <Phone className="w-4 h-4 text-slate-400 shrink-0" />
                   <a
                     href={`tel:${message.senderPhone}`}
-                    className="text-sm text-teal-700 hover:underline"
+                    className="text-sm text-nd-sage-deep hover:underline"
                   >
                     {message.senderPhone}
                   </a>

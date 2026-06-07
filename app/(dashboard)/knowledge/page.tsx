@@ -146,7 +146,7 @@ export default async function KnowledgePage() {
                               href={doc.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-teal-600 hover:underline"
+                              className="text-nd-sage hover:underline"
                             >
                               {t("source")}
                             </a>

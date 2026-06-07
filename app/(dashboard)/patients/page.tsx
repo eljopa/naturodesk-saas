@@ -117,7 +117,7 @@ export default async function PatientsPage({ searchParams }: PatientsPageProps) 
               className={cn(
                 "px-3 py-1.5 text-sm rounded-lg border transition-colors",
                 filter === f
-                  ? "bg-teal-50 border-teal-300 text-teal-700 font-medium"
+                  ? "bg-nd-sage-tint border-nd-sage text-nd-sage-deep font-medium"
                   : "bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50"
               )}
             >
@@ -169,11 +169,11 @@ export default async function PatientsPage({ searchParams }: PatientsPageProps) 
                   href={`/patients/${patient.id}`}
                   className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 transition-colors group"
                 >
-                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-teal-50 text-teal-700 text-sm font-semibold shrink-0">
+                  <div className="flex items-center justify-center w-10 h-10 rounded-full bg-nd-sage-tint text-nd-sage-deep text-sm font-semibold shrink-0">
                     {getInitials(patient.firstName, patient.lastName)}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-slate-900 group-hover:text-teal-700 transition-colors">
+                    <p className="text-sm font-medium text-slate-900 group-hover:text-nd-sage-deep transition-colors">
                       {patient.lastName} {patient.firstName}
                     </p>
                     <p className="text-xs text-slate-500 mt-0.5">

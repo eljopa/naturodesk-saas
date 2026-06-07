@@ -78,7 +78,7 @@ function BillingCard({
       </CardHeader>
       <CardContent className="space-y-4">
         {stripeParam === "success" && (
-          <div className="rounded-lg bg-teal-50 border border-teal-200 px-4 py-3 text-sm text-teal-700 font-medium">
+          <div className="rounded-lg bg-nd-sage-tint border border-nd-sage-tint px-4 py-3 text-sm text-nd-sage-deep font-medium">
             {t("billing.successBanner")}
           </div>
         )}
@@ -165,7 +165,7 @@ function LocaleSwitcher({
           className={cn(
             "px-3 py-1.5 text-sm rounded-lg border transition-colors",
             currentLocale === "fr"
-              ? "bg-teal-50 border-teal-300 text-teal-700 font-medium"
+              ? "bg-nd-sage-tint border-nd-sage text-nd-sage-deep font-medium"
               : "bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50"
           )}
         >
@@ -178,7 +178,7 @@ function LocaleSwitcher({
           className={cn(
             "px-3 py-1.5 text-sm rounded-lg border transition-colors",
             currentLocale === "en"
-              ? "bg-teal-50 border-teal-300 text-teal-700 font-medium"
+              ? "bg-nd-sage-tint border-nd-sage text-nd-sage-deep font-medium"
               : "bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50"
           )}
         >

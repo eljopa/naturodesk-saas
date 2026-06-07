@@ -171,7 +171,7 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
                 className={cn(
                   "inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border transition-colors",
                   isActive
-                    ? "bg-teal-50 border-teal-300 text-teal-700 font-medium"
+                    ? "bg-nd-sage-tint border-nd-sage text-nd-sage-deep font-medium"
                     : "bg-white border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50"
                 )}
               >
@@ -182,8 +182,8 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
                       "text-xs px-1.5 py-0.5 rounded-full font-semibold tabular-nums",
                       isActive
                         ? sf === "UNREAD"
-                          ? "bg-teal-600 text-white"
-                          : "bg-teal-100 text-teal-700"
+                          ? "bg-nd-sage text-white"
+                          : "bg-nd-sage-tint text-nd-sage-deep"
                         : sf === "UNREAD"
                         ? "bg-red-100 text-red-600"
                         : "bg-slate-100 text-slate-500"
@@ -222,7 +222,7 @@ export default async function MessagesPage({ searchParams }: MessagesPageProps) 
                     {/* Indicateur non lu */}
                     <div className="mt-1.5 shrink-0">
                       {msg.status === "UNREAD" ? (
-                        <span className="block w-2 h-2 rounded-full bg-teal-500" />
+                        <span className="block w-2 h-2 rounded-full bg-nd-sage" />
                       ) : (
                         <span className="block w-2 h-2 rounded-full bg-transparent" />
                       )}

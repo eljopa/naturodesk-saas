@@ -152,7 +152,7 @@ export default async function ConsultationPage({ params, searchParams }: PagePro
               <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
                 <Link
                   href={`/patients/${consultation.patient.id}`}
-                  className="hover:text-teal-700 transition-colors"
+                  className="hover:text-nd-sage-deep transition-colors"
                 >
                   {consultation.patient.lastName} {consultation.patient.firstName}
                 </Link>
@@ -267,7 +267,7 @@ export default async function ConsultationPage({ params, searchParams }: PagePro
             </div>
           )}
           {consultation.terrainSummary && (
-            <div className="rounded-xl border border-teal-200 bg-teal-50 px-4 py-3">
+            <div className="rounded-xl border border-nd-sage-tint bg-nd-sage-tint px-4 py-3">
               <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">
                 {t("detail.terrainSummary")}
               </p>
@@ -288,7 +288,7 @@ export default async function ConsultationPage({ params, searchParams }: PagePro
             className={cn(
               "px-4 py-2.5 text-sm font-medium border-b-2 -mb-px transition-colors whitespace-nowrap",
               activeTab === tab
-                ? "border-teal-600 text-teal-700"
+                ? "border-nd-sage text-nd-sage-deep"
                 : "border-transparent text-slate-600 hover:text-slate-900 hover:border-slate-300"
             )}
           >

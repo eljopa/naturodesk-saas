@@ -139,7 +139,7 @@ function SlugField({
             className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-slate-700 border border-slate-200 rounded-lg px-2.5 py-2 bg-white transition-colors"
           >
             {copied ? (
-              <Check className="w-3.5 h-3.5 text-teal-600" />
+              <Check className="w-3.5 h-3.5 text-nd-sage" />
             ) : (
               <Copy className="w-3.5 h-3.5" />
             )}
@@ -157,7 +157,7 @@ function SlugField({
 
   return (
     <div className="space-y-1.5">
-      <div className="flex items-center rounded-lg border border-slate-300 focus-within:ring-2 focus-within:ring-teal-600 focus-within:border-teal-600 bg-white overflow-hidden">
+      <div className="flex items-center rounded-lg border border-nd-line focus-within:ring-2 focus-within:ring-nd-sage focus-within:border-nd-sage bg-white overflow-hidden">
         <span className="px-3 py-2 text-sm text-slate-400 bg-slate-50 border-r border-slate-200 shrink-0">
           /p/
         </span>
@@ -337,7 +337,7 @@ export function WebPageForm({ defaults, defaultSlug }: WebPageFormProps) {
 
         {/* Succès */}
         {state?.success && (
-          <div className="rounded-lg bg-teal-50 border border-teal-200 px-4 py-3 text-sm text-teal-700 font-medium">
+          <div className="rounded-lg bg-nd-sage-tint border border-nd-sage-tint px-4 py-3 text-sm text-nd-sage-deep font-medium">
             {t("success.saved")}
           </div>
         )}
@@ -346,7 +346,7 @@ export function WebPageForm({ defaults, defaultSlug }: WebPageFormProps) {
         <Card>
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
-              <Globe className="w-4 h-4 text-teal-600" />
+              <Globe className="w-4 h-4 text-nd-sage" />
               {t("slug.label")}
             </CardTitle>
           </CardHeader>
@@ -603,7 +603,7 @@ function ToggleField({
         <div
           className={cn(
             "w-10 h-6 rounded-full transition-colors duration-200 cursor-pointer",
-            checked ? "bg-teal-600" : "bg-slate-200",
+            checked ? "bg-nd-sage" : "bg-slate-200",
             disabled && "opacity-50 cursor-not-allowed"
           )}
           onClick={() => !disabled && setChecked((v) => !v)}

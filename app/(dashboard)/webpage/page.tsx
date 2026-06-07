@@ -26,11 +26,11 @@ async function ProUpgradeGate() {
 
   return (
     <div className="max-w-2xl">
-      <Card className="border-2 border-dashed border-teal-200 bg-teal-50/30">
+      <Card className="border-2 border-dashed border-nd-sage-tint bg-nd-sage-wash">
         <CardHeader className="text-center pb-2">
           <div className="flex justify-center mb-3">
-            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-teal-100">
-              <Globe className="w-6 h-6 text-teal-700" />
+            <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-nd-sage-tint">
+              <Globe className="w-6 h-6 text-nd-sage-deep" />
             </div>
           </div>
           <CardTitle className="text-xl">{t("title")}</CardTitle>

@@ -173,7 +173,7 @@ export function InvoiceForm({ patients, preselectedPatientId }: InvoiceFormProps
         <div className="flex justify-end pt-2 border-t border-slate-200">
           <div className="text-sm font-semibold text-slate-900">
             {t("form.totalLabel")} :{" "}
-            <span className="text-teal-700">
+            <span className="text-nd-sage-deep">
               {total.toLocaleString("fr-FR", {
                 style: "currency",
                 currency: "EUR",

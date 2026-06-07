@@ -23,7 +23,7 @@ export function AppointmentsTabs({ onlineCount = 0 }: AppointmentsTabsProps) {
   ] as const;
 
   return (
-    <div className="flex gap-1 border-b border-slate-200 mb-6">
+    <div className="flex gap-1 border-b border-nd-line mb-6">
       {tabs.map((tab) => {
         let isActive: boolean;
         if (tab.key === "calendar") {
@@ -41,7 +41,7 @@ export function AppointmentsTabs({ onlineCount = 0 }: AppointmentsTabsProps) {
             className={cn(
               "inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium border-b-2 -mb-px transition-colors",
               isActive
-                ? "border-teal-600 text-teal-700"
+                ? "border-nd-sage text-nd-sage-deep"
                 : "border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300"
             )}
           >

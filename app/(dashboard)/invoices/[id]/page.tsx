@@ -92,7 +92,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
             </div>
             <Link
               href={`/patients/${invoice.patient.id}`}
-              className="text-sm text-slate-500 hover:text-teal-700 mt-1 block transition-colors"
+              className="text-sm text-slate-500 hover:text-nd-sage-deep mt-1 block transition-colors"
             >
               {invoice.patient.lastName} {invoice.patient.firstName}
             </Link>
@@ -169,7 +169,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
               </div>
               <div>
                 <dt className="text-slate-500 mb-0.5">{t("totalLabel")}</dt>
-                <dd className="font-semibold text-teal-700 text-base">
+                <dd className="font-semibold text-nd-sage-deep text-base">
                   {fmt(invoice.totalAmount)}
                 </dd>
               </div>
@@ -213,7 +213,7 @@ export default async function InvoicePage({ params }: InvoicePageProps) {
           <div className="flex justify-end px-6 py-4 border-t border-slate-100">
             <div className="text-sm">
               <span className="text-slate-500 mr-3">{t("form.totalLabel")}</span>
-              <span className="font-semibold text-teal-700 text-base">
+              <span className="font-semibold text-nd-sage-deep text-base">
                 {fmt(invoice.totalAmount)}
               </span>
             </div>

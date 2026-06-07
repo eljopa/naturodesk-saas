@@ -23,8 +23,8 @@ export function Pagination({ page, total, perPage, buildHref, className }: Pagin
     cn(
       "inline-flex items-center gap-1.5 px-3 py-1.5 text-sm rounded-lg border transition-colors",
       active
-        ? "border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300"
-        : "border-slate-100 bg-slate-50 text-slate-300 cursor-not-allowed pointer-events-none"
+        ? "border-nd-line bg-white text-slate-700 hover:bg-nd-cream hover:border-nd-muted"
+        : "border-nd-line-soft bg-nd-cream text-slate-300 cursor-not-allowed pointer-events-none"
     );
 
   return (

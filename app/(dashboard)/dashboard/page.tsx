@@ -40,7 +40,7 @@ function StatCard({
   color: "teal" | "blue" | "violet" | "amber";
 }) {
   const colorClasses = {
-    teal: "bg-teal-50 text-teal-600",
+    teal: "bg-nd-sage-tint text-nd-sage",
     blue: "bg-blue-50 text-blue-600",
     violet: "bg-violet-50 text-violet-600",
     amber: "bg-amber-50 text-amber-600",
@@ -208,11 +208,11 @@ export default async function DashboardPage() {
                     href={`/webpage/messages/${msg.id}`}
                     className="flex items-start gap-3 py-3 hover:bg-slate-50 transition-colors -mx-2 px-2 rounded-lg group"
                   >
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-50 text-teal-600 shrink-0 mt-0.5">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-nd-sage-tint text-nd-sage shrink-0 mt-0.5">
                       <Mail className="w-4 h-4" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-slate-900 group-hover:text-teal-700 transition-colors">
+                      <p className="text-sm font-medium text-slate-900 group-hover:text-nd-sage-deep transition-colors">
                         {msg.senderName}
                         <span className="ml-2 text-xs font-normal text-slate-400">
                           {msg.senderEmail}
@@ -253,7 +253,7 @@ export default async function DashboardPage() {
         <CardContent className="pt-0">
           {upcomingAppointments.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-10 text-center">
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-slate-100 text-slate-400 mb-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-nd-sage-tint text-nd-sage mb-3">
                 <Calendar className="w-5 h-5" />
               </div>
               <p className="text-sm font-medium text-slate-900">
@@ -274,7 +274,7 @@ export default async function DashboardPage() {
                   className="flex items-center justify-between py-3 gap-4"
                 >
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-teal-50 text-teal-600 shrink-0">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-nd-sage-tint text-nd-sage shrink-0">
                       <Clock className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">

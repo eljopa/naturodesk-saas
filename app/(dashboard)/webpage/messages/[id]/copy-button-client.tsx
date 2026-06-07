@@ -31,7 +31,7 @@ export function CopyButtonClient({
       title={didCopy ? copied : label}
     >
       {didCopy ? (
-        <Check className="w-3 h-3 text-teal-600" />
+        <Check className="w-3 h-3 text-nd-sage" />
       ) : (
         <Copy className="w-3 h-3" />
       )}

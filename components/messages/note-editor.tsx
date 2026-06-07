@@ -34,7 +34,7 @@ export function NoteEditor({ messageId, initialNotes }: NoteEditorProps) {
           defaultValue={initialNotes ?? ""}
           placeholder={t("notesPlaceholder")}
           rows={4}
-          className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-teal-600 resize-none transition-colors"
+          className="w-full rounded-lg border border-nd-line bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-nd-sage focus:border-nd-sage resize-none transition-colors"
         />
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-slate-400">{t("notesHint")}</p>
@@ -46,7 +46,7 @@ export function NoteEditor({ messageId, initialNotes }: NoteEditorProps) {
             {isPending ? (
               <Loader2 className="w-3.5 h-3.5 animate-spin" />
             ) : state?.success ? (
-              <Check className="w-3.5 h-3.5 text-teal-600" />
+              <Check className="w-3.5 h-3.5 text-nd-sage" />
             ) : null}
             {state?.success && !isPending ? t("noteSaved") : t("saveNote")}
           </button>

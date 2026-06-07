@@ -21,13 +21,13 @@ export function ForgotPasswordForm() {
   if (state?.messageCode === "password_reset_sent") {
     return (
       <div className="flex flex-col items-center gap-4 py-4 text-center">
-        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-teal-50">
-          <CheckCircle className="w-6 h-6 text-teal-600" />
+        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-nd-sage-tint">
+          <CheckCircle className="w-6 h-6 text-nd-sage-deep" />
         </div>
         <p className="text-sm text-slate-600">{t("successMessage")}</p>
         <Link
           href="/login"
-          className="text-sm text-teal-700 hover:underline font-medium"
+          className="text-sm text-nd-sage-deep hover:underline font-medium"
         >
           {t("backToLogin")}
         </Link>

@@ -107,7 +107,7 @@ export default async function ConsultationsPage({ searchParams }: PageProps) {
             className={cn(
               "px-3 py-1.5 text-sm rounded-lg border transition-colors",
               filter === f.key
-                ? "border-teal-600 bg-teal-50 text-teal-700 font-medium"
+                ? "border-nd-sage bg-nd-sage-tint text-nd-sage-deep font-medium"
                 : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
             )}
           >

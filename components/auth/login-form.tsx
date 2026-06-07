@@ -62,7 +62,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
           </Label>
           <Link
             href="/forgot-password"
-            className="text-xs text-teal-700 hover:text-teal-800 hover:underline transition-colors"
+            className="text-xs text-nd-sage-deep hover:text-nd-forest hover:underline transition-colors"
             tabIndex={-1}
           >
             {t("forgotPassword")}
