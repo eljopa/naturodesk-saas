@@ -135,6 +135,12 @@ body {
   line-height: 1.65;
 }
 
+/* Auth / Onboarding surface — brand font without marketing 17px override */
+.nd-surface {
+  font-family: var(--font-mulish), system-ui, sans-serif;
+  color: var(--nd-ink);
+}
+
 /* Eyebrow label */
 .nd-eyebrow {
   font-family: var(--font-mulish), system-ui, sans-serif;

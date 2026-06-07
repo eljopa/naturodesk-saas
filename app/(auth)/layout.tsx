@@ -9,7 +9,7 @@ export default async function AuthLayout({
   const t = await getTranslations("auth");
 
   return (
-    <div className="min-h-screen bg-nd-cream flex flex-col items-center justify-center p-4">
+    <div className="nd-surface min-h-screen bg-nd-cream flex flex-col items-center justify-center p-4">
       {/* Branding */}
       <div className="mb-8">
         <Image
@@ -28,7 +28,7 @@ export default async function AuthLayout({
       </div>
 
       {/* Mention légale */}
-      <p className="mt-8 text-xs text-slate-400 text-center max-w-xs">
+      <p className="mt-8 text-xs text-nd-muted text-center max-w-xs">
         {t("disclaimer")}
       </p>
     </div>

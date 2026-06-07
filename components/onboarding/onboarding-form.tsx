@@ -75,13 +75,13 @@ export function OnboardingForm({ email }: OnboardingFormProps) {
           autoComplete="organization"
           disabled={isPending}
         />
-        <p className="text-xs text-slate-400">{t("cabinetNameHelp")}</p>
+        <p className="text-xs text-nd-muted">{t("cabinetNameHelp")}</p>
       </div>
 
       {email && (
-        <div className="rounded-lg bg-slate-50 border border-slate-200 px-4 py-3">
-          <p className="text-xs text-slate-500">
-            <span className="font-medium text-slate-700">Email :</span>{" "}
+        <div className="rounded-lg bg-nd-cream border border-nd-line px-4 py-3">
+          <p className="text-xs text-nd-muted">
+            <span className="font-medium text-nd-forest">Email :</span>{" "}
             {email}
           </p>
         </div>

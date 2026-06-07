@@ -1,4 +1,4 @@
-import { Leaf } from "lucide-react";
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { signOutAction } from "@/lib/actions/auth";
 import { getAuthUser } from "@/lib/auth";
@@ -25,24 +25,26 @@ export default async function OnboardingPage() {
   if (existing) redirect("/dashboard");
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
+    <div className="nd-surface min-h-screen bg-nd-cream flex flex-col items-center justify-center p-4">
       {/* Branding */}
-      <div className="flex items-center gap-2 mb-8">
-        <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-teal-700">
-          <Leaf className="w-5 h-5 text-white" />
-        </div>
-        <span className="text-xl font-semibold text-slate-900 tracking-tight">
-          NaturoDesk
-        </span>
+      <div className="mb-8">
+        <Image
+          src="/images/logo-nav.png"
+          alt="NaturoDesk"
+          width={148}
+          height={34}
+          className="h-9 w-auto"
+          priority
+        />
       </div>
 
       {/* Card */}
-      <div className="w-full max-w-md bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
+      <div className="w-full max-w-md bg-white rounded-2xl border border-nd-line shadow-sm p-8">
         <div className="mb-6">
-          <h1 className="text-xl font-semibold text-slate-900">
+          <h1 className="text-xl font-semibold text-nd-forest">
             {t("title")}
           </h1>
-          <p className="text-sm text-slate-500 mt-1">{t("subtitle")}</p>
+          <p className="text-sm text-nd-muted mt-1">{t("subtitle")}</p>
         </div>
 
         <OnboardingForm email={authUser.email ?? undefined} />
@@ -52,7 +54,7 @@ export default async function OnboardingPage() {
       <form action={signOutAction} className="mt-6">
         <button
           type="submit"
-          className="text-sm text-slate-400 hover:text-slate-600 hover:underline transition-colors"
+          className="text-sm text-nd-muted hover:text-nd-forest hover:underline transition-colors"
         >
           {t("logout")}
         </button>
