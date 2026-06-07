@@ -50,11 +50,6 @@ function containsAny(text: string, keywords: string[]): boolean {
   return keywords.some((k) => lower.includes(k));
 }
 
-function matchingKeywords(text: string, keywords: string[]): string[] {
-  const lower = text.toLowerCase();
-  return keywords.filter((k) => lower.includes(k));
-}
-
 // ---------------------------------------------------------------------------
 // 6 rules
 // ---------------------------------------------------------------------------

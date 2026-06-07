@@ -13,7 +13,7 @@
  */
 
 import { db } from "@/lib/db";
-import type { OdsChunkData, OdsEnrichment, OdsEnrichmentMap } from "../types";
+import type { OdsChunkData, OdsEnrichmentMap } from "../types";
 
 /** Kinds de chunks ODS à récupérer pour l'enrichissement. */
 const ODS_RELEVANT_KINDS = ["warning", "interaction", "dosage", "indication"] as const;

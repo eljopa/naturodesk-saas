@@ -57,7 +57,7 @@ export default async function AdminDashboardPage() {
   const [
     totalUsers,
     activeUsers,
-    newUsersThisMonth,
+    _newUsersThisMonth,
     totalPatients,
     totalConsultations,
     totalAppointments,

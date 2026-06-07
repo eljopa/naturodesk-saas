@@ -23,7 +23,7 @@ interface ProtocolsPageProps {
 }
 
 export default async function ProtocolsPage({ searchParams }: ProtocolsPageProps) {
-  const [user, t, tCat, sp] = await Promise.all([
+  const [, t, tCat, sp] = await Promise.all([
     requireUser(),
     getTranslations("protocols"),
     getTranslations("protocols.categories"),

@@ -36,8 +36,6 @@ function FeatureCard({ id, icon, title, desc }: { id: string; icon: React.ReactN
 export default async function FonctionnalitesPage() {
   const t  = await getTranslations("marketing.fonctionnalites");
   const tp = await getTranslations("marketing.home.p2");
-  const tr = await getTranslations("marketing.home.p3");
-
   const cabinetFeatures = [
     { id: "dossiers",    icon: <UsersIcon />,  title: t("cabinet.dossiers.title"),    desc: t("cabinet.dossiers.desc") },
     { id: "bilans",      icon: <PulseIcon />,  title: t("cabinet.bilans.title"),      desc: t("cabinet.bilans.desc") },

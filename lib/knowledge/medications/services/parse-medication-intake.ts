@@ -22,7 +22,7 @@
  *     → label="Ciclosporine", dose=100mg, freq="toutes les 12h"
  */
 
-import { normalizeInput, buildNormalizedKey } from "@/lib/knowledge/terms/utils/normalize";
+import { buildNormalizedKey } from "@/lib/knowledge/terms/utils/normalize";
 import type { ParsedMedicationIntake } from "../types";
 
 // ---------------------------------------------------------------------------

@@ -6,7 +6,6 @@ import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { UserDetailActions } from "@/components/admin/user-detail-actions";
 import { SubscriptionForm } from "@/components/admin/subscription-form";
 import {

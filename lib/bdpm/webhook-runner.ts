@@ -55,8 +55,6 @@ export interface RunnerResult {
 
 // Fichiers requis pour Pipeline A (matching tables)
 const PIPELINE_A_REQUIRED = ["CIS_bdpm.txt", "CIS_COMPO_bdpm.txt", "CIS_CIP_bdpm.txt"] as const;
-const PIPELINE_A_OPTIONAL = ["CIS_GENER_bdpm.txt"] as const;
-
 // Fichiers traités par Pipeline B (knowledge tables), avec priorité
 const PIPELINE_B_FILES: Array<{ filename: string; priority: number }> = [
   { filename: "CIS_bdpm.txt",       priority: 1 },

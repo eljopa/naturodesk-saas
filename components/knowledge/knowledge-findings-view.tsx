@@ -47,7 +47,7 @@ function applyFilter(findings: FindingDto[], filter: FilterValue): FindingDto[] 
  * Purement déterministe — aucun LLM.
  */
 function buildSynthesis(data: FindingsApiResponse): string | null {
-  const { summary, alerts, interactions, depletions, warnings } = data;
+  const { summary, alerts, interactions } = data;
   if (summary.totalFindings === 0) return null;
 
   const parts: string[] = [];

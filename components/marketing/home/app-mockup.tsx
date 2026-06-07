@@ -66,20 +66,6 @@ function Ring({ score, size }: { score: number; size: number }) {
   );
 }
 
-function Bar({ label, val }: { label: string; val: number }) {
-  return (
-    <div style={{ display: "grid", gap: 5 }}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, color: "var(--nd-forest)" }}>{label}</span>
-        <span style={{ fontSize: 11.5, color: "var(--nd-muted)", fontWeight: 700 }}>{val}%</span>
-      </div>
-      <div style={{ height: 7, borderRadius: 99, background: "var(--nd-sage-tint)" }}>
-        <div style={{ height: "100%", width: `${val}%`, borderRadius: 99, background: "linear-gradient(90deg,#AAB59F,#799664)" }} />
-      </div>
-    </div>
-  );
-}
-
 /* ── Mockup variants ── */
 function AgendaMockup() {
   return (
