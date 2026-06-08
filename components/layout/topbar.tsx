@@ -4,7 +4,6 @@ import { useState, useRef, useEffect, useTransition } from "react";
 import { Menu, ChevronDown, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
-import { useRouter } from "next/navigation";
 import { signOutAction } from "@/lib/actions/auth";
 import { setLocaleAction } from "@/lib/actions/locale";
 import { cn } from "@/lib/utils";
@@ -32,14 +31,13 @@ function UserAvatar({ name }: { name: string }) {
 
 function LangSwitcher() {
   const locale = useLocale() as Locale;
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   function switchTo(next: Locale) {
     if (next === locale || isPending) return;
     startTransition(async () => {
       await setLocaleAction(next);
-      router.refresh();
+      window.location.reload();
     });
   }
 
