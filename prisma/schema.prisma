@@ -1191,7 +1191,14 @@ model DrugClassMember {
 
 enum SubscriptionPlan {
   FREE
+  STARTER
+  GROWTH
   PRO
+}
+
+enum BillingInterval {
+  MONTHLY
+  YEARLY
 }
 
 enum SubscriptionStatus {
@@ -1207,6 +1214,7 @@ model Subscription {
   userId               String             @unique
   plan                 SubscriptionPlan   @default(FREE)
   status               SubscriptionStatus @default(ACTIVE)
+  billingInterval      BillingInterval    @default(MONTHLY)
   // Stripe identifiers (null until Stripe is connected)
   stripeCustomerId     String?            @unique
   stripeSubscriptionId String?            @unique

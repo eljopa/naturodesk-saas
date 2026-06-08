@@ -1,25 +1,32 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { stripe, STRIPE_PRICE_IDS } from "@/lib/stripe";
+import { stripe } from "@/lib/stripe";
+import { getPlanFromPriceId } from "@/lib/plans";
 
-export async function POST(_req: NextRequest) {
+// Alternative REST route — the preferred path is the Server Action in lib/actions/subscriptions.ts.
+// This route accepts { priceId } in the request body and returns { url } for client-side redirect.
+
+export async function POST(req: NextRequest) {
   try {
     const user = await requireUser();
+    const body = await req.json().catch(() => ({}));
+    const priceId = typeof body.priceId === "string" ? body.priceId : "";
 
-    if (!STRIPE_PRICE_IDS.PRO_MONTHLY) {
-      return NextResponse.json(
-        { error: "stripe_not_configured" },
-        { status: 503 }
-      );
+    if (!priceId) {
+      return NextResponse.json({ error: "missing_price_id" }, { status: 400 });
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000";
+    const planInfo = getPlanFromPriceId(priceId);
+    if (!planInfo) {
+      return NextResponse.json({ error: "invalid_price_id" }, { status: 400 });
+    }
 
-    // Get or create Stripe customer
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
     const subscription = await db.subscription.findUnique({
       where: { userId: user.id },
-      select: { stripeCustomerId: true, plan: true },
+      select: { stripeCustomerId: true },
     });
 
     let stripeCustomerId = subscription?.stripeCustomerId ?? null;
@@ -32,18 +39,15 @@ export async function POST(_req: NextRequest) {
       });
       stripeCustomerId = customer.id;
 
-      // Save customer ID immediately
       await db.subscription.upsert({
         where: { userId: user.id },
         create: {
           userId: user.id,
           plan: "FREE",
-          status: "TRIALING",
+          status: "ACTIVE",
           stripeCustomerId: customer.id,
         },
-        update: {
-          stripeCustomerId: customer.id,
-        },
+        update: { stripeCustomerId: customer.id },
       });
     }
 
@@ -51,12 +55,21 @@ export async function POST(_req: NextRequest) {
       customer: stripeCustomerId,
       mode: "subscription",
       payment_method_types: ["card"],
-      line_items: [{ price: STRIPE_PRICE_IDS.PRO_MONTHLY, quantity: 1 }],
+      line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${appUrl}/settings?stripe=success`,
       cancel_url: `${appUrl}/settings?stripe=cancelled`,
-      metadata: { userId: user.id },
+      metadata: {
+        userId: user.id,
+        plan: planInfo.plan,
+        billingInterval: planInfo.interval,
+        priceId,
+      },
       subscription_data: {
-        metadata: { userId: user.id },
+        metadata: {
+          userId: user.id,
+          plan: planInfo.plan,
+          billingInterval: planInfo.interval,
+        },
       },
     });
 

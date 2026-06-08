@@ -6,9 +6,7 @@ let _stripe: Stripe | null = null;
 export function getStripe(): Stripe {
   if (_stripe) return _stripe;
   const key = process.env.STRIPE_SECRET_KEY;
-  if (!key) {
-    throw new Error("STRIPE_SECRET_KEY is not set");
-  }
+  if (!key) throw new Error("STRIPE_SECRET_KEY is not set");
   _stripe = new Stripe(key, { apiVersion: "2025-03-31.basil", typescript: true });
   return _stripe;
 }
@@ -19,10 +17,5 @@ export const stripe = new Proxy({} as Stripe, {
     return (getStripe() as unknown as Record<string | symbol, unknown>)[prop];
   },
 });
-
-// Plan price IDs — set in env
-export const STRIPE_PRICE_IDS = {
-  PRO_MONTHLY: process.env.STRIPE_PRO_PRICE_ID ?? "",
-} as const;
 
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET ?? "";

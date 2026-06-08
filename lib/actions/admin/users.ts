@@ -113,7 +113,7 @@ export async function reactivateUserAction(
 // ---------------------------------------------------------------------------
 
 const UpdateSubscriptionSchema = z.object({
-  plan: z.enum(["FREE", "PRO"]),
+  plan: z.enum(["FREE", "STARTER", "GROWTH", "PRO"]),
   status: z.enum(["TRIALING", "ACTIVE", "PAST_DUE", "CANCELED", "SUSPENDED"]),
   trialEndsAt: z
     .string()

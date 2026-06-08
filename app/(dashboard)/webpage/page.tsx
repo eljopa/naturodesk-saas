@@ -4,6 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { Globe } from "lucide-react";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { isPlanAtLeast } from "@/lib/plans";
+import type { PlanKey } from "@/lib/plans";
 import { generateSlug } from "@/lib/utils/slug";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
@@ -38,7 +40,7 @@ async function ProUpgradeGate() {
         </CardHeader>
         <CardContent className="text-center pt-2">
           <Button variant="primary" size="md" asChild>
-            <Link href="/settings">{tBilling("upgradeButton")}</Link>
+            <Link href="/settings?upgrade=GROWTH&interval=MONTHLY">{tBilling("upgradeButton")}</Link>
           </Button>
         </CardContent>
       </Card>
@@ -56,16 +58,18 @@ export default async function WebPageDashboardPage() {
     getTranslations("webpage"),
   ]);
 
-  // Vérification plan Pro
+  // Mini site web disponible à partir du plan Growth
   const subscription = await db.subscription.findUnique({
     where: { userId: user.id },
     select: { plan: true, status: true },
   });
-  const isPro =
-    subscription?.plan === "PRO" &&
-    (subscription.status === "ACTIVE" || subscription.status === "TRIALING");
+  const isActive =
+    subscription?.status === "ACTIVE" || subscription?.status === "TRIALING";
+  const hasWebpageAccess =
+    isActive &&
+    isPlanAtLeast((subscription?.plan ?? "FREE") as PlanKey, "GROWTH");
 
-  if (!isPro) {
+  if (!hasWebpageAccess) {
     return (
       <div>
         <PageHeader

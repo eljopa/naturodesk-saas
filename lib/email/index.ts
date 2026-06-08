@@ -308,28 +308,72 @@ function buildInvoiceHtmlEn(d: InvoiceSentData & { cabinet: string }) {
 // Subscription emails
 // ---------------------------------------------------------------------------
 
+const PLAN_DISPLAY: Record<string, { fr: string; en: string }> = {
+  STARTER: { fr: "Starter", en: "Starter" },
+  GROWTH: { fr: "Growth", en: "Growth" },
+  PRO: { fr: "Pro", en: "Pro" },
+};
+
+const INTERVAL_DISPLAY: Record<string, { fr: string; en: string }> = {
+  MONTHLY: { fr: "mensuel", en: "monthly" },
+  YEARLY: { fr: "annuel", en: "annual" },
+};
+
 export async function sendSubscriptionActivatedEmail(opts: {
   userEmail: string;
   userName: string;
   plan: string;
+  billingInterval?: "MONTHLY" | "YEARLY";
   locale: "fr" | "en";
 }): Promise<SendResult> {
   const isFr = opts.locale === "fr";
+
+  const planNames = PLAN_DISPLAY[opts.plan] ?? { fr: opts.plan, en: opts.plan };
+  const planLabel = isFr ? planNames.fr : planNames.en;
+
+  const intervalNames = opts.billingInterval
+    ? INTERVAL_DISPLAY[opts.billingInterval]
+    : null;
+  const intervalLabel = intervalNames
+    ? (isFr ? intervalNames.fr : intervalNames.en)
+    : null;
+
+  const planFull = intervalLabel ? `${planLabel} (${intervalLabel})` : planLabel;
+
   const subject = isFr
-    ? "Votre abonnement NaturoDesk PRO est actif"
-    : "Your NaturoDesk PRO subscription is active";
+    ? `Votre abonnement NaturoDesk ${planLabel} est actif`
+    : `Your NaturoDesk ${planLabel} subscription is active`;
+
+  const featsFr =
+    opts.plan === "STARTER"
+      ? "moteur d'analyse, gestion patients, consultations et export PDF"
+      : opts.plan === "GROWTH"
+      ? "toutes les fonctionnalités Starter + mini site web professionnel et prise de rendez-vous en ligne"
+      : "toutes les fonctionnalités Growth + automatisation avancée et analytics";
+
+  const featsEn =
+    opts.plan === "STARTER"
+      ? "analysis engine, patient management, consultations and PDF export"
+      : opts.plan === "GROWTH"
+      ? "all Starter features + professional mini-website and online appointment booking"
+      : "all Growth features + advanced automation and analytics";
 
   const html = isFr
     ? `<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
 <body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
-    <div style="background:#0f766e;padding:24px 32px;">
+    <div style="background:#3d4a33;padding:24px 32px;">
       <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk</p>
+      <p style="color:#c8d5b9;font-size:13px;margin:4px 0 0;">Logiciel de gestion naturopathique</p>
     </div>
     <div style="padding:32px;">
       <p style="color:#334155;margin:0 0 16px;">Bonjour ${opts.userName},</p>
-      <p style="color:#334155;margin:0 0 16px;">Votre abonnement <strong>NaturoDesk ${opts.plan}</strong> est maintenant actif. Vous avez accès à toutes les fonctionnalités.</p>
-      <p style="color:#64748b;font-size:13px;margin:0;">Merci pour votre confiance.</p>
+      <p style="color:#334155;margin:0 0 8px;">Votre abonnement <strong>NaturoDesk ${planFull}</strong> est maintenant actif.</p>
+      <p style="color:#334155;margin:0 0 24px;">Vous avez accès à : ${featsFr}.</p>
+      <div style="background:#f4f6f2;border-left:3px solid #3d4a33;padding:12px 16px;margin-bottom:24px;border-radius:0 6px 6px 0;">
+        <p style="margin:0;color:#3d4a33;font-size:13px;font-weight:600;">Plan : ${planFull}</p>
+      </div>
+      <p style="color:#64748b;font-size:13px;margin:0;">Merci pour votre confiance. Connectez-vous à votre espace pour commencer.</p>
     </div>
     <div style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
       <p style="color:#94a3b8;font-size:12px;margin:0;">NaturoDesk — Logiciel de gestion de cabinet naturopathique</p>
@@ -339,13 +383,18 @@ export async function sendSubscriptionActivatedEmail(opts: {
     : `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"></head>
 <body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
   <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
-    <div style="background:#0f766e;padding:24px 32px;">
+    <div style="background:#3d4a33;padding:24px 32px;">
       <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk</p>
+      <p style="color:#c8d5b9;font-size:13px;margin:4px 0 0;">Naturopathic practice software</p>
     </div>
     <div style="padding:32px;">
       <p style="color:#334155;margin:0 0 16px;">Hello ${opts.userName},</p>
-      <p style="color:#334155;margin:0 0 16px;">Your <strong>NaturoDesk ${opts.plan}</strong> subscription is now active. You have access to all features.</p>
-      <p style="color:#64748b;font-size:13px;margin:0;">Thank you for your trust.</p>
+      <p style="color:#334155;margin:0 0 8px;">Your <strong>NaturoDesk ${planFull}</strong> subscription is now active.</p>
+      <p style="color:#334155;margin:0 0 24px;">You have access to: ${featsEn}.</p>
+      <div style="background:#f4f6f2;border-left:3px solid #3d4a33;padding:12px 16px;margin-bottom:24px;border-radius:0 6px 6px 0;">
+        <p style="margin:0;color:#3d4a33;font-size:13px;font-weight:600;">Plan: ${planFull}</p>
+      </div>
+      <p style="color:#64748b;font-size:13px;margin:0;">Thank you for your trust. Log in to your account to get started.</p>
     </div>
     <div style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
       <p style="color:#94a3b8;font-size:12px;margin:0;">NaturoDesk — Naturopathic practice management software</p>

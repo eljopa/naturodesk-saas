@@ -3,23 +3,24 @@
 import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { stripe, STRIPE_PRICE_IDS } from "@/lib/stripe";
+import { stripe } from "@/lib/stripe";
+import { getPlanFromPriceId } from "@/lib/plans";
 
 // ---------------------------------------------------------------------------
 // Create Stripe checkout session → redirect to Stripe hosted page
+// priceId is bound via .bind(null, priceId) at the call site
 // ---------------------------------------------------------------------------
 
-export async function createCheckoutSessionAction(): Promise<void> {
+export async function createCheckoutSessionAction(priceId: string): Promise<void> {
   const user = await requireUser();
 
-  if (!STRIPE_PRICE_IDS.PRO_MONTHLY) {
-    // Stripe not configured — silently redirect back
-    redirect("/settings");
-  }
+  if (!priceId) redirect("/settings");
 
-  const appUrl = process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000";
+  const planInfo = getPlanFromPriceId(priceId);
+  if (!planInfo) redirect("/settings");
 
-  // Get or create Stripe customer
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
   const subscription = await db.subscription.findUnique({
     where: { userId: user.id },
     select: { stripeCustomerId: true },
@@ -40,12 +41,10 @@ export async function createCheckoutSessionAction(): Promise<void> {
       create: {
         userId: user.id,
         plan: "FREE",
-        status: "TRIALING",
+        status: "ACTIVE",
         stripeCustomerId: customer.id,
       },
-      update: {
-        stripeCustomerId: customer.id,
-      },
+      update: { stripeCustomerId: customer.id },
     });
   }
 
@@ -53,17 +52,25 @@ export async function createCheckoutSessionAction(): Promise<void> {
     customer: stripeCustomerId,
     mode: "subscription",
     payment_method_types: ["card"],
-    line_items: [{ price: STRIPE_PRICE_IDS.PRO_MONTHLY, quantity: 1 }],
+    line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${appUrl}/settings?stripe=success`,
-    cancel_url: `${appUrl}/settings`,
-    metadata: { userId: user.id },
-    subscription_data: { metadata: { userId: user.id } },
+    cancel_url: `${appUrl}/settings?stripe=cancelled`,
+    metadata: {
+      userId: user.id,
+      plan: planInfo.plan,
+      billingInterval: planInfo.interval,
+      priceId,
+    },
+    subscription_data: {
+      metadata: {
+        userId: user.id,
+        plan: planInfo.plan,
+        billingInterval: planInfo.interval,
+      },
+    },
   });
 
-  if (!session.url) {
-    redirect("/settings");
-  }
-
+  if (!session.url) redirect("/settings");
   redirect(session.url);
 }
 
@@ -79,11 +86,9 @@ export async function openBillingPortalAction(): Promise<void> {
     select: { stripeCustomerId: true },
   });
 
-  if (!subscription?.stripeCustomerId) {
-    redirect("/settings");
-  }
+  if (!subscription?.stripeCustomerId) redirect("/settings");
 
-  const appUrl = process.env.NEXT_PUBLIC_URL ?? "http://localhost:3000";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
   const session = await stripe.billingPortal.sessions.create({
     customer: subscription.stripeCustomerId,

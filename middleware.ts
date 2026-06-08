@@ -53,6 +53,7 @@ export async function middleware(request: NextRequest) {
     "/p/",                // pages publiques thérapeutes
     "/api/public/",       // API publiques (slots, contact, booking)
     "/api/marketing/",
+    "/api/stripe/",       // Stripe webhooks (pas de session Supabase)
   ];
   const isAlwaysPublic = alwaysPublicPaths.some((path) =>
     path === "/" ? pathname === "/" : pathname.startsWith(path)
@@ -66,7 +67,7 @@ export async function middleware(request: NextRequest) {
   if (!user && !isAlwaysPublic) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/login";
-    loginUrl.searchParams.set("redirectTo", pathname);
+    loginUrl.searchParams.set("redirectTo", pathname + request.nextUrl.search);
     return NextResponse.redirect(loginUrl);
   }
 

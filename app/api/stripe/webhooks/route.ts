@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe, STRIPE_WEBHOOK_SECRET } from "@/lib/stripe";
+import { getPlanFromPriceId } from "@/lib/plans";
 import { db } from "@/lib/db";
 import { sendSubscriptionActivatedEmail } from "@/lib/email";
 import type Stripe from "stripe";
@@ -55,7 +56,6 @@ async function handleEvent(event: Stripe.Event) {
       break;
 
     default:
-      // Ignore unhandled events
       break;
   }
 }
@@ -79,22 +79,49 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const subAny = stripeSub as any;
 
-  const periodStart = subAny.current_period_start
-    ? new Date(subAny.current_period_start * 1000)
+  // In Stripe API 2025-03-31.basil, current_period_* moved to items.data[0]
+  const firstItem = subAny.items?.data?.[0] as any;
+  const periodStart = (firstItem?.current_period_start ?? subAny.current_period_start)
+    ? new Date((firstItem?.current_period_start ?? subAny.current_period_start) * 1000)
     : null;
-  const periodEnd = subAny.current_period_end
-    ? new Date(subAny.current_period_end * 1000)
+  const periodEnd = (firstItem?.current_period_end ?? subAny.current_period_end)
+    ? new Date((firstItem?.current_period_end ?? subAny.current_period_end) * 1000)
     : null;
   const trialEnd = subAny.trial_end
     ? new Date(subAny.trial_end * 1000)
     : null;
 
+  // Determine plan: prefer metadata set at checkout creation, fall back to priceId lookup
+  const metaPlan = session.metadata?.plan;
+  const metaInterval = session.metadata?.billingInterval;
+
+  let plan: "STARTER" | "GROWTH" | "PRO" = "STARTER";
+  let billingInterval: "MONTHLY" | "YEARLY" = "MONTHLY";
+
+  if (metaPlan && ["STARTER", "GROWTH", "PRO"].includes(metaPlan)) {
+    plan = metaPlan as "STARTER" | "GROWTH" | "PRO";
+  } else {
+    // Fallback: resolve from line items
+    const priceId =
+      session.metadata?.priceId ??
+      (subAny.items?.data?.[0]?.price?.id as string | undefined);
+    if (priceId) {
+      const info = getPlanFromPriceId(priceId);
+      if (info) plan = info.plan;
+    }
+  }
+
+  if (metaInterval && ["MONTHLY", "YEARLY"].includes(metaInterval)) {
+    billingInterval = metaInterval as "MONTHLY" | "YEARLY";
+  }
+
   await db.subscription.upsert({
     where: { userId },
     create: {
       userId,
-      plan: "PRO",
+      plan,
       status: "ACTIVE",
+      billingInterval,
       stripeCustomerId: session.customer as string,
       stripeSubscriptionId,
       currentPeriodStart: periodStart,
@@ -103,8 +130,9 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       cancelAtPeriodEnd: false,
     },
     update: {
-      plan: "PRO",
+      plan,
       status: "ACTIVE",
+      billingInterval,
       stripeCustomerId: session.customer as string,
       stripeSubscriptionId,
       currentPeriodStart: periodStart,
@@ -114,16 +142,16 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     },
   });
 
-  // Send confirmation email to practitioner
   const user = await db.user.findUnique({
     where: { id: userId },
     select: { email: true, name: true },
   });
   if (user) {
-    await sendSubscriptionActivatedEmail({
+    sendSubscriptionActivatedEmail({
       userEmail: user.email,
       userName: user.name,
-      plan: "PRO",
+      plan,
+      billingInterval,
       locale: "fr",
     }).catch((e) => console.error("[email] Subscription activated email failed:", e));
   }
@@ -142,15 +170,21 @@ async function handleSubscriptionUpdated(stripeSub: Stripe.Subscription) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const subAny = stripeSub as any;
 
-  const periodStart = subAny.current_period_start
-    ? new Date(subAny.current_period_start * 1000)
+  // In Stripe API 2025-03-31.basil, current_period_* moved to items.data[0]
+  const firstItemU = subAny.items?.data?.[0] as any;
+  const periodStart = (firstItemU?.current_period_start ?? subAny.current_period_start)
+    ? new Date((firstItemU?.current_period_start ?? subAny.current_period_start) * 1000)
     : null;
-  const periodEnd = subAny.current_period_end
-    ? new Date(subAny.current_period_end * 1000)
+  const periodEnd = (firstItemU?.current_period_end ?? subAny.current_period_end)
+    ? new Date((firstItemU?.current_period_end ?? subAny.current_period_end) * 1000)
     : null;
   const canceledAt = subAny.canceled_at
     ? new Date(subAny.canceled_at * 1000)
     : null;
+
+  // Detect plan/interval change (e.g., upgrade/downgrade via Billing Portal)
+  const priceId = subAny.items?.data?.[0]?.price?.id as string | undefined;
+  const planInfo = priceId ? getPlanFromPriceId(priceId) : null;
 
   await db.subscription.updateMany({
     where: { userId },
@@ -160,6 +194,10 @@ async function handleSubscriptionUpdated(stripeSub: Stripe.Subscription) {
       currentPeriodStart: periodStart,
       currentPeriodEnd: periodEnd,
       canceledAt,
+      ...(planInfo && {
+        plan: planInfo.plan,
+        billingInterval: planInfo.interval,
+      }),
     },
   });
 }

@@ -63,7 +63,9 @@ export function SubscriptionForm({
           defaultValue={subscription?.plan ?? "FREE"}
           disabled={isPending}
         >
-          <option value="FREE">Free</option>
+          <option value="FREE">Gratuit (FREE)</option>
+          <option value="STARTER">Starter</option>
+          <option value="GROWTH">Growth</option>
           <option value="PRO">Pro</option>
         </Select>
       </div>

@@ -7,6 +7,8 @@ import {
   createCheckoutSessionAction,
   openBillingPortalAction,
 } from "@/lib/actions/subscriptions";
+import { PLAN_PRICING, PAID_PLANS, getPriceId } from "@/lib/plans";
+import type { PaidPlanKey, BillingInterval } from "@/lib/plans";
 import { PageHeader } from "@/components/ui/page-header";
 import {
   Card,
@@ -28,31 +30,61 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 // ---------------------------------------------------------------------------
-// Billing card
+// Types
 // ---------------------------------------------------------------------------
 
 type TSettings = Awaited<ReturnType<typeof getTranslations<"settings">>>;
 
 type SubscriptionData = {
-  plan: "FREE" | "PRO";
+  plan: "FREE" | "STARTER" | "GROWTH" | "PRO";
   status: "TRIALING" | "ACTIVE" | "PAST_DUE" | "CANCELED" | "SUSPENDED";
+  billingInterval: "MONTHLY" | "YEARLY";
   currentPeriodEnd: Date | null;
   cancelAtPeriodEnd: boolean;
   stripeCustomerId: string | null;
 } | null;
 
+type UpgradeIntent = {
+  plan: PaidPlanKey;
+  interval: BillingInterval;
+  priceId: string;
+} | null;
+
+// ---------------------------------------------------------------------------
+// Plan labels
+// ---------------------------------------------------------------------------
+
+const PLAN_LABEL: Record<string, string> = {
+  FREE: "Gratuit",
+  STARTER: "Starter",
+  GROWTH: "Growth",
+  PRO: "Pro",
+};
+
+const INTERVAL_LABEL: Record<string, string> = {
+  MONTHLY: "mensuel",
+  YEARLY: "annuel",
+};
+
+// ---------------------------------------------------------------------------
+// Billing card
+// ---------------------------------------------------------------------------
+
 function BillingCard({
   t,
   subscription,
   stripeParam,
+  upgradeIntent,
 }: {
   t: TSettings;
   subscription: SubscriptionData;
   stripeParam: string | undefined;
+  upgradeIntent: UpgradeIntent;
 }) {
   const plan = subscription?.plan ?? "FREE";
   const status = subscription?.status ?? "ACTIVE";
   const hasBillingPortal = !!subscription?.stripeCustomerId;
+  const isPaidPlan = plan !== "FREE";
 
   const statusVariant: Record<string, "neutral" | "info" | "success" | "warning" | "error"> = {
     TRIALING: "info",
@@ -76,7 +108,8 @@ function BillingCard({
         <CardTitle>{t("billing.title")}</CardTitle>
         <CardDescription>{t("billing.description")}</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-5">
+        {/* Banners post-checkout */}
         {stripeParam === "success" && (
           <div className="rounded-lg bg-nd-sage-tint border border-nd-sage-tint px-4 py-3 text-sm text-nd-sage-deep font-medium">
             {t("billing.successBanner")}
@@ -88,12 +121,18 @@ function BillingCard({
           </div>
         )}
 
+        {/* Plan actuel */}
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-slate-500">{t("billing.currentPlan")}</p>
             <div className="flex items-center gap-2 mt-1">
               <p className="text-base font-semibold text-slate-900">
-                {plan === "PRO" ? t("billing.planPro") : t("billing.planFree")}
+                {PLAN_LABEL[plan] ?? plan}
+                {isPaidPlan && subscription?.billingInterval && (
+                  <span className="text-sm font-normal text-slate-400 ml-1">
+                    ({INTERVAL_LABEL[subscription.billingInterval] ?? ""})
+                  </span>
+                )}
               </p>
               <Badge variant={statusVariant[status] ?? "neutral"}>
                 {statusLabel[status] ?? status}
@@ -103,7 +142,9 @@ function BillingCard({
               <p className="text-xs text-slate-400 mt-1">
                 {t("billing.renewsOn", {
                   date: subscription.currentPeriodEnd.toLocaleDateString(undefined, {
-                    day: "numeric", month: "short", year: "numeric",
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
                   }),
                 })}
               </p>
@@ -112,30 +153,104 @@ function BillingCard({
               <p className="text-xs text-red-500 mt-1">
                 {t("billing.cancelAtPeriodEnd", {
                   date: subscription.currentPeriodEnd.toLocaleDateString(undefined, {
-                    day: "numeric", month: "short", year: "numeric",
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
                   }),
                 })}
               </p>
             )}
           </div>
 
-          <div className="flex flex-col gap-2 items-end">
-            {plan === "FREE" && (
-              <form action={createCheckoutSessionAction}>
-                <Button type="submit" variant="primary" size="sm">
-                  {t("billing.upgradeButton")}
-                </Button>
-              </form>
-            )}
-            {hasBillingPortal && (
-              <form action={openBillingPortalAction}>
-                <Button type="submit" variant="secondary" size="sm">
-                  {t("billing.manageButton")}
-                </Button>
-              </form>
-            )}
-          </div>
+          {hasBillingPortal && (
+            <form action={openBillingPortalAction}>
+              <Button type="submit" variant="secondary" size="sm">
+                {t("billing.manageButton")}
+              </Button>
+            </form>
+          )}
         </div>
+
+        {/* Upgrade intent — venant de /tarifs via ?upgrade=PLAN&interval=INTERVAL */}
+        {upgradeIntent && !isPaidPlan && (
+          <div
+            className="rounded-xl border-2 p-4 space-y-3"
+            style={{ borderColor: "var(--nd-sage)", background: "var(--nd-cream)" }}
+          >
+            <div>
+              <p className="text-sm font-semibold text-slate-900">
+                Plan sélectionné : {PLAN_LABEL[upgradeIntent.plan]} {INTERVAL_LABEL[upgradeIntent.interval]}
+              </p>
+              <p className="text-sm text-slate-500 mt-0.5">
+                {PLAN_PRICING[upgradeIntent.plan][
+                  upgradeIntent.interval === "MONTHLY" ? "monthlyPrice" : "yearlyMonthly"
+                ]}
+                {" "}€/mois
+                {upgradeIntent.interval === "YEARLY" && (
+                  <span className="text-slate-400">
+                    {" "}— {PLAN_PRICING[upgradeIntent.plan].yearlyTotal} € facturés annuellement
+                  </span>
+                )}
+              </p>
+            </div>
+            <form action={createCheckoutSessionAction.bind(null, upgradeIntent.priceId)}>
+              <Button type="submit" variant="primary" size="sm">
+                Confirmer et payer
+              </Button>
+            </form>
+          </div>
+        )}
+
+        {/* Pour les utilisateurs FREE sans intent : afficher les 3 plans */}
+        {!isPaidPlan && !upgradeIntent && (
+          <div className="space-y-3">
+            <p className="text-sm font-medium text-slate-700">Choisissez votre plan :</p>
+            <div className="grid sm:grid-cols-3 gap-3">
+              {PAID_PLANS.map((planKey) => {
+                const pricing = PLAN_PRICING[planKey];
+                const priceId = pricing.priceIdMonthly;
+                const isFeatured = planKey === "GROWTH";
+                return (
+                  <form key={planKey} action={createCheckoutSessionAction.bind(null, priceId)}>
+                    <button
+                      type="submit"
+                      className={cn(
+                        "w-full rounded-xl border px-4 py-3 text-left transition-all hover:-translate-y-0.5 hover:shadow-sm cursor-pointer",
+                        isFeatured
+                          ? "border-[var(--nd-sage)] bg-nd-sage-tint"
+                          : "border-slate-200 bg-white hover:border-slate-300"
+                      )}
+                    >
+                      <p className="font-semibold text-sm text-slate-900">
+                        {PLAN_LABEL[planKey]}
+                        {isFeatured && (
+                          <span
+                            className="ml-2 text-[10px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded-full text-white"
+                            style={{ background: "var(--nd-sage)" }}
+                          >
+                            Populaire
+                          </span>
+                        )}
+                      </p>
+                      <p className="text-slate-500 text-xs mt-0.5">
+                        {pricing.monthlyPrice} €/mois
+                      </p>
+                    </button>
+                  </form>
+                );
+              })}
+            </div>
+            <p className="text-xs text-slate-400">
+              Abonnement mensuel sans engagement.{" "}
+              <a
+                href="/tarifs"
+                className="underline underline-offset-2 hover:text-slate-600 transition-colors"
+              >
+                Voir les tarifs annuels (−17%)
+              </a>
+            </p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
@@ -196,12 +311,11 @@ function LocaleSwitcher({
 export default async function SettingsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ stripe?: string }>;
+  searchParams: Promise<{ stripe?: string; upgrade?: string; interval?: string }>;
 }) {
-  const [user, t, tPdf, currentLocale, resolvedParams] = await Promise.all([
+  const [user, t, currentLocale, resolvedParams] = await Promise.all([
     requireUser(),
     getTranslations("settings"),
-    getTranslations("pdf"),
     getLocale(),
     searchParams,
   ]);
@@ -211,6 +325,7 @@ export default async function SettingsPage({
     select: {
       plan: true,
       status: true,
+      billingInterval: true,
       currentPeriodEnd: true,
       cancelAtPeriodEnd: true,
       stripeCustomerId: true,
@@ -218,7 +333,19 @@ export default async function SettingsPage({
   });
 
   const stripeParam = resolvedParams.stripe;
-  void tPdf;
+
+  // Resolve upgrade intent from URL params (set by /tarifs CTAs)
+  let upgradeIntent: UpgradeIntent = null;
+  const rawPlan = resolvedParams.upgrade?.toUpperCase();
+  const rawInterval = resolvedParams.interval?.toUpperCase();
+
+  if (rawPlan && (PAID_PLANS as string[]).includes(rawPlan)) {
+    const plan = rawPlan as PaidPlanKey;
+    const interval: BillingInterval =
+      rawInterval === "YEARLY" ? "YEARLY" : "MONTHLY";
+    const priceId = getPriceId(plan, interval);
+    if (priceId) upgradeIntent = { plan, interval, priceId };
+  }
 
   return (
     <div>
@@ -263,6 +390,7 @@ export default async function SettingsPage({
           t={t}
           subscription={subscription}
           stripeParam={stripeParam}
+          upgradeIntent={upgradeIntent}
         />
 
         {/* Langue */}
