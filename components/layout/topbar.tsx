@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useTransition } from "react";
 import { Menu, ChevronDown, LogOut, Settings } from "lucide-react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import { useRouter } from "next/navigation";
 import { signOutAction } from "@/lib/actions/auth";
+import { setLocaleAction } from "@/lib/actions/locale";
 import { cn } from "@/lib/utils";
+import type { Locale } from "@/i18n/request";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -23,6 +26,40 @@ function UserAvatar({ name }: { name: string }) {
   return (
     <div className="flex items-center justify-center w-8 h-8 rounded-full bg-nd-sage-tint text-nd-sage-deep text-sm font-semibold shrink-0 select-none">
       {initials || "?"}
+    </div>
+  );
+}
+
+function LangSwitcher() {
+  const locale = useLocale() as Locale;
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  function switchTo(next: Locale) {
+    if (next === locale || isPending) return;
+    startTransition(async () => {
+      await setLocaleAction(next);
+      router.refresh();
+    });
+  }
+
+  return (
+    <div className="inline-flex items-center rounded-full overflow-hidden border border-nd-line bg-white text-xs font-semibold shrink-0">
+      {(["fr", "en"] as Locale[]).map((lng) => (
+        <button
+          key={lng}
+          onClick={() => switchTo(lng)}
+          disabled={isPending}
+          className={cn(
+            "px-3 py-1.5 uppercase transition-colors duration-150 disabled:opacity-60",
+            locale === lng
+              ? "bg-nd-sage text-white"
+              : "text-nd-muted hover:text-nd-forest"
+          )}
+        >
+          {lng}
+        </button>
+      ))}
     </div>
   );
 }
@@ -56,6 +93,9 @@ export function Topbar({ onMenuClick, userName, userEmail }: TopbarProps) {
       </button>
 
       <div className="flex-1" />
+
+      <div className="flex items-center gap-3">
+      <LangSwitcher />
 
       {/* User dropdown */}
       <div ref={dropdownRef} className="relative">
@@ -120,6 +160,7 @@ export function Topbar({ onMenuClick, userName, userEmail }: TopbarProps) {
             </form>
           </div>
         )}
+      </div>
       </div>
     </header>
   );
