@@ -48,6 +48,7 @@ model User {
   services             ServiceOffering[]
   practitionerSchedule PractitionerSchedule?
   contactMessages      ContactMessage[]
+  adviceSheets         AdviceSheet[]
 
   @@index([deletedAt])
   @@map("users")
@@ -81,6 +82,7 @@ model Patient {
   invoices       Invoice[]
   timelineEvents TimelineEvent[]
   patternCases   PatternCase[]
+  adviceSheets   AdviceSheet[]
 
   @@index([userId])
   @@index([isArchived])
@@ -173,6 +175,7 @@ model Consultation {
   ruleRuns         RuleRun[]
   patternCases     PatternCase[]
   clinicalAnalyses ClinicalAnalysis[]
+  adviceSheets     AdviceSheet[]
 
   @@index([patientId])
   @@index([status])
@@ -1773,4 +1776,63 @@ model ContactMessage {
   @@index([status])
   @@index([createdAt])
   @@map("contact_messages")
+}
+
+// ---------------------------------------------------------------------------
+// ADVICE SHEETS — Fiches conseil patient (document de sortie)
+// ---------------------------------------------------------------------------
+
+enum AdviceSheetStatus {
+  DRAFT
+  FINAL
+}
+
+model AdviceSheet {
+  id             String            @id @default(uuid())
+  userId         String            // praticien owner — dénormalisé pour auth rapide
+  patientId      String
+  consultationId String?           // consultation source (optionnel)
+  parentId       String?           // ID de la fiche racine de la famille — null = V1.0
+
+  title               String?           // ex: "Protocole Vitalité — Été 2026"
+  versionMajor        Int               @default(1)
+  versionMinor        Int               @default(0)
+  status              AdviceSheetStatus @default(DRAFT)
+  signedAt            DateTime?         // renseigné automatiquement lors du passage DRAFT → FINAL
+
+  // ── Synthèse patient ────────────────────────────────────────────────────────
+  consultationSummary String?   // synthèse courte affichée en début de fiche
+
+  // ── Sections du protocole (toutes optionnelles — omises du PDF si null/vide) ─
+  objectives       String?   // Objectifs du protocole
+  dietaryAdvice    String?   // Conseils alimentaires
+  supplements      String?   // Compléments alimentaires
+  phytotherapy     String?   // Phytothérapie
+  aromatherapy     String?   // Aromathérapie
+  micronutrition   String?   // Micronutrition
+  gemmotherapy     String?   // Gemmothérapie
+  bachFlowers      String?   // Fleurs de Bach
+  lifestyle        String?   // Hygiène de vie
+  physicalActivity String?   // Activité physique
+  additionalNotes  String?   // Remarques complémentaires
+  precautions      String?   // Précautions éventuelles
+
+  // ── Traçabilité IA ─────────────────────────────────────────────────────────
+  aiDraftGenerated Boolean   @default(false)   // true si brouillon initialement généré par IA
+
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id])
+  patient      Patient       @relation(fields: [patientId], references: [id])
+  consultation Consultation? @relation(fields: [consultationId], references: [id])
+  parent       AdviceSheet?  @relation("AdviceSheetVersions", fields: [parentId], references: [id])
+  versions     AdviceSheet[] @relation("AdviceSheetVersions")
+
+  @@index([userId])
+  @@index([patientId])
+  @@index([consultationId])
+  @@index([parentId])
+  @@index([status])
+  @@map("advice_sheets")
 }

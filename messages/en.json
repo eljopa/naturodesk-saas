@@ -7,6 +7,7 @@
       "patients": "Patients",
       "appointments": "Appointments",
       "consultations": "Consultations",
+      "adviceSheets": "Advice sheets",
       "protocols": "Protocols",
       "invoices": "Invoices",
       "knowledge": "Knowledge Base",
@@ -78,6 +79,7 @@
       "patients": "Patients",
       "appointments": "Appointments",
       "consultations": "Consultations",
+      "adviceSheets": "Advice sheets",
       "protocols": "Protocols",
       "invoices": "Invoices",
       "knowledge": "Knowledge Base",
@@ -756,7 +758,99 @@
   "pdf": {
     "downloadInvoice": "Download PDF",
     "downloadConsultation": "Export PDF",
-    "downloadPatient": "Patient PDF"
+    "downloadPatient": "Patient PDF",
+    "downloadAdviceSheet": "Download advice sheet"
+  },
+
+  "adviceSheets": {
+    "pageTitle": "Advice sheets",
+    "pageDescription": "Write and export advice sheets to hand to your clients",
+    "newPageTitle": "New advice sheet",
+    "newPageDescription": "Write recommendations to hand to your client",
+    "editPageTitle": "Edit advice sheet",
+    "backToList": "Advice sheets",
+    "backToDetail": "Back to sheet",
+    "new": "New sheet",
+    "createCta": "Create an advice sheet",
+    "untitled": "Untitled sheet",
+    "versions": "versions",
+    "previousVersions": "Previous versions",
+    "noContent": "No sections filled in",
+    "sectionsEmpty": "empty section(s) — hidden in PDF",
+    "linkedConsultation": "Linked to consultation of",
+    "consultationOf": "Consultation of {date}",
+    "signedAt": "Finalized on {date}",
+
+    "statusDraft": "Draft",
+    "statusFinal": "Finalized",
+
+    "filterAll": "All",
+    "filterDraft": "Drafts",
+    "filterFinal": "Finalized",
+
+    "emptyTitle": "No advice sheets yet",
+    "emptyDescription": "Create your first advice sheet to hand to a client after their consultation.",
+
+    "sections": {
+      "consultationSummary": "Consultation summary",
+      "objectives":          "Protocol objectives",
+      "dietaryAdvice":       "Dietary advice",
+      "supplements":         "Dietary supplements",
+      "phytotherapy":        "Phytotherapy",
+      "aromatherapy":        "Aromatherapy",
+      "micronutrition":      "Micronutrition",
+      "gemmotherapy":        "Gemmotherapy",
+      "bachFlowers":         "Bach flowers",
+      "lifestyle":           "Lifestyle advice",
+      "physicalActivity":    "Physical activity",
+      "additionalNotes":     "Additional notes",
+      "precautions":         "Precautions"
+    },
+
+    "ai": {
+      "bannerTitle": "Generate a proposal with AI",
+      "bannerDescription": "Pre-fills sections from the consultation, symptoms, terrain and validated findings. Review and edit before finalizing.",
+      "generateButton": "Generate proposal",
+      "generating": "Generating…",
+      "applied": "Proposal applied — please review and edit before saving."
+    },
+
+    "form": {
+      "patientLabel": "Patient",
+      "patientPlaceholder": "Select a patient",
+      "consultationLabel": "Linked consultation",
+      "consultationPlaceholder": "Select a consultation",
+      "noConsultations": "No consultations for this patient",
+      "selectPatientFirst": "Select a patient first",
+      "titleLabel": "Sheet title",
+      "titlePlaceholder": "e.g. Vitality protocol — Summer 2026",
+      "submitCreate": "Create sheet",
+      "submitEdit": "Save changes"
+    },
+
+    "actions": {
+      "edit":        "Edit",
+      "downloadPdf": "Download PDF",
+      "finalize":    "Finalize",
+      "revertDraft": "Revert to draft",
+      "duplicate":   "Duplicate",
+      "delete":      "Delete"
+    },
+
+    "versioning": {
+      "title":        "Versions",
+      "historyTitle": "Version history",
+      "newMinor":     "New minor version",
+      "newMajor":     "New major version"
+    },
+
+    "errors": {
+      "invalid_input":     "Invalid data.",
+      "patient_not_found": "Patient not found.",
+      "not_found":         "Sheet not found.",
+      "unauthorized":      "Unauthorized.",
+      "generic_error":     "An error occurred. Please try again."
+    }
   },
 
   "webpage": {

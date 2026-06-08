@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronLeft, FlaskConical, AlertTriangle, RefreshCw, Download } from "lucide-react";
+import { ChevronLeft, FlaskConical, AlertTriangle, RefreshCw, Download, ScrollText, Plus } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
@@ -76,17 +76,24 @@ export default async function ConsultationPage({ params, searchParams }: PagePro
     searchParams,
   ]);
 
-  const consultation = await db.consultation.findUnique({
-    where: { id },
-    include: {
-      patient: { select: { id: true, firstName: true, lastName: true } },
-      appointment: { select: { id: true, startAt: true, type: true } },
-      symptoms: { orderBy: { createdAt: "asc" } },
-      medications: { orderBy: { createdAt: "asc" } },
-      supplements: { orderBy: { createdAt: "asc" } },
-      findings: { orderBy: { createdAt: "asc" } },
-    },
-  });
+  const [consultation, adviceSheets] = await Promise.all([
+    db.consultation.findUnique({
+      where: { id },
+      include: {
+        patient: { select: { id: true, firstName: true, lastName: true } },
+        appointment: { select: { id: true, startAt: true, type: true } },
+        symptoms: { orderBy: { createdAt: "asc" } },
+        medications: { orderBy: { createdAt: "asc" } },
+        supplements: { orderBy: { createdAt: "asc" } },
+        findings: { orderBy: { createdAt: "asc" } },
+      },
+    }),
+    db.adviceSheet.findMany({
+      where: { consultationId: id },
+      select: { id: true, title: true, versionMajor: true, versionMinor: true, status: true },
+      orderBy: [{ versionMajor: "desc" }, { versionMinor: "desc" }],
+    }),
+  ]);
 
   if (!consultation) notFound();
 
@@ -387,6 +394,48 @@ export default async function ConsultationPage({ params, searchParams }: PagePro
             </CardContent>
           </Card>
         )}
+      </div>
+
+      {/* Widget Fiches conseil liées */}
+      <div className="mt-6 max-w-2xl">
+        <Card>
+          <CardContent className="p-5">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <ScrollText className="w-4 h-4 text-nd-sage" />
+                <h2 className="text-sm font-semibold text-slate-700">Fiches conseil</h2>
+              </div>
+              <Button variant="secondary" size="sm" asChild>
+                <Link href={`/advice-sheets/new?patientId=${consultation.patientId}&consultationId=${id}`}>
+                  <Plus className="w-3.5 h-3.5" />
+                  Créer une fiche
+                </Link>
+              </Button>
+            </div>
+            {adviceSheets.length === 0 ? (
+              <p className="text-xs text-slate-400">Aucune fiche conseil pour cette consultation.</p>
+            ) : (
+              <ul className="space-y-2">
+                {adviceSheets.map((sheet) => (
+                  <li key={sheet.id} className="flex items-center justify-between text-sm">
+                    <Link href={`/advice-sheets/${sheet.id}`} className="flex items-center gap-2 text-slate-700 hover:text-nd-sage transition-colors min-w-0">
+                      <span className="font-medium shrink-0">V{sheet.versionMajor}.{sheet.versionMinor}</span>
+                      <span className="truncate text-slate-500">{sheet.title ?? "Sans titre"}</span>
+                    </Link>
+                    <div className="flex items-center gap-2 shrink-0 ml-3">
+                      <Badge variant={sheet.status === "FINAL" ? "success" : "neutral"}>
+                        {sheet.status === "FINAL" ? "Final" : "Brouillon"}
+                      </Badge>
+                      <a href={`/api/pdf/advice-sheet/${sheet.id}`} className="text-slate-400 hover:text-nd-sage transition-colors" title="Télécharger PDF">
+                        <Download className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

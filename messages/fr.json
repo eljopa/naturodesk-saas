@@ -9,6 +9,7 @@
       "consultations": "Consultations",
       "protocols": "Protocoles",
       "invoices": "Factures",
+      "adviceSheets": "Fiches conseil",
       "knowledge": "Base documentaire",
       "webpage": "Ma page web",
       "messages": "Messagerie",
@@ -78,6 +79,7 @@
       "patients": "Patients",
       "appointments": "Rendez-vous",
       "consultations": "Consultations",
+      "adviceSheets": "Fiches conseil",
       "protocols": "Protocoles",
       "invoices": "Factures",
       "knowledge": "Base documentaire",
@@ -756,7 +758,99 @@
   "pdf": {
     "downloadInvoice": "Télécharger PDF",
     "downloadConsultation": "Exporter PDF",
-    "downloadPatient": "Fiche PDF"
+    "downloadPatient": "Fiche PDF",
+    "downloadAdviceSheet": "Télécharger la fiche"
+  },
+
+  "adviceSheets": {
+    "pageTitle": "Fiches conseil",
+    "pageDescription": "Rédigez et exportez les fiches conseil remises à vos clients",
+    "newPageTitle": "Nouvelle fiche conseil",
+    "newPageDescription": "Rédigez les recommandations à remettre à votre client",
+    "editPageTitle": "Modifier la fiche conseil",
+    "backToList": "Fiches conseil",
+    "backToDetail": "Retour à la fiche",
+    "new": "Nouvelle fiche",
+    "createCta": "Créer une fiche conseil",
+    "untitled": "Fiche sans titre",
+    "versions": "versions",
+    "previousVersions": "Versions précédentes",
+    "noContent": "Aucune section renseignée",
+    "sectionsEmpty": "section(s) vide(s) — masquée(s) dans le PDF",
+    "linkedConsultation": "Liée à la consultation du",
+    "consultationOf": "Consultation du {date}",
+    "signedAt": "Validée le {date}",
+
+    "statusDraft": "Brouillon",
+    "statusFinal": "Finalisée",
+
+    "filterAll": "Toutes",
+    "filterDraft": "Brouillons",
+    "filterFinal": "Finalisées",
+
+    "emptyTitle": "Aucune fiche conseil",
+    "emptyDescription": "Créez votre première fiche conseil pour la remettre à un client après consultation.",
+
+    "sections": {
+      "consultationSummary": "Synthèse de la consultation",
+      "objectives":          "Objectifs du protocole",
+      "dietaryAdvice":       "Conseils alimentaires",
+      "supplements":         "Compléments alimentaires",
+      "phytotherapy":        "Phytothérapie",
+      "aromatherapy":        "Aromathérapie",
+      "micronutrition":      "Micronutrition",
+      "gemmotherapy":        "Gemmothérapie",
+      "bachFlowers":         "Fleurs de Bach",
+      "lifestyle":           "Hygiène de vie",
+      "physicalActivity":    "Activité physique",
+      "additionalNotes":     "Remarques complémentaires",
+      "precautions":         "Précautions éventuelles"
+    },
+
+    "ai": {
+      "bannerTitle": "Générer une proposition avec l'IA",
+      "bannerDescription": "Pré-remplit les sections à partir du bilan, des symptômes, du terrain et des observations validées. À relire et corriger avant finalisation.",
+      "generateButton": "Générer la proposition",
+      "generating": "Génération en cours…",
+      "applied": "Proposition appliquée — relisez et corrigez avant de sauvegarder."
+    },
+
+    "form": {
+      "patientLabel": "Patient",
+      "patientPlaceholder": "Sélectionner un patient",
+      "consultationLabel": "Consultation liée",
+      "consultationPlaceholder": "Sélectionner une consultation",
+      "noConsultations": "Aucune consultation pour ce patient",
+      "selectPatientFirst": "Sélectionnez d'abord un patient",
+      "titleLabel": "Titre de la fiche",
+      "titlePlaceholder": "ex : Protocole Vitalité — Été 2026",
+      "submitCreate": "Créer la fiche",
+      "submitEdit": "Enregistrer les modifications"
+    },
+
+    "actions": {
+      "edit":        "Modifier",
+      "downloadPdf": "Télécharger PDF",
+      "finalize":    "Finaliser",
+      "revertDraft": "Repasser en brouillon",
+      "duplicate":   "Dupliquer",
+      "delete":      "Supprimer"
+    },
+
+    "versioning": {
+      "title":        "Versions",
+      "historyTitle": "Historique des versions",
+      "newMinor":     "Nouvelle version mineure",
+      "newMajor":     "Nouvelle version majeure"
+    },
+
+    "errors": {
+      "invalid_input":   "Données invalides.",
+      "patient_not_found": "Patient introuvable.",
+      "not_found":       "Fiche introuvable.",
+      "unauthorized":    "Accès non autorisé.",
+      "generic_error":   "Une erreur est survenue. Veuillez réessayer."
+    }
   },
 
   "webpage": {

@@ -3,6 +3,7 @@ import {
   Users,
   Calendar,
   ClipboardList,
+  ScrollText,
   BookOpen,
   FileText,
   Database,
@@ -22,6 +23,7 @@ export type NavItemKey =
   | "patients"
   | "appointments"
   | "consultations"
+  | "adviceSheets"
   | "protocols"
   | "invoices"
   | "knowledge"
@@ -63,8 +65,9 @@ export const NAV_SECTIONS: NavSectionConfig[] = [
   {
     sectionKey: "clinique",
     items: [
-      { key: "consultations", href: "/consultations", icon: ClipboardList },
-      { key: "protocols", href: "/protocols", icon: BookOpen },
+      { key: "consultations", href: "/consultations",  icon: ClipboardList },
+      { key: "adviceSheets",  href: "/advice-sheets",  icon: ScrollText },
+      { key: "protocols",     href: "/protocols",       icon: BookOpen },
     ],
   },
   {

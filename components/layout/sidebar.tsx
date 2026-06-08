@@ -21,16 +21,17 @@ import {
 function useItemLabel(key: NavItemKey): string {
   const t = useTranslations("nav.items");
   const labels: Record<NavItemKey, string> = {
-    dashboard: t("dashboard"),
-    patients: t("patients"),
+    dashboard:    t("dashboard"),
+    patients:     t("patients"),
     appointments: t("appointments"),
     consultations: t("consultations"),
-    protocols: t("protocols"),
-    invoices: t("invoices"),
-    knowledge: t("knowledge"),
-    webpage: t("webpage"),
-    messages: t("messages"),
-    settings: t("settings"),
+    adviceSheets: t("adviceSheets"),
+    protocols:    t("protocols"),
+    invoices:     t("invoices"),
+    knowledge:    t("knowledge"),
+    webpage:      t("webpage"),
+    messages:     t("messages"),
+    settings:     t("settings"),
   };
   return labels[key];
 }
