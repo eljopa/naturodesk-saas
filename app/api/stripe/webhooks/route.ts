@@ -66,14 +66,24 @@ async function handleEvent(event: Stripe.Event) {
 
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId;
-  if (!userId || session.mode !== "subscription") return;
+  console.log(`[webhook] checkout.session.completed | session=${session.id} | userId=${userId} | mode=${session.mode}`);
+
+  if (!userId || session.mode !== "subscription") {
+    console.log("[webhook] skipping — missing userId or not subscription mode");
+    return;
+  }
 
   const stripeSubscriptionId =
     typeof session.subscription === "string"
       ? session.subscription
       : session.subscription?.id;
 
-  if (!stripeSubscriptionId) return;
+  console.log(`[webhook] subscription=${stripeSubscriptionId} | customer=${session.customer}`);
+
+  if (!stripeSubscriptionId) {
+    console.log("[webhook] skipping — no subscription id");
+    return;
+  }
 
   const stripeSub = await stripe.subscriptions.retrieve(stripeSubscriptionId);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -115,6 +125,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     billingInterval = metaInterval as "MONTHLY" | "YEARLY";
   }
 
+  console.log(`[webhook] upserting subscription | userId=${userId} plan=${plan} interval=${billingInterval}`);
+
   await db.subscription.upsert({
     where: { userId },
     create: {
@@ -141,6 +153,8 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       cancelAtPeriodEnd: false,
     },
   });
+
+  console.log(`[webhook] subscription upserted ✓ | userId=${userId} plan=${plan}`);
 
   const user = await db.user.findUnique({
     where: { id: userId },

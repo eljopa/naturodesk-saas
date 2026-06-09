@@ -743,7 +743,8 @@
       "upgradeButton": "Passer en PRO",
       "manageButton": "Gérer mon abonnement",
       "stripeNotConfigured": "Paiement non disponible en ce moment.",
-      "successBanner": "Votre abonnement PRO est maintenant actif.",
+      "successBanner": "Paiement reçu — votre abonnement {plan} est maintenant actif.",
+      "successBannerPending": "Paiement reçu — activation en cours, rechargez dans quelques secondes.",
       "cancelledBanner": "L'abonnement n'a pas été activé."
     },
     "danger": {

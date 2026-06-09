@@ -9,6 +9,7 @@ import {
 } from "@/lib/actions/subscriptions";
 import { PLAN_PRICING, PAID_PLANS, getPriceId } from "@/lib/plans";
 import type { PaidPlanKey, BillingInterval } from "@/lib/plans";
+import { syncSubscriptionOnSuccess } from "@/lib/subscription";
 import { PageHeader } from "@/components/ui/page-header";
 import {
   Card,
@@ -85,6 +86,8 @@ function BillingCard({
   const status = subscription?.status ?? "ACTIVE";
   const hasBillingPortal = !!subscription?.stripeCustomerId;
   const isPaidPlan = plan !== "FREE";
+  // After Stripe checkout: show success only if DB is actually updated
+  const justActivated = stripeParam === "success" && isPaidPlan;
 
   const statusVariant: Record<string, "neutral" | "info" | "success" | "warning" | "error"> = {
     TRIALING: "info",
@@ -110,9 +113,14 @@ function BillingCard({
       </CardHeader>
       <CardContent className="space-y-5">
         {/* Banners post-checkout */}
-        {stripeParam === "success" && (
+        {stripeParam === "success" && justActivated && (
           <div className="rounded-lg bg-nd-sage-tint border border-nd-sage-tint px-4 py-3 text-sm text-nd-sage-deep font-medium">
-            {t("billing.successBanner")}
+            {t("billing.successBanner", { plan: PLAN_LABEL[plan] ?? plan })}
+          </div>
+        )}
+        {stripeParam === "success" && !justActivated && (
+          <div className="rounded-lg bg-amber-50 border border-amber-200 px-4 py-3 text-sm text-amber-700">
+            {t("billing.successBannerPending")}
           </div>
         )}
         {stripeParam === "cancelled" && (
@@ -319,6 +327,18 @@ export default async function SettingsPage({
     getLocale(),
     searchParams,
   ]);
+
+  // Fallback sync: if returning from Stripe checkout but webhook hasn't fired yet,
+  // query Stripe directly and update the DB. Reads stripeCustomerId first (lightweight).
+  if (resolvedParams.stripe === "success") {
+    const existing = await db.subscription.findUnique({
+      where: { userId: user.id },
+      select: { plan: true, stripeCustomerId: true },
+    });
+    if (existing?.plan === "FREE" && existing.stripeCustomerId) {
+      await syncSubscriptionOnSuccess(user.id, existing.stripeCustomerId);
+    }
+  }
 
   const subscription = await db.subscription.findUnique({
     where: { userId: user.id },

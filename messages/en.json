@@ -743,7 +743,8 @@
       "upgradeButton": "Upgrade to PRO",
       "manageButton": "Manage subscription",
       "stripeNotConfigured": "Payment not available at this time.",
-      "successBanner": "Your PRO subscription is now active.",
+      "successBanner": "Payment received — your {plan} subscription is now active.",
+      "successBannerPending": "Payment received — activation in progress, please reload in a few seconds.",
       "cancelledBanner": "The subscription was not activated."
     },
     "danger": {
