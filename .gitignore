@@ -28,6 +28,10 @@
 .env.staging
 .env.test
 
+# ─── Scripts de test locaux (contiennent des secrets) ─────────────────────────
+scripts/e2e-test.js
+scripts/*.local.js
+
 # ─── Secrets & certificats ─────────────────────────────────────────────────────
 *.pem
 *.key
