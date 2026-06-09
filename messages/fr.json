@@ -884,8 +884,8 @@
     "pageDescription": "Créez et gérez votre page professionnelle publique",
 
     "proGate": {
-      "title": "Fonctionnalité Pro",
-      "description": "La page web professionnelle est disponible avec le plan Pro. Partagez votre page avec vos patients et permettez la prise de rendez-vous en ligne."
+      "title": "Disponible dès Growth",
+      "description": "La page web professionnelle est incluse dans les plans Growth et Pro. Partagez votre page avec vos patients et permettez la prise de rendez-vous en ligne."
     },
 
     "status": {
@@ -955,7 +955,7 @@
 
     "errors": {
       "invalid_input": "Veuillez vérifier les champs du formulaire.",
-      "pro_plan_required": "Cette fonctionnalité est réservée au plan Pro.",
+      "pro_plan_required": "Cette fonctionnalité est réservée aux plans Growth et Pro.",
       "slug_taken": "Cette adresse est déjà utilisée. Veuillez en choisir une autre.",
       "not_found": "Page introuvable.",
       "generic_error": "Une erreur est survenue. Veuillez réessayer."

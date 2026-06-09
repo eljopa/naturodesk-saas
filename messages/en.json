@@ -884,8 +884,8 @@
     "pageDescription": "Create and manage your public professional page",
 
     "proGate": {
-      "title": "Pro feature",
-      "description": "The professional web page is available with the Pro plan. Share your page with your patients and enable online booking."
+      "title": "Available from Growth",
+      "description": "The professional web page is included in the Growth and Pro plans. Share your page with your patients and enable online booking."
     },
 
     "status": {
@@ -955,7 +955,7 @@
 
     "errors": {
       "invalid_input": "Please check the form fields.",
-      "pro_plan_required": "This feature is reserved for the Pro plan.",
+      "pro_plan_required": "This feature is reserved for the Growth and Pro plans.",
       "slug_taken": "This address is already taken. Please choose another one.",
       "not_found": "Page not found.",
       "generic_error": "An error occurred. Please try again."
