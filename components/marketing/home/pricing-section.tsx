@@ -8,7 +8,7 @@ import type { PlanCardData } from "./pricing-grid";
 
 // Compute the CTA href for a plan/interval combination.
 // Logged-in users go directly to /settings with upgrade intent.
-// Anonymous users go to /login with the destination encoded as redirectTo.
+// Anonymous users go to /register with plan params.
 function buildCtaHref(
   plan: PaidPlanKey,
   interval: "MONTHLY" | "YEARLY",
@@ -16,7 +16,7 @@ function buildCtaHref(
 ): string {
   const dest = `/settings?upgrade=${plan}&interval=${interval}`;
   if (isLoggedIn) return dest;
-  return `/login?redirectTo=${encodeURIComponent(dest)}`;
+  return `/register?plan=${plan}&interval=${interval}`;
 }
 
 export async function PricingSection() {

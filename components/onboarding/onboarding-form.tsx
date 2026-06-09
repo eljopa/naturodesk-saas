@@ -9,9 +9,10 @@ import { Label } from "@/components/ui/label";
 
 interface OnboardingFormProps {
   email?: string;
+  redirectTo?: string;
 }
 
-export function OnboardingForm({ email }: OnboardingFormProps) {
+export function OnboardingForm({ email, redirectTo }: OnboardingFormProps) {
   const t = useTranslations("onboarding");
   const tErr = useTranslations("onboarding.errors");
 
@@ -24,6 +25,9 @@ export function OnboardingForm({ email }: OnboardingFormProps) {
 
   return (
     <form action={formAction} className="flex flex-col gap-5">
+      {redirectTo && (
+        <input type="hidden" name="redirectTo" value={redirectTo} />
+      )}
       {errorMessage && (
         <div
           role="alert"

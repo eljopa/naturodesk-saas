@@ -23,6 +23,7 @@ const OnboardingSchema = z.object({
     .trim()
     .optional()
     .transform((v) => v || null),
+  redirectTo: z.string().optional(),
 });
 
 export async function createProfileAction(
@@ -42,11 +43,15 @@ export async function createProfileAction(
     firstName: formData.get("firstName"),
     lastName: formData.get("lastName"),
     cabinetName: formData.get("cabinetName") || undefined,
+    redirectTo: formData.get("redirectTo") ?? undefined,
   });
 
   if (!parsed.success) return { errorCode: "invalid_input" };
 
-  const { firstName, lastName, cabinetName } = parsed.data;
+  const { firstName, lastName, cabinetName, redirectTo } = parsed.data;
+  const dest = redirectTo ?? "/dashboard";
+  const safeDest =
+    dest.startsWith("/") && !dest.startsWith("//") ? dest : "/dashboard";
 
   try {
     await db.user.create({
@@ -61,5 +66,5 @@ export async function createProfileAction(
     return { errorCode: "generic_error" };
   }
 
-  redirect("/dashboard");
+  redirect(safeDest);
 }

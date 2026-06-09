@@ -41,6 +41,7 @@ export async function middleware(request: NextRequest) {
   ];
   const alwaysPublicPaths = [
     ...authPaths,
+    "/register",
     "/",                  // home marketing
     "/fonctionnalites",
     "/tarifs",

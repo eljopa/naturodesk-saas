@@ -1,6 +1,7 @@
 "use server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -15,9 +16,10 @@ export type AuthErrorCode =
   | "email_required"
   | "password_mismatch"
   | "password_too_short"
-  | "reset_failed";
+  | "reset_failed"
+  | "email_already_exists";
 
-export type AuthMessageCode = "password_reset_sent";
+export type AuthMessageCode = "password_reset_sent" | "confirm_email_sent";
 
 export type AuthFormState = {
   errorCode?: AuthErrorCode;
@@ -71,6 +73,89 @@ export async function signInAction(
       : "/dashboard";
 
   redirect(safeDest);
+}
+
+// ---------------------------------------------------------------------------
+// Inscription
+// ---------------------------------------------------------------------------
+
+const SignUpSchema = z
+  .object({
+    firstName: z.string().min(1).max(100).trim(),
+    lastName: z.string().min(1).max(100).trim(),
+    email: z.string().email(),
+    password: z.string().min(8),
+    confirmPassword: z.string(),
+    redirectTo: z.string().optional(),
+  })
+  .refine((d) => d.password === d.confirmPassword, { path: ["confirmPassword"] });
+
+export async function signUpAction(
+  _prevState: AuthFormState,
+  formData: FormData
+): Promise<AuthFormState> {
+  const parsed = SignUpSchema.safeParse({
+    firstName: formData.get("firstName"),
+    lastName: formData.get("lastName"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+    redirectTo: formData.get("redirectTo") ?? undefined,
+  });
+
+  if (!parsed.success) {
+    const path = parsed.error.issues[0]?.path[0];
+    if (path === "confirmPassword") return { errorCode: "password_mismatch" };
+    if (path === "password") return { errorCode: "password_too_short" };
+    return { errorCode: "invalid_input" };
+  }
+
+  const { firstName, lastName, email, password, redirectTo } = parsed.data;
+  const name = `${firstName} ${lastName}`.trim();
+  const dest = redirectTo ?? "/dashboard";
+  const safeDest =
+    dest.startsWith("/") && !dest.startsWith("//") ? dest : "/dashboard";
+
+  const supabase = await createSupabaseServerClient();
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "";
+  const onboardingPath = `/onboarding?redirectTo=${encodeURIComponent(safeDest)}`;
+  const emailRedirectTo = `${appUrl}/auth/callback?next=${encodeURIComponent(onboardingPath)}`;
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: { emailRedirectTo },
+  });
+
+  if (error) {
+    if (error.status === 422 || error.message.toLowerCase().includes("already")) {
+      return { errorCode: "email_already_exists" };
+    }
+    return { errorCode: "generic_error" };
+  }
+
+  // Email auto-confirmé : session active immédiatement → créer le profil Prisma
+  if (data.session && data.user) {
+    const existing = await db.user.findUnique({ where: { authId: data.user.id } });
+    if (!existing) {
+      try {
+        await db.user.create({
+          data: {
+            authId: data.user.id,
+            email: data.user.email ?? email,
+            name,
+          },
+        });
+      } catch {
+        // Si la création échoue, l'utilisateur passera par /onboarding
+      }
+    }
+    redirect(safeDest);
+  }
+
+  // Confirmation email requise
+  return { messageCode: "confirm_email_sent" };
 }
 
 // ---------------------------------------------------------------------------

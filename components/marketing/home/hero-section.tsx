@@ -53,7 +53,7 @@ export async function HeroSection() {
 
             <div className="flex flex-wrap gap-3.5 items-center mb-5">
               <Link
-                href="/login"
+                href="/register"
                 className="inline-flex items-center px-[34px] py-[17px] rounded-full font-bold text-white text-[16px] transition-all duration-200 hover:-translate-y-0.5"
                 style={{ background: "var(--nd-sage)", boxShadow: "0 10px 24px -10px rgba(94,115,73,.7)" }}
               >

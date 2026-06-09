@@ -89,6 +89,16 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
       >
         {t("submit")}
       </Button>
+
+      <p className="text-center text-sm text-slate-500 mt-1">
+        {t("noAccount")}{" "}
+        <Link
+          href="/register"
+          className="font-medium text-nd-sage-deep hover:text-nd-forest hover:underline transition-colors"
+        >
+          {t("registerLink")}
+        </Link>
+      </p>
     </form>
   );
 }

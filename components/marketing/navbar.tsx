@@ -275,7 +275,7 @@ export function MarketingNav() {
               style={{ background: "transparent", color: "var(--nd-forest)", border: "1.5px solid var(--nd-line)" }}>
               {t("login")}
             </Link>
-            <Link href="/login"
+            <Link href="/register"
               className="inline-flex items-center px-5 py-[10px] rounded-full text-[15px] font-bold text-white transition-all duration-200 hover:opacity-90"
               style={{ background: "var(--nd-sage)", boxShadow: "0 10px 24px -10px rgba(94,115,73,.65)" }}>
               {t("cta")}
@@ -386,7 +386,7 @@ export function MarketingNav() {
               </button>
             ))}
           </div>
-          <Link href="/login" onClick={() => setOpen(false)}
+          <Link href="/register" onClick={() => setOpen(false)}
             className="mt-2 flex justify-center items-center py-[13px] rounded-full text-[15px] font-bold text-white"
             style={{ background: "var(--nd-sage)" }}>
             {t("cta")}

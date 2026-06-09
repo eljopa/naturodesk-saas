@@ -10,19 +10,28 @@ import { OnboardingForm } from "@/components/onboarding/onboarding-form";
  * Safety-net page: Supabase user exists but no Prisma profile yet.
  * Must NOT call requireUser() to avoid the redirect loop.
  */
-export default async function OnboardingPage() {
+export default async function OnboardingPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ redirectTo?: string }>;
+}) {
   const t = await getTranslations("onboarding");
 
-  const authUser = await getAuthUser();
+  const [authUser, params] = await Promise.all([getAuthUser(), searchParams]);
 
   // If somehow not authenticated, go to login
   if (!authUser) redirect("/login");
 
-  // If profile already exists, go to dashboard
+  // If profile already exists, go to destination
   const existing = await db.user.findUnique({
     where: { authId: authUser.id },
   });
-  if (existing) redirect("/dashboard");
+  const dest = params.redirectTo;
+  const safeDest =
+    dest && dest.startsWith("/") && !dest.startsWith("//") ? dest : "/dashboard";
+  if (existing) redirect(safeDest);
+
+  const redirectTo = safeDest !== "/dashboard" ? safeDest : undefined;
 
   return (
     <div className="nd-surface min-h-screen bg-nd-cream flex flex-col items-center justify-center p-4">
@@ -47,7 +56,7 @@ export default async function OnboardingPage() {
           <p className="text-sm text-nd-muted mt-1">{t("subtitle")}</p>
         </div>
 
-        <OnboardingForm email={authUser.email ?? undefined} />
+        <OnboardingForm email={authUser.email ?? undefined} redirectTo={redirectTo} />
       </div>
 
       {/* Logout link */}

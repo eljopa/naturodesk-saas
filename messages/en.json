@@ -15,6 +15,7 @@
       "messages": "Inbox",
       "settings": "Settings",
       "login": "Sign In",
+      "register": "Create Account",
       "forgotPassword": "Forgot Password",
       "resetPassword": "New Password"
     }
@@ -33,7 +34,9 @@
       "passwordLabel": "Password",
       "passwordPlaceholder": "••••••••",
       "forgotPassword": "Forgot your password?",
-      "submit": "Sign In"
+      "submit": "Sign In",
+      "noAccount": "No account yet?",
+      "registerLink": "Sign up for free"
     },
 
     "forgotPassword": {
@@ -56,6 +59,27 @@
       "submit": "Update password"
     },
 
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Start your free trial — no commitment",
+      "firstNameLabel": "First name",
+      "firstNamePlaceholder": "Marie",
+      "lastNameLabel": "Last name",
+      "lastNamePlaceholder": "Dupont",
+      "emailLabel": "Professional email",
+      "emailPlaceholder": "you@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Minimum 8 characters",
+      "confirmPasswordLabel": "Confirm password",
+      "confirmPasswordPlaceholder": "••••••••",
+      "submit": "Create my account",
+      "planSelected": "Selected plan:",
+      "alreadyAccount": "Already have an account?",
+      "loginLink": "Sign in",
+      "confirmTitle": "Check your email",
+      "confirmSubtitle": "A confirmation link has been sent to you. Click it to activate your account."
+    },
+
     "errors": {
       "invalid_credentials": "Incorrect email or password.",
       "invalid_input": "Please enter a valid email and password.",
@@ -63,7 +87,8 @@
       "email_required": "Please enter a valid email address.",
       "password_mismatch": "Passwords do not match.",
       "password_too_short": "Password must be at least 8 characters.",
-      "reset_failed": "Unable to update your password. Please try again."
+      "reset_failed": "Unable to update your password. Please try again.",
+      "email_already_exists": "An account already exists with this email. Sign in or reset your password."
     }
   },
 
