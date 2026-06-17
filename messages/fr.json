@@ -61,7 +61,7 @@
 
     "register": {
       "title": "Créer votre compte",
-      "subtitle": "Commencez votre essai gratuit — sans engagement",
+      "subtitle": "Créez votre compte pour finaliser votre abonnement.",
       "firstNameLabel": "Prénom",
       "firstNamePlaceholder": "Marie",
       "lastNameLabel": "Nom",
@@ -77,7 +77,11 @@
       "alreadyAccount": "Déjà un compte ?",
       "loginLink": "Se connecter",
       "confirmTitle": "Vérifiez votre email",
-      "confirmSubtitle": "Un lien de confirmation vous a été envoyé. Cliquez dessus pour activer votre compte."
+      "confirmSubtitle": "Un lien de confirmation vous a été envoyé. Cliquez dessus pour activer votre compte.",
+      "termsCheckboxPrefix": "J'accepte les",
+      "termsLinkText": "Conditions Générales d'Utilisation",
+      "privacyCheckboxPrefix": "J'ai lu et j'accepte la",
+      "privacyLinkText": "Politique de confidentialité"
     },
 
     "errors": {
@@ -88,7 +92,8 @@
       "password_mismatch": "Les mots de passe ne correspondent pas.",
       "password_too_short": "Le mot de passe doit faire au moins 8 caractères.",
       "reset_failed": "Impossible de mettre à jour le mot de passe. Veuillez réessayer.",
-      "email_already_exists": "Un compte existe déjà avec cet email. Connectez-vous ou réinitialisez votre mot de passe."
+      "email_already_exists": "Un compte existe déjà avec cet email. Connectez-vous ou réinitialisez votre mot de passe.",
+      "terms_not_accepted": "Vous devez accepter les CGU et la politique de confidentialité pour créer un compte."
     }
   },
 
@@ -148,9 +153,13 @@
     },
     "kpi": {
       "activePatients": "Patients actifs",
+      "activePatientshint": "Dossiers ouverts",
       "upcomingAppointments": "RDV à venir",
+      "upcomingAppointmentshint": "Rendez-vous planifiés",
       "ongoingConsultations": "Bilans en cours",
-      "draftInvoices": "Factures brouillon"
+      "ongoingConsultationshint": "À finaliser",
+      "draftInvoices": "Factures brouillon",
+      "draftInvoiceshint": "En attente d'envoi"
     },
     "online": "En ligne",
     "upcoming": {
@@ -770,7 +779,9 @@
       "stripeNotConfigured": "Paiement non disponible en ce moment.",
       "successBanner": "Paiement reçu — votre abonnement {plan} est maintenant actif.",
       "successBannerPending": "Paiement reçu — activation en cours, rechargez dans quelques secondes.",
-      "cancelledBanner": "L'abonnement n'a pas été activé."
+      "cancelledBanner": "L'abonnement n'a pas été activé.",
+      "subscriptionRequiredBanner": "Un abonnement actif est requis pour accéder à NaturoDesk.",
+      "subscriptionRequiredDescription": "Choisissez votre plan ci-dessous pour activer votre accès immédiatement."
     },
     "danger": {
       "title": "Zone de danger",
@@ -961,10 +972,49 @@
       "generic_error": "Une erreur est survenue. Veuillez réessayer."
     },
 
+    "validationErrors": {
+      "slug": "L'adresse de la page est invalide (2–60 caractères, lettres minuscules, chiffres et tirets uniquement).",
+      "contactEmail": "L'email de contact n'est pas une adresse valide.",
+      "bio": "La présentation courte dépasse la limite de 500 caractères.",
+      "presentation": "La présentation dépasse la limite de 3000 caractères.",
+      "servicesDisplay": "Le texte des prestations dépasse la limite de 1000 caractères.",
+      "pricingDisplay": "Les tarifs dépassent la limite de 500 caractères.",
+      "address": "L'adresse dépasse la limite de 300 caractères.",
+      "phone": "Le numéro de téléphone dépasse la limite de 30 caractères.",
+      "seoTitle": "Le titre SEO dépasse la limite de 60 caractères.",
+      "seoDescription": "La description SEO dépasse la limite de 160 caractères.",
+      "instagram": "Le lien Instagram dépasse la limite de 300 caractères.",
+      "facebook": "Le lien Facebook dépasse la limite de 300 caractères.",
+      "linkedin": "Le lien LinkedIn dépasse la limite de 300 caractères.",
+      "website": "Le lien du site web dépasse la limite de 300 caractères.",
+      "default": "Veuillez vérifier les champs du formulaire."
+    },
+
     "success": {
       "saved": "Modifications enregistrées.",
       "published": "Votre page est maintenant publiée.",
       "unpublished": "Votre page a été dépubliée."
+    },
+
+    "infoSections": {
+      "title": "Spécialités & approches",
+      "description": "Ajoutez des rubriques pour présenter vos disciplines (ex : Phytothérapie, Homéopathie…).",
+      "addButton": "Ajouter une rubrique",
+      "emptyTitle": "Aucune rubrique ajoutée",
+      "form": {
+        "titleLabel": "Titre de la rubrique",
+        "titlePlaceholder": "Phytothérapie",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Décrivez brièvement cette discipline ou approche…",
+        "submit": "Enregistrer",
+        "cancel": "Annuler",
+        "errors": {
+          "invalid_input": "Veuillez vérifier les champs.",
+          "not_found": "Rubrique introuvable.",
+          "unauthorized": "Accès non autorisé.",
+          "generic_error": "Erreur lors de l'enregistrement. Veuillez réessayer."
+        }
+      }
     },
 
     "services": {
@@ -1007,6 +1057,7 @@
       "openMenu": "Ouvrir le menu",
       "closeMenu": "Fermer le menu",
       "produitMenu": {
+        "visibiliteTitle": "Visibilité & clinique",
         "cabinetTitle": "Gestion du cabinet",
         "dossiers": "Dossiers patients",
         "dossiersDesc": "Fiches patients complètes et structurées",
@@ -1073,9 +1124,9 @@
         "badge": "Tout-en-un pour naturopathes",
         "headline": "Lancez, gérez et développez votre cabinet de naturopathie.",
         "subtitle": "NaturoDesk réunit votre agenda, vos dossiers patients, vos protocoles et votre page professionnelle dans une seule plateforme — pensée pour les naturopathes, pas empruntée à un logiciel générique.",
-        "ctaPrimary": "Commencer gratuitement",
+        "ctaPrimary": "Souscrire",
         "ctaSecondary": "Découvrir le produit",
-        "trust": "14 jours d'essai gratuit · Sans carte bancaire"
+        "trust": "Accès immédiat · Résiliable à tout moment"
       },
       "trust": {
         "label": "Une plateforme qui remplace tous vos outils éparpillés",
@@ -1186,14 +1237,14 @@
         "a3": "Bien sûr. Vous pouvez importer votre liste de patients et recréer vos protocoles, puis tout reste centralisé et relié au sein de NaturoDesk.",
         "q4": "Les données de mes patients sont-elles sécurisées ?",
         "a4": "Oui. Les données sont hébergées en Europe, chiffrées, et traitées avec la confidentialité qu'exige votre pratique.",
-        "q5": "Que se passe-t-il après l'essai gratuit ?",
-        "a5": "Vous choisissez un abonnement si vous souhaitez continuer. Aucune carte n'est requise pour démarrer, et vous résiliez à tout moment."
+        "q5": "Comment fonctionne l'abonnement ?",
+        "a5": "Choisissez votre plan lors de l'inscription et accédez immédiatement à NaturoDesk. Résiliation possible à tout moment depuis vos paramètres."
       },
       "finalCta": {
         "eyebrow": "Construisez votre cabinet sur NaturoDesk",
         "title": "Enfin l'outil que les naturopathes attendaient.",
         "subtitle": "Lancez, gérez et développez votre activité sereinement — tout au même endroit.",
-        "ctaPrimary": "S'inscrire gratuitement",
+        "ctaPrimary": "Commencer",
         "ctaSecondary": "Voir la démo"
       }
     },
@@ -1215,7 +1266,7 @@
           "name": "Gratuit",
           "price": "0 €",
           "description": "Pour démarrer votre activité sans engagement.",
-          "cta": "Commencer gratuitement",
+          "cta": "Souscrire",
           "feature1": "Jusqu'à 10 patients",
           "feature2": "Gestion des rendez-vous",
           "feature3": "Consultations & protocoles",
@@ -1227,7 +1278,7 @@
           "priceMonthly": "29 €",
           "priceAnnual": "24 €",
           "description": "Pour les praticiens en activité pleine.",
-          "cta": "Essayer 14 jours gratuitement",
+          "cta": "Choisir ce plan",
           "badge": "Recommandé",
           "feature1": "Patients illimités",
           "feature2": "Page web professionnelle",
@@ -1242,10 +1293,10 @@
       "faq": {
         "q1": "Puis-je changer de plan à tout moment ?",
         "a1": "Oui, vous pouvez passer au plan Pro ou revenir au plan Gratuit à tout moment depuis vos paramètres, sans frais de résiliation.",
-        "q2": "L'essai Pro nécessite-t-il une carte bancaire ?",
-        "a2": "Non. Les 14 jours d'essai sont accessibles sans renseigner de moyen de paiement.",
-        "q3": "Que se passe-t-il à la fin de l'essai ?",
-        "a3": "Votre compte passe automatiquement au plan Gratuit. Vous conservez vos données et pouvez souscrire à tout moment.",
+        "q2": "Dois-je payer dès l'inscription ?",
+        "a2": "Oui. Un abonnement actif est requis pour accéder à NaturoDesk. Vous pouvez résilier à tout moment depuis vos paramètres.",
+        "q3": "Puis-je résilier à tout moment ?",
+        "a3": "Oui, sans frais ni engagement. Votre accès reste actif jusqu'à la fin de la période en cours.",
         "q4": "Mes données sont-elles sécurisées ?",
         "a4": "Toutes les données sont hébergées en Europe, chiffrées au repos et en transit, et ne sont jamais partagées avec des tiers."
       }
@@ -1386,8 +1437,8 @@
       },
       "cta": {
         "title": "Prêt à essayer NaturoDesk ?",
-        "subtitle": "Créez votre compte gratuitement, sans carte bancaire.",
-        "button": "Commencer gratuitement"
+        "subtitle": "Créez votre compte et activez votre abonnement en quelques minutes.",
+        "button": "Commencer"
       }
     },
 
@@ -1415,8 +1466,8 @@
         "a3": "Non, NaturoDesk est une application web. Il suffit d'un navigateur et d'une connexion internet."
       },
       "pricing": {
-        "q1": "L'essai gratuit nécessite-t-il une carte bancaire ?",
-        "a1": "Non, vous pouvez créer un compte et accéder à l'essai Pro pendant 14 jours sans renseigner de moyen de paiement.",
+        "q1": "Dois-je entrer une carte bancaire pour m'inscrire ?",
+        "a1": "Oui, un moyen de paiement est requis pour activer votre abonnement. Vous pouvez résilier à tout moment depuis vos paramètres.",
         "q2": "Puis-je annuler mon abonnement à tout moment ?",
         "a2": "Oui, sans engagement ni frais. Vous conservez l'accès au plan Pro jusqu'à la fin de la période en cours.",
         "q3": "Proposez-vous un tarif pour les étudiants ou jeunes praticiens ?",

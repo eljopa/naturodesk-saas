@@ -18,9 +18,9 @@ function CheckIcon() {
   );
 }
 
-function FeatureCard({ id, icon, title, desc }: { id: string; icon: React.ReactNode; title: string; desc: string }) {
-  return (
-    <div id={id} className="flex items-start gap-4 p-6 rounded-2xl transition-all duration-200 hover:-translate-y-0.5"
+function FeatureCard({ id, href, icon, title, desc }: { id: string; href?: string; icon: React.ReactNode; title: string; desc: string }) {
+  const inner = (
+    <div className="flex items-start gap-4 p-6 rounded-2xl transition-all duration-200 hover:-translate-y-0.5"
       style={{ background: "#fff", border: "1px solid var(--nd-line-soft)", boxShadow: "0 2px 8px rgba(61,74,51,.05)" }}>
       <span className="w-10 h-10 rounded-xl grid place-items-center flex-shrink-0" style={{ background: "var(--nd-sage-tint)" }}>
         {icon}
@@ -31,17 +31,20 @@ function FeatureCard({ id, icon, title, desc }: { id: string; icon: React.ReactN
       </div>
     </div>
   );
+  return href
+    ? <Link id={id} href={href} style={{ textDecoration: "none" }}>{inner}</Link>
+    : <div id={id}>{inner}</div>;
 }
 
 export default async function FonctionnalitesPage() {
   const t  = await getTranslations("marketing.fonctionnalites");
   const tp = await getTranslations("marketing.home.p2");
   const cabinetFeatures = [
-    { id: "dossiers",    icon: <UsersIcon />,  title: t("cabinet.dossiers.title"),    desc: t("cabinet.dossiers.desc") },
-    { id: "bilans",      icon: <PulseIcon />,  title: t("cabinet.bilans.title"),      desc: t("cabinet.bilans.desc") },
-    { id: "protocoles",  icon: <LeafIcon />,   title: t("cabinet.protocoles.title"),  desc: t("cabinet.protocoles.desc") },
-    { id: "agenda",      icon: <CalIcon />,    title: t("cabinet.agenda.title"),      desc: t("cabinet.agenda.desc") },
-    { id: "facturation", icon: <BillIcon />,   title: t("cabinet.facturation.title"), desc: t("cabinet.facturation.desc") },
+    { id: "dossiers",    href: "/fonctionnalites/dossiers-patients",  icon: <UsersIcon />,  title: t("cabinet.dossiers.title"),    desc: t("cabinet.dossiers.desc") },
+    { id: "bilans",      href: "/fonctionnalites/bilans-vitalite",    icon: <PulseIcon />,  title: t("cabinet.bilans.title"),      desc: t("cabinet.bilans.desc") },
+    { id: "protocoles",  href: "/fonctionnalites/protocoles",         icon: <LeafIcon />,   title: t("cabinet.protocoles.title"),  desc: t("cabinet.protocoles.desc") },
+    { id: "agenda",      href: "/fonctionnalites/agenda-rendez-vous", icon: <CalIcon />,    title: t("cabinet.agenda.title"),      desc: t("cabinet.agenda.desc") },
+    { id: "facturation", href: "/fonctionnalites/facturation",        icon: <BillIcon />,   title: t("cabinet.facturation.title"), desc: t("cabinet.facturation.desc") },
   ];
 
   return (
@@ -81,7 +84,7 @@ export default async function FonctionnalitesPage() {
       </section>
 
       {/* Analyse clinique */}
-      <section id="analyse" className="py-[90px] px-8" style={{ background: "var(--nd-sage-wash)" }}>
+      <section id="analyse" className="py-[90px] scroll-mt-24 px-8" style={{ background: "var(--nd-sage-wash)" }}>
         <div className="max-w-[1200px] mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div className="md:order-2">
             <p className="nd-eyebrow">{t("analyse.eyebrow")}</p>
@@ -90,7 +93,7 @@ export default async function FonctionnalitesPage() {
               {t("analyse.title")}
             </h2>
             <p className="mb-6" style={{ color: "var(--nd-muted)", fontSize: 18, lineHeight: 1.65 }}>{t("analyse.desc")}</p>
-            <div className="flex items-start gap-4 p-5 rounded-2xl"
+            <div className="flex items-start gap-4 p-5 rounded-2xl mb-6"
               style={{ background: "#fff", border: "1px solid var(--nd-sage-tint)" }}>
               <span className="w-10 h-10 rounded-xl grid place-items-center flex-shrink-0" style={{ background: "var(--nd-sage-tint)" }}>
                 <ShieldIcon />
@@ -99,6 +102,11 @@ export default async function FonctionnalitesPage() {
                 <strong style={{ fontWeight: 800 }}>{t("analyse.disclaimer")}</strong>
               </p>
             </div>
+            <Link href="/fonctionnalites/assistance-clinique"
+              className="inline-flex items-center gap-1.5 text-[15px] font-bold transition-colors duration-150 hover:underline"
+              style={{ color: "var(--nd-sage-deep)" }}>
+              En savoir plus →
+            </Link>
           </div>
           <div className="md:order-1">
             <AppMockup type="moteur" />
@@ -116,7 +124,7 @@ export default async function FonctionnalitesPage() {
               {t("pagePro.title")}
             </h2>
             <p className="mb-7" style={{ color: "var(--nd-muted)", fontSize: 18, lineHeight: 1.65 }}>{t("pagePro.desc")}</p>
-            <ul className="list-none p-0 m-0 grid gap-3">
+            <ul className="list-none p-0 m-0 grid gap-3 mb-7">
               {(["l1","l2","l3","l4"] as const).map(k => (
                 <li key={k} className="flex gap-3 items-start text-[15.5px]" style={{ color: "var(--nd-ink)" }}>
                   <CheckIcon />
@@ -124,6 +132,11 @@ export default async function FonctionnalitesPage() {
                 </li>
               ))}
             </ul>
+            <Link href="/fonctionnalites/page-professionnelle"
+              className="inline-flex items-center gap-1.5 text-[15px] font-bold transition-colors duration-150 hover:underline"
+              style={{ color: "var(--nd-sage-deep)" }}>
+              En savoir plus →
+            </Link>
           </div>
           <AppMockup type="pagepro" />
         </div>

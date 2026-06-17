@@ -208,20 +208,20 @@ export function MarketingNav() {
             {/* Produit dropdown */}
             <DropdownWrapper label={t("produit")}>
               <div className="px-1">
-                {/* Cabinet group */}
+                {/* Visibilité & clinique group */}
                 <p className="px-4 pt-2 pb-1 text-[11px] font-extrabold uppercase tracking-[.1em]"
-                  style={{ color: "var(--nd-taupe)" }}>{tp("cabinetTitle")}</p>
-                <DropdownItem href="/fonctionnalites#dossiers"  icon={<UsersIc/>}  label={tp("dossiers")}    desc={tp("dossiersDesc")} />
-                <DropdownItem href="/fonctionnalites#bilans"    icon={<PulseIc/>}  label={tp("bilans")}      desc={tp("bilansDesc")} />
-                <DropdownItem href="/fonctionnalites#protocoles" icon={<LeafIc/>}  label={tp("protocoles")}  desc={tp("protocolesDesc")} />
-                <DropdownItem href="/fonctionnalites#agenda"    icon={<CalIc/>}    label={tp("agenda")}      desc={tp("agendaDesc")} />
-                <DropdownItem href="/fonctionnalites#facturation" icon={<BillIc/>} label={tp("facturation")} desc={tp("facturationDesc")} />
+                  style={{ color: "var(--nd-taupe)" }}>{tp("visibiliteTitle")}</p>
+                <DropdownItem href="/fonctionnalites/page-professionnelle" icon={<GlobeIc/>}  label={tp("pagePro")}     desc={tp("pageProDesc")} />
+                <DropdownItem href="/fonctionnalites/assistance-clinique"  icon={<ShieldIc/>} label={tp("assistance")}  desc={tp("assistanceDesc")} />
+                <DropdownItem href="/fonctionnalites/protocoles"           icon={<LeafIc/>}   label={tp("protocoles")}  desc={tp("protocolesDesc")} />
                 {/* Separator */}
                 <div className="my-2 mx-4 border-t" style={{ borderColor: "var(--nd-line-soft)" }} />
                 <p className="px-4 pb-1 text-[11px] font-extrabold uppercase tracking-[.1em]"
-                  style={{ color: "var(--nd-taupe)" }}>{tp("autresTitle")}</p>
-                <DropdownItem href="/fonctionnalites#analyse"   icon={<ShieldIc/>} label={tp("assistance")}  desc={tp("assistanceDesc")} />
-                <DropdownItem href="/fonctionnalites#page-pro"  icon={<GlobeIc/>}  label={tp("pagePro")}     desc={tp("pageProDesc")} />
+                  style={{ color: "var(--nd-taupe)" }}>{tp("cabinetTitle")}</p>
+                <DropdownItem href="/fonctionnalites/dossiers-patients"  icon={<UsersIc/>}  label={tp("dossiers")}    desc={tp("dossiersDesc")} />
+                <DropdownItem href="/fonctionnalites/bilans-vitalite"    icon={<PulseIc/>}  label={tp("bilans")}      desc={tp("bilansDesc")} />
+                <DropdownItem href="/fonctionnalites/agenda-rendez-vous" icon={<CalIc/>}    label={tp("agenda")}      desc={tp("agendaDesc")} />
+                <DropdownItem href="/fonctionnalites/facturation"        icon={<BillIc/>}   label={tp("facturation")} desc={tp("facturationDesc")} />
                 {/* Footer link */}
                 <div className="mx-4 mt-2 mb-1 border-t pt-2" style={{ borderColor: "var(--nd-line-soft)" }}>
                   <Link href="/fonctionnalites"
@@ -315,13 +315,13 @@ export function MarketingNav() {
           {mobileSub === "produit" && (
             <div className="pl-3 pb-2 flex flex-col gap-0.5">
               {([
-                ["/fonctionnalites#dossiers",   tp("dossiers")],
-                ["/fonctionnalites#bilans",     tp("bilans")],
-                ["/fonctionnalites#protocoles", tp("protocoles")],
-                ["/fonctionnalites#agenda",     tp("agenda")],
-                ["/fonctionnalites#facturation",tp("facturation")],
-                ["/fonctionnalites#analyse",    tp("assistance")],
-                ["/fonctionnalites#page-pro",   tp("pagePro")],
+                ["/fonctionnalites/page-professionnelle", tp("pagePro")],
+                ["/fonctionnalites/assistance-clinique",  tp("assistance")],
+                ["/fonctionnalites/protocoles",           tp("protocoles")],
+                ["/fonctionnalites/dossiers-patients",    tp("dossiers")],
+                ["/fonctionnalites/bilans-vitalite",      tp("bilans")],
+                ["/fonctionnalites/agenda-rendez-vous",   tp("agenda")],
+                ["/fonctionnalites/facturation",          tp("facturation")],
               ] as [string, string][]).map(([href, label]) => (
                 <Link key={href} href={href} onClick={() => setOpen(false)}
                   className="py-2 px-1 text-[14px] font-medium" style={{ color: "var(--nd-ink)" }}>

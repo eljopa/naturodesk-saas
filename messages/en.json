@@ -61,7 +61,7 @@
 
     "register": {
       "title": "Create your account",
-      "subtitle": "Start your free trial — no commitment",
+      "subtitle": "Create your account to complete your subscription.",
       "firstNameLabel": "First name",
       "firstNamePlaceholder": "Marie",
       "lastNameLabel": "Last name",
@@ -77,7 +77,11 @@
       "alreadyAccount": "Already have an account?",
       "loginLink": "Sign in",
       "confirmTitle": "Check your email",
-      "confirmSubtitle": "A confirmation link has been sent to you. Click it to activate your account."
+      "confirmSubtitle": "A confirmation link has been sent to you. Click it to activate your account.",
+      "termsCheckboxPrefix": "I accept the",
+      "termsLinkText": "Terms and Conditions",
+      "privacyCheckboxPrefix": "I have read and accept the",
+      "privacyLinkText": "Privacy Policy"
     },
 
     "errors": {
@@ -88,7 +92,8 @@
       "password_mismatch": "Passwords do not match.",
       "password_too_short": "Password must be at least 8 characters.",
       "reset_failed": "Unable to update your password. Please try again.",
-      "email_already_exists": "An account already exists with this email. Sign in or reset your password."
+      "email_already_exists": "An account already exists with this email. Sign in or reset your password.",
+      "terms_not_accepted": "You must accept the Terms and Conditions and Privacy Policy to create an account."
     }
   },
 
@@ -148,9 +153,13 @@
     },
     "kpi": {
       "activePatients": "Active patients",
+      "activePatientshint": "Open files",
       "upcomingAppointments": "Upcoming appointments",
+      "upcomingAppointmentshint": "Scheduled appointments",
       "ongoingConsultations": "Ongoing consultations",
-      "draftInvoices": "Draft invoices"
+      "ongoingConsultationshint": "To be finalized",
+      "draftInvoices": "Draft invoices",
+      "draftInvoiceshint": "Pending to send"
     },
     "online": "Online",
     "upcoming": {
@@ -770,7 +779,9 @@
       "stripeNotConfigured": "Payment not available at this time.",
       "successBanner": "Payment received — your {plan} subscription is now active.",
       "successBannerPending": "Payment received — activation in progress, please reload in a few seconds.",
-      "cancelledBanner": "The subscription was not activated."
+      "cancelledBanner": "The subscription was not activated.",
+      "subscriptionRequiredBanner": "An active subscription is required to access NaturoDesk.",
+      "subscriptionRequiredDescription": "Choose your plan below to activate your access immediately."
     },
     "danger": {
       "title": "Danger zone",
@@ -961,10 +972,49 @@
       "generic_error": "An error occurred. Please try again."
     },
 
+    "validationErrors": {
+      "slug": "The page address is invalid (2–60 characters, lowercase letters, digits and hyphens only).",
+      "contactEmail": "The contact email is not a valid address.",
+      "bio": "The short bio exceeds the 500-character limit.",
+      "presentation": "The presentation exceeds the 3000-character limit.",
+      "servicesDisplay": "The services text exceeds the 1000-character limit.",
+      "pricingDisplay": "The pricing text exceeds the 500-character limit.",
+      "address": "The address exceeds the 300-character limit.",
+      "phone": "The phone number exceeds the 30-character limit.",
+      "seoTitle": "The SEO title exceeds the 60-character limit.",
+      "seoDescription": "The SEO description exceeds the 160-character limit.",
+      "instagram": "The Instagram link exceeds the 300-character limit.",
+      "facebook": "The Facebook link exceeds the 300-character limit.",
+      "linkedin": "The LinkedIn link exceeds the 300-character limit.",
+      "website": "The website link exceeds the 300-character limit.",
+      "default": "Please check the form fields."
+    },
+
     "success": {
       "saved": "Changes saved.",
       "published": "Your page is now published.",
       "unpublished": "Your page has been unpublished."
+    },
+
+    "infoSections": {
+      "title": "Specialities & approaches",
+      "description": "Add sections to present your disciplines (e.g. Phytotherapy, Homoeopathy…).",
+      "addButton": "Add a section",
+      "emptyTitle": "No sections added yet",
+      "form": {
+        "titleLabel": "Section title",
+        "titlePlaceholder": "Phytotherapy",
+        "descriptionLabel": "Description",
+        "descriptionPlaceholder": "Briefly describe this discipline or approach…",
+        "submit": "Save",
+        "cancel": "Cancel",
+        "errors": {
+          "invalid_input": "Please check the fields.",
+          "not_found": "Section not found.",
+          "unauthorized": "Access denied.",
+          "generic_error": "An error occurred. Please try again."
+        }
+      }
     },
 
     "services": {
@@ -1007,6 +1057,7 @@
       "openMenu": "Open menu",
       "closeMenu": "Close menu",
       "produitMenu": {
+        "visibiliteTitle": "Visibility & clinical",
         "cabinetTitle": "Practice management",
         "dossiers": "Patient records",
         "dossiersDesc": "Complete, structured patient files",
@@ -1073,9 +1124,9 @@
         "badge": "All-in-one for naturopaths",
         "headline": "Launch, run and grow your naturopathy practice.",
         "subtitle": "NaturoDesk brings your schedule, patient records, protocols and professional page together in one platform — designed for naturopaths, not borrowed from generic software.",
-        "ctaPrimary": "Get started free",
+        "ctaPrimary": "Subscribe",
         "ctaSecondary": "Discover the product",
-        "trust": "Free 14-day trial · No card required"
+        "trust": "Instant access · Cancel any time"
       },
       "trust": {
         "label": "One platform replaces all your scattered tools",
@@ -1186,14 +1237,14 @@
         "a3": "Absolutely. You can import your patient list and recreate your protocols, then everything stays centralised and connected within NaturoDesk.",
         "q4": "Is my patients' data secure?",
         "a4": "Yes. Data is hosted in Europe, encrypted, and handled with the confidentiality your practice requires.",
-        "q5": "What happens after the free trial?",
-        "a5": "You choose a plan if you wish to continue. No card is required to start, and you can cancel anytime."
+        "q5": "How does the subscription work?",
+        "a5": "Choose your plan when you sign up and get immediate access to NaturoDesk. Cancel any time from your settings."
       },
       "finalCta": {
         "eyebrow": "Build your practice on NaturoDesk",
         "title": "The tool naturopaths were waiting for.",
         "subtitle": "Launch, manage and grow your practice serenely — everything in one place.",
-        "ctaPrimary": "Sign up free",
+        "ctaPrimary": "Get started",
         "ctaSecondary": "Watch the tour"
       }
     },
@@ -1215,7 +1266,7 @@
           "name": "Free",
           "price": "€0",
           "description": "Get started with no commitment.",
-          "cta": "Start for free",
+          "cta": "Subscribe",
           "feature1": "Up to 10 patients",
           "feature2": "Appointment management",
           "feature3": "Consultations & protocols",
@@ -1227,7 +1278,7 @@
           "priceMonthly": "€29",
           "priceAnnual": "€24",
           "description": "For naturopaths in full practice.",
-          "cta": "Try free for 14 days",
+          "cta": "Choose this plan",
           "badge": "Recommended",
           "feature1": "Unlimited patients",
           "feature2": "Professional web page",
@@ -1242,10 +1293,10 @@
       "faq": {
         "q1": "Can I change my plan at any time?",
         "a1": "Yes, you can upgrade to Pro or downgrade to Free at any time from your settings, with no cancellation fees.",
-        "q2": "Does the Pro trial require a credit card?",
-        "a2": "No. The 14-day trial is fully accessible without entering a payment method.",
-        "q3": "What happens when the trial ends?",
-        "a3": "Your account automatically switches to the Free plan. Your data is preserved and you can subscribe at any time.",
+        "q2": "Do I need to pay when I sign up?",
+        "a2": "Yes. An active subscription is required to access NaturoDesk. You can cancel at any time from your settings.",
+        "q3": "Can I cancel at any time?",
+        "a3": "Yes, with no commitment or fees. Your access remains active until the end of the current period.",
         "q4": "Is my data secure?",
         "a4": "All data is hosted in Europe, encrypted at rest and in transit, and is never shared with third parties."
       }
@@ -1386,8 +1437,8 @@
       },
       "cta": {
         "title": "Ready to try NaturoDesk?",
-        "subtitle": "Create your free account, no credit card required.",
-        "button": "Start for free"
+        "subtitle": "Create your account and activate your subscription in minutes.",
+        "button": "Get started"
       }
     },
 
@@ -1415,8 +1466,8 @@
         "a3": "No, NaturoDesk is a web application. All you need is a browser and an internet connection."
       },
       "pricing": {
-        "q1": "Does the free trial require a credit card?",
-        "a1": "No, you can create an account and access the Pro trial for 14 days without entering a payment method.",
+        "q1": "Do I need to enter a credit card to sign up?",
+        "a1": "Yes, a payment method is required to activate your subscription. You can cancel at any time from your settings.",
         "q2": "Can I cancel my subscription at any time?",
         "a2": "Yes, with no commitment or fees. You keep Pro access until the end of the current period.",
         "q3": "Do you offer a discount for students or new practitioners?",
