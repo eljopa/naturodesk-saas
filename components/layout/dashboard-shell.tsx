@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Sidebar } from "./sidebar";
 import { Topbar } from "./topbar";
+import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import type { NavItemKey } from "./nav-config";
 
 interface DashboardShellProps {
@@ -41,8 +42,9 @@ export function DashboardShell({
           userEmail={userEmail}
         />
 
-        <main className="flex-1 overflow-y-auto">
+        <main id="main-scroll" className="flex-1 overflow-y-auto">
           <div className="px-4 py-6 lg:px-8 lg:py-8">{children}</div>
+          <ScrollToTop scrollContainerId="main-scroll" />
         </main>
       </div>
     </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display, Mulish } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
+import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -41,6 +42,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       >
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
+          <ScrollToTop />
         </NextIntlClientProvider>
       </body>
     </html>
