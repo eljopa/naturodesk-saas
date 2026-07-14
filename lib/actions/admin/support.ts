@@ -5,6 +5,7 @@ import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { logAdminAction } from "@/lib/admin/audit";
 import { sendSupportTicketAdminReplyEmail } from "@/lib/email";
+import { notifyTicketAdminReply, notifyTicketResolved, notifyTicketClosed } from "@/lib/notifications";
 import { z } from "zod";
 import type { SupportTicketStatus, SupportPriority } from "@prisma/client";
 
@@ -75,6 +76,14 @@ export async function updateTicketAction(
     meta: { status: parsed.data.status, priority: parsed.data.priority },
   });
 
+  if (parsed.data.status !== ticket.status) {
+    if (parsed.data.status === "RESOLVED") {
+      notifyTicketResolved(ticket.userId, ticketId, ticket.title).catch(() => {});
+    } else if (parsed.data.status === "CLOSED") {
+      notifyTicketClosed(ticket.userId, ticketId, ticket.title).catch(() => {});
+    }
+  }
+
   revalidatePath(`/admin/support/${ticketId}`);
   revalidatePath("/admin/support");
   return { success: true };
@@ -141,6 +150,7 @@ export async function replyToTicketAction(
     title: ticket.title,
     body: parsed.data.body,
   }).catch(() => {});
+  notifyTicketAdminReply(ticket.userId, ticketId, ticket.title).catch(() => {});
 
   revalidatePath(`/admin/support/${ticketId}`);
   revalidatePath("/admin/support");

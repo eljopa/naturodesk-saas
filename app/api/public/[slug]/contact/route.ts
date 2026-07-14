@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { ContactFormSchema } from "@/lib/validators/public";
 import { checkRateLimit } from "@/lib/utils/rate-limit";
 import { sendContactMessageEmail } from "@/lib/email";
+import { notifyNewContactMessage } from "@/lib/notifications";
 
 // ---------------------------------------------------------------------------
 // POST /api/public/[slug]/contact
@@ -57,7 +58,7 @@ export async function POST(
   const { senderName, senderEmail, senderPhone, message } = parsed.data;
 
   // Stocker le message en base
-  await db.contactMessage.create({
+  const contactMessage = await db.contactMessage.create({
     data: {
       userId: page.userId,
       senderName,
@@ -78,6 +79,10 @@ export async function POST(
     senderPhone:       senderPhone ?? null,
     message,
   }).catch((e) => console.error("[email] Contact message email failed:", e));
+
+  notifyNewContactMessage(page.userId, senderName, contactMessage.id).catch((e) =>
+    console.error("[notifications] Contact message notification failed:", e)
+  );
 
   return NextResponse.json({ ok: true });
 }

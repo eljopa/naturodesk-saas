@@ -6,6 +6,7 @@ import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { CreateTicketSchema, ReplyTicketSchema } from "@/lib/validators/support";
 import { sendSupportTicketCreatedEmail, sendSupportTicketUserReplyEmail } from "@/lib/email";
+import { notifyTicketCreated, notifyTicketClientReply } from "@/lib/notifications";
 
 export type SupportErrorCode = "not_found" | "invalid_input" | "forbidden" | "generic_error";
 export type SupportFormState = { errorCode?: SupportErrorCode; success?: boolean } | null;
@@ -46,6 +47,7 @@ export async function createTicketAction(
     userName: user.name,
     userEmail: user.email,
   }).catch(() => {});
+  notifyTicketCreated(ticketId, parsed.data.title, user.name).catch(() => {});
 
   revalidatePath("/support");
   redirect(`/support/${ticketId}`);
@@ -83,6 +85,7 @@ export async function replyToTicketAction(
     body: parsed.data.body,
     userName: user.name,
   }).catch(() => {});
+  notifyTicketClientReply(ticketId, ticket.title, user.name).catch(() => {});
 
   revalidatePath(`/support/${ticketId}`);
   revalidatePath("/support");

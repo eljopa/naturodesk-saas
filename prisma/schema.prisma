@@ -52,6 +52,7 @@ model User {
   practitionerSchedule PractitionerSchedule?
   contactMessages      ContactMessage[]
   adviceSheets         AdviceSheet[]
+  notifications        Notification[]
 
   @@index([deletedAt])
   @@map("users")
@@ -1987,4 +1988,35 @@ model BlogArticle {
   @@index([status])
   @@index([locale])
   @@map("blog_articles")
+}
+
+// ---------------------------------------------------------------------------
+// NOTIFICATIONS — centre de notifications in-app
+// ---------------------------------------------------------------------------
+
+enum NotificationType {
+  TICKET_CREATED       // → tous les admins
+  TICKET_CLIENT_REPLY  // → tous les admins
+  TICKET_ADMIN_REPLY   // → le praticien concerné
+  TICKET_RESOLVED      // → le praticien concerné
+  TICKET_CLOSED        // → le praticien concerné
+  NEW_BOOKING          // → le praticien (réservation via sa page web)
+  NEW_CONTACT_MESSAGE  // → le praticien (message via sa page web)
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  type      NotificationType
+  title     String
+  message   String
+  link      String?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, isRead])
+  @@map("notifications")
 }

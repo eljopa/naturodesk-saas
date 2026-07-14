@@ -7,6 +7,7 @@ import {
   sendAppointmentConfirmationEmail,
   sendNewBookingNotificationEmail,
 } from "@/lib/email";
+import { notifyNewBooking } from "@/lib/notifications";
 
 // ---------------------------------------------------------------------------
 // POST /api/public/[slug]/book
@@ -55,7 +56,7 @@ export async function POST(
       isPublished:       true,
       appointmentEnabled:true,
       contactEmail:      true,        // email de contact public de la page
-      user: { select: { name: true, cabinetName: true, email: true } },
+      user: { select: { id: true, name: true, cabinetName: true, email: true } },
     },
   });
 
@@ -177,6 +178,10 @@ export async function POST(
     appointmentTime:     timeLabel,
     appointmentDuration: service.durationMinutes,
   }).catch((e) => console.error("[email] Booking notification failed:", e));
+
+  notifyNewBooking(page.user.id, visitorName, service.name).catch((e) =>
+    console.error("[notifications] Booking notification failed:", e)
+  );
 
   return NextResponse.json({
     ok: true,
