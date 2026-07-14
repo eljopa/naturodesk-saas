@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { logAdminAction } from "@/lib/admin/audit";
+import { sendSupportTicketAdminReplyEmail } from "@/lib/email";
 import { z } from "zod";
 import type { SupportTicketStatus, SupportPriority } from "@prisma/client";
 
@@ -94,7 +95,10 @@ export async function replyToTicketAction(
 ): Promise<AdminSupportFormState> {
   const admin = await requireAdmin();
 
-  const ticket = await db.supportTicket.findUnique({ where: { id: ticketId } });
+  const ticket = await db.supportTicket.findUnique({
+    where: { id: ticketId },
+    include: { user: { select: { email: true, name: true } } },
+  });
   if (!ticket) return { errorCode: "not_found" };
 
   const parsed = ReplySchema.safeParse({
@@ -129,6 +133,14 @@ export async function replyToTicketAction(
     targetType: "SupportTicket",
     targetId: ticketId,
   });
+
+  sendSupportTicketAdminReplyEmail({
+    userEmail: ticket.user.email,
+    userName: ticket.user.name,
+    ticketId,
+    title: ticket.title,
+    body: parsed.data.body,
+  }).catch(() => {});
 
   revalidatePath(`/admin/support/${ticketId}`);
   revalidatePath("/admin/support");

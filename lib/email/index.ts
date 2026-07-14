@@ -470,6 +470,101 @@ export async function sendNewBookingNotificationEmail(
 }
 
 // ---------------------------------------------------------------------------
+// Support tickets
+// ---------------------------------------------------------------------------
+
+const SUPPORT_ADMIN_EMAIL = process.env.SUPPORT_ADMIN_EMAIL;
+
+function supportEmailShell(headerLabel: string, bodyHtml: string): string {
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>${headerLabel}</title></head>
+<body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#0f766e;padding:24px 32px;">
+      <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk</p>
+      <p style="color:#99f6e4;font-size:13px;margin:4px 0 0;">${headerLabel}</p>
+    </div>
+    <div style="padding:32px;">${bodyHtml}</div>
+    <div style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
+      <p style="color:#94a3b8;font-size:12px;margin:0;">NaturoDesk — Logiciel de gestion de cabinet naturopathique</p>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+/** Notifie l'admin quand un praticien ouvre un nouveau ticket. */
+export async function sendSupportTicketCreatedEmail(opts: {
+  ticketId: string;
+  title: string;
+  body: string;
+  priority: string;
+  userName: string;
+  userEmail: string;
+}): Promise<SendResult> {
+  if (!SUPPORT_ADMIN_EMAIL) {
+    console.warn("[email] SUPPORT_ADMIN_EMAIL non définie — notification nouveau ticket non envoyée");
+    return { ok: false, error: "no_admin_email" };
+  }
+  const subject = `[Support] Nouveau ticket — ${opts.title}`;
+  const html = supportEmailShell(
+    "Nouveau ticket support",
+    `<p style="margin:0 0 8px;color:#334155;">De <strong>${opts.userName}</strong> (${opts.userEmail}) · priorité ${opts.priority}</p>
+     <p style="margin:0 0 16px;color:#334155;font-weight:600;">${opts.title}</p>
+     <div style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:6px;padding:16px 20px;">
+       <p style="margin:0;color:#334155;font-size:14px;line-height:1.6;white-space:pre-wrap;">${opts.body}</p>
+     </div>
+     <p style="color:#64748b;font-size:13px;margin-top:20px;">Répondre dans /admin/support/${opts.ticketId}</p>`
+  );
+  return send({ to: SUPPORT_ADMIN_EMAIL, subject, html });
+}
+
+/** Notifie l'admin quand un praticien répond sur un ticket existant. */
+export async function sendSupportTicketUserReplyEmail(opts: {
+  ticketId: string;
+  title: string;
+  body: string;
+  userName: string;
+}): Promise<SendResult> {
+  if (!SUPPORT_ADMIN_EMAIL) {
+    console.warn("[email] SUPPORT_ADMIN_EMAIL non définie — notification réponse utilisateur non envoyée");
+    return { ok: false, error: "no_admin_email" };
+  }
+  const subject = `[Support] Réponse de ${opts.userName} — ${opts.title}`;
+  const html = supportEmailShell(
+    "Nouvelle réponse sur un ticket",
+    `<p style="margin:0 0 16px;color:#334155;">${opts.userName} a répondu sur le ticket <strong>${opts.title}</strong> :</p>
+     <div style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:6px;padding:16px 20px;">
+       <p style="margin:0;color:#334155;font-size:14px;line-height:1.6;white-space:pre-wrap;">${opts.body}</p>
+     </div>
+     <p style="color:#64748b;font-size:13px;margin-top:20px;">Répondre dans /admin/support/${opts.ticketId}</p>`
+  );
+  return send({ to: SUPPORT_ADMIN_EMAIL, subject, html });
+}
+
+/** Notifie le praticien quand l'équipe support répond sur son ticket. */
+export async function sendSupportTicketAdminReplyEmail(opts: {
+  userEmail: string;
+  userName: string;
+  ticketId: string;
+  title: string;
+  body: string;
+}): Promise<SendResult> {
+  const subject = `[NaturoDesk Support] Réponse à votre ticket — ${opts.title}`;
+  const html = supportEmailShell(
+    "Réponse à votre ticket support",
+    `<p style="margin:0 0 4px;color:#334155;">Bonjour ${opts.userName},</p>
+     <p style="margin:0 0 16px;color:#334155;">L'équipe support a répondu à votre ticket <strong>${opts.title}</strong> :</p>
+     <div style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:6px;padding:16px 20px;">
+       <p style="margin:0;color:#334155;font-size:14px;line-height:1.6;white-space:pre-wrap;">${opts.body}</p>
+     </div>
+     <p style="color:#64748b;font-size:13px;margin-top:20px;">Consultez et répondez depuis votre espace NaturoDesk, rubrique Support.</p>`
+  );
+  return send({ to: opts.userEmail, subject, html });
+}
+
+// ---------------------------------------------------------------------------
 // Alertes blog automatique (→ admin)
 // ---------------------------------------------------------------------------
 
