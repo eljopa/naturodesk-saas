@@ -30,11 +30,13 @@ model User {
   name        String
   cabinetName String?
   role        UserRole  @default(PRACTITIONER)
-  isActive    Boolean   @default(true)
-  lastSeenAt  DateTime?
-  deletedAt   DateTime? // soft delete — null = actif
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  isActive          Boolean   @default(true)
+  lastSeenAt        DateTime?
+  deletedAt         DateTime? // soft delete — null = actif
+  termsAcceptedAt   DateTime?
+  privacyAcceptedAt DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   patients             Patient[]
   appointments         Appointment[]
@@ -46,6 +48,7 @@ model User {
   clinicalAnalyses     ClinicalAnalysis[]
   webPage              TherapistWebPage?
   services             ServiceOffering[]
+  webPageInfoSections  WebPageInfoSection[]
   practitionerSchedule PractitionerSchedule?
   contactMessages      ContactMessage[]
   adviceSheets         AdviceSheet[]
@@ -1677,6 +1680,7 @@ model TherapistWebPage {
   // Contenu
   logoUrl         String?
   heroThemeId     Int       @default(1)  // 1–10 — thèmes graphiques prédéfinis
+  heroImageId     String?               // identifiant image hero (herbs|forest|stones|…) — null = dégradé couleur
   bio             String?               // courte présentation personnelle (quelques lignes)
   presentation    String?               // approche / texte long
   servicesDisplay String?               // complément libre affiché sous les ServiceOffering
@@ -1725,6 +1729,23 @@ model ServiceOffering {
   @@index([userId])
   @@index([isActive])
   @@map("service_offerings")
+}
+
+/// Rubrique de contenu libre sur la page web thérapeute.
+/// Permet d'afficher des blocs "Phytothérapie", "Homéopathie", etc.
+/// avec titre + description, ordonnés par displayOrder.
+model WebPageInfoSection {
+  id           String   @id @default(uuid())
+  userId       String
+  title        String
+  description  String
+  displayOrder Int      @default(0)
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("web_page_info_sections")
 }
 
 /// Disponibilités récurrentes hebdomadaires du praticien.
@@ -1843,4 +1864,126 @@ model AdviceSheet {
   @@index([parentId])
   @@index([status])
   @@map("advice_sheets")
+}
+
+// ---------------------------------------------------------------------------
+// BLOG — Contenu marketing généré automatiquement (naturopathie, angle business)
+// ---------------------------------------------------------------------------
+
+enum BlogCluster {
+  INSTALLATION
+  REGLEMENTATION_JURIDIQUE
+  ACQUISITION_CLIENTELE
+  COMMUNICATION_VISIBILITE
+  GESTION_OUTILS
+  DEVELOPPEMENT_ACTIVITE
+}
+
+enum BlogPersona {
+  INSTALLATION
+  CROISSANCE
+  LES_DEUX
+}
+
+enum BlogContentType {
+  GUIDE
+  TUTORIEL
+  COMPARATIF
+  PREUVE
+}
+
+enum BlogTopicStatus {
+  PLANNED
+  GENERATING
+  GENERATED
+  REVIEW_REQUIRED
+  PUBLISHED
+  FAILED
+}
+
+enum BlogArticleStatus {
+  DRAFT
+  REVIEW_REQUIRED
+  PUBLISHED
+  UNPUBLISHED
+  FAILED
+}
+
+enum BlogTone {
+  PEDAGOGIQUE
+  RETOUR_EXPERIENCE
+  ANALYTIQUE
+  JOURNALISTIQUE
+  PRATIQUE
+  EXPERT
+}
+
+enum BlogDepth {
+  COURTE
+  MOYENNE
+  LONGUE
+  APPROFONDIE
+}
+
+enum BlogStructure {
+  LINEAIRE
+  MODULAIRE
+  MIXTE
+}
+
+/// Calendrier éditorial — un sujet planifié, indépendant de la locale.
+/// slug partagé entre FR/EN : pas de préfixe de langue dans l'URL (routing i18n
+/// cookie-based, cf. i18n/request.ts), donc un seul BlogTopic par sujet.
+model BlogTopic {
+  id                String          @id @default(uuid())
+  slug              String          @unique
+  cluster           BlogCluster
+  persona           BlogPersona
+  contentType       BlogContentType
+  keyword           String
+  secondaryKeywords String[]
+  priority          Int             @default(100)
+  pillarSlug        String?         // slug d'un autre BlogTopic — référence souple, pas de FK
+  relatedSlugs      String[]        // idem — slugs ignorés silencieusement si introuvables/dépubliés
+  naturodeskContext String          // comment NaturoDesk se rattache au sujet — injecté dans le prompt
+  status            BlogTopicStatus @default(PLANNED)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  articles BlogArticle[]
+
+  @@index([status])
+  @@index([cluster])
+  @@map("blog_topics")
+}
+
+/// Contenu généré pour un topic — une ligne par locale (fr / en).
+model BlogArticle {
+  id              String            @id @default(uuid())
+  topicId         String
+  locale          String            // "fr" | "en" — aligné sur les locales de i18n/request.ts
+  title           String
+  excerpt         String
+  metaTitle       String
+  metaDescription String
+  contentJson     Json              // { quickAnswer, intro, sections[], blocks[], faq[], conclusion }
+  heroImageUrl    String?           // dénormalisé depuis images[] — accès rapide listing/OG
+  images          Json              @default("[]") // [{ slot, url, visualFamily }]
+  toneUsed        BlogTone
+  depthUsed       BlogDepth
+  structureUsed   BlogStructure
+  blocksUsed      String[]          // clés du catalogue de blocs (lib/blog/editorial-dna.ts)
+  qualityScore    Int               @default(0)
+  status          BlogArticleStatus @default(DRAFT)
+  publishedAt     DateTime?
+  generationLog   Json              @default("{}") // { errors: string[], warnings: string[] }
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  topic BlogTopic @relation(fields: [topicId], references: [id])
+
+  @@unique([topicId, locale])
+  @@index([status])
+  @@index([locale])
+  @@map("blog_articles")
 }
