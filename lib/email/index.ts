@@ -470,6 +470,66 @@ export async function sendNewBookingNotificationEmail(
 }
 
 // ---------------------------------------------------------------------------
+// Alertes blog automatique (→ admin)
+// ---------------------------------------------------------------------------
+
+const BLOG_ADMIN_EMAIL = process.env.BLOG_ADMIN_EMAIL;
+
+export async function sendBlogGenerationFailedEmail(topicSlug: string, errorMessage: string): Promise<SendResult> {
+  if (!BLOG_ADMIN_EMAIL) {
+    console.warn("[email] BLOG_ADMIN_EMAIL non définie — alerte d'échec blog non envoyée");
+    return { ok: false, error: "no_admin_email" };
+  }
+  const subject = `[Blog NaturoDesk] Échec de génération — ${topicSlug}`;
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Échec génération blog</title></head>
+<body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#b91c1c;padding:24px 32px;">
+      <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk — Blog</p>
+      <p style="color:#fecaca;font-size:13px;margin:4px 0 0;">Échec de génération automatique</p>
+    </div>
+    <div style="padding:32px;">
+      <p style="color:#334155;margin:0 0 8px;">Le pipeline de génération du blog a échoué sur le sujet :</p>
+      <p style="color:#334155;margin:0 0 16px;font-weight:600;">${topicSlug}</p>
+      <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:6px;padding:16px 20px;">
+        <p style="margin:0;color:#991b1b;font-size:13px;font-family:monospace;white-space:pre-wrap;">${errorMessage}</p>
+      </div>
+      <p style="color:#64748b;font-size:13px;margin-top:24px;">Le sujet est passé en statut FAILED. Vérifiez le back-office admin du blog.</p>
+    </div>
+  </div>
+</body>
+</html>`;
+  return send({ to: BLOG_ADMIN_EMAIL, subject, html });
+}
+
+export async function sendBlogTopicsLowEmail(remainingCount: number): Promise<SendResult> {
+  if (!BLOG_ADMIN_EMAIL) {
+    console.warn("[email] BLOG_ADMIN_EMAIL non définie — alerte de calendrier bas non envoyée");
+    return { ok: false, error: "no_admin_email" };
+  }
+  const subject = `[Blog NaturoDesk] Calendrier éditorial bas — ${remainingCount} sujet(s) restant(s)`;
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Calendrier éditorial bas</title></head>
+<body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#b45309;padding:24px 32px;">
+      <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk — Blog</p>
+      <p style="color:#fde68a;font-size:13px;margin:4px 0 0;">Calendrier éditorial bas</p>
+    </div>
+    <div style="padding:32px;">
+      <p style="color:#334155;margin:0 0 16px;">Il ne reste plus que <strong>${remainingCount}</strong> sujet(s) planifié(s) dans le calendrier éditorial du blog.</p>
+      <p style="color:#64748b;font-size:13px;margin:0;">Le calendrier n'est pas auto-étendu — ajoutez de nouveaux BlogTopic avant qu'il ne soit vide.</p>
+    </div>
+  </div>
+</body>
+</html>`;
+  return send({ to: BLOG_ADMIN_EMAIL, subject, html });
+}
+
+// ---------------------------------------------------------------------------
 // Transfert message de contact (→ thérapeute)
 // ---------------------------------------------------------------------------
 

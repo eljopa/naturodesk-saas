@@ -37,6 +37,13 @@ export const FORBIDDEN_TERMS: string[] = [
   "diagnostique",
   "prescription médicale",
   "remède miracle",
+  // ── English equivalents (version EN de l'article) ───────────────────────────
+  "guaranteed results",
+  "cures",
+  "heals",
+  "treats the disease",
+  "medical diagnosis",
+  "miracle cure",
 ];
 
 interface LanguageReplacement {

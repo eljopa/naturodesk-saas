@@ -111,3 +111,40 @@ export interface BlogArticleContent {
   /** 80-120 mots. */
   conclusion: string;
 }
+
+const KNOWN_BLOCK_TYPES = new Set<BlogContentBlock["type"]>([
+  "comparisonTable",
+  "faq",
+  "checklist",
+  "planAction",
+  "caseStudy",
+  "keyTakeaways",
+  "sources",
+  "timeline",
+  "quote",
+  "expertFocus",
+  "commonMistakes",
+]);
+
+/**
+ * Supprime les clés privées/internes injectées par le modèle : clés commençant
+ * par "_", clés inconnues au niveau racine, blocs dont le "type" n'est pas au
+ * catalogue. Partagé entre la génération FR (generate-text.ts) et l'adaptation
+ * EN (translate-text.ts) — même forme de réponse JSON attendue dans les deux cas.
+ */
+export function stripPrivateFields(raw: Record<string, unknown>): BlogArticleContent {
+  const cleaned: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(raw)) {
+    if (key.startsWith("_")) continue;
+    if (!ARTICLE_CONTENT_KEYS.has(key)) continue;
+    cleaned[key] = value;
+  }
+  if (Array.isArray(cleaned.blocks)) {
+    cleaned.blocks = (cleaned.blocks as Array<Record<string, unknown>>).filter(
+      (b) => b && typeof b.type === "string" && KNOWN_BLOCK_TYPES.has(b.type as BlogContentBlock["type"])
+    );
+  } else {
+    cleaned.blocks = [];
+  }
+  return cleaned as unknown as BlogArticleContent;
+}

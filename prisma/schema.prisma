@@ -1947,6 +1947,7 @@ model BlogTopic {
   relatedSlugs      String[]        // idem — slugs ignorés silencieusement si introuvables/dépubliés
   naturodeskContext String          // comment NaturoDesk se rattache au sujet — injecté dans le prompt
   status            BlogTopicStatus @default(PLANNED)
+  errorMessage      String?         // renseigné quand status=FAILED
   createdAt         DateTime        @default(now())
   updatedAt         DateTime        @updatedAt
 
