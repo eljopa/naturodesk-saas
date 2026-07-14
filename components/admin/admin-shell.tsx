@@ -16,6 +16,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 
 const NAV_ITEMS = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true, superAdminOnly: false },
@@ -137,12 +138,15 @@ export function AdminShell({ children, adminName, role }: AdminShellProps) {
           >
             <Menu className="w-5 h-5" />
           </button>
-          <div className="flex items-center gap-2 ml-auto">
-            <span className="text-xs text-slate-500">Admin :</span>
-            <span className="text-xs font-medium text-slate-800">{adminName}</span>
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold bg-teal-100 text-teal-700">
-              {role}
-            </span>
+          <div className="flex items-center gap-3 ml-auto">
+            <NotificationBell />
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-slate-500">Admin :</span>
+              <span className="text-xs font-medium text-slate-800">{adminName}</span>
+              <span className="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold bg-teal-100 text-teal-700">
+                {role}
+              </span>
+            </div>
           </div>
         </header>
 

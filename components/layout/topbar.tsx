@@ -8,6 +8,7 @@ import { signOutAction } from "@/lib/actions/auth";
 import { setLocaleAction } from "@/lib/actions/locale";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/request";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 
 interface TopbarProps {
   onMenuClick: () => void;
@@ -81,7 +82,7 @@ export function Topbar({ onMenuClick, userName, userEmail }: TopbarProps) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 lg:px-6 bg-white border-b border-nd-line shrink-0">
+    <header className="sticky top-0 z-30 flex items-center justify-between h-16 px-4 lg:px-6 bg-white/80 backdrop-blur-sm border-b border-nd-line shrink-0">
       <button
         onClick={onMenuClick}
         className="lg:hidden p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
@@ -93,6 +94,7 @@ export function Topbar({ onMenuClick, userName, userEmail }: TopbarProps) {
       <div className="flex-1" />
 
       <div className="flex items-center gap-3">
+      <NotificationBell />
       <LangSwitcher />
 
       {/* User dropdown */}

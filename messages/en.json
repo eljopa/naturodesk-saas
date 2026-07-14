@@ -224,6 +224,12 @@
     "noPhone": "—"
   },
 
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No notifications"
+  },
+
   "support": {
     "pageTitle": "Support",
     "pageDescription": "Your NaturoDesk support tickets",
