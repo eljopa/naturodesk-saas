@@ -31,6 +31,7 @@ function useItemLabel(key: NavItemKey): string {
     knowledge:    t("knowledge"),
     webpage:      t("webpage"),
     messages:     t("messages"),
+    support:      t("support"),
     settings:     t("settings"),
   };
   return labels[key];

@@ -1,15 +1,16 @@
 import {
   LayoutDashboard,
   Users,
-  Calendar,
+  CalendarDays,
+  Stethoscope,
   ClipboardList,
-  ScrollText,
+  FlaskConical,
   BookOpen,
-  FileText,
-  Database,
+  Receipt,
   Settings,
   Globe,
-  Inbox,
+  MessageSquare,
+  LifeBuoy,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -29,6 +30,7 @@ export type NavItemKey =
   | "knowledge"
   | "webpage"
   | "messages"
+  | "support"
   | "settings";
 
 export type NavItemConfig = {
@@ -58,33 +60,34 @@ export const NAV_SECTIONS: NavSectionConfig[] = [
     sectionKey: "cabinet",
     items: [
       { key: "patients", href: "/patients", icon: Users },
-      { key: "appointments", href: "/appointments", icon: Calendar },
-      { key: "invoices", href: "/invoices", icon: FileText },
+      { key: "appointments", href: "/appointments", icon: CalendarDays },
+      { key: "invoices", href: "/invoices", icon: Receipt },
     ],
   },
   {
     sectionKey: "clinique",
     items: [
-      { key: "consultations", href: "/consultations",  icon: ClipboardList },
-      { key: "adviceSheets",  href: "/advice-sheets",  icon: ScrollText },
-      { key: "protocols",     href: "/protocols",       icon: BookOpen },
+      { key: "consultations", href: "/consultations",  icon: Stethoscope },
+      { key: "adviceSheets",  href: "/advice-sheets",  icon: ClipboardList },
+      { key: "protocols",     href: "/protocols",       icon: FlaskConical },
     ],
   },
   {
     sectionKey: "ressources",
     items: [
-      { key: "knowledge", href: "/knowledge", icon: Database },
+      { key: "knowledge", href: "/knowledge", icon: BookOpen },
     ],
   },
   {
     sectionKey: "web",
     items: [
       { key: "webpage", href: "/webpage", icon: Globe },
-      { key: "messages", href: "/webpage/messages", icon: Inbox },
+      { key: "messages", href: "/webpage/messages", icon: MessageSquare },
     ],
   },
 ];
 
 export const NAV_BOTTOM: NavItemConfig[] = [
+  { key: "support", href: "/support", icon: LifeBuoy },
   { key: "settings", href: "/settings", icon: Settings },
 ];

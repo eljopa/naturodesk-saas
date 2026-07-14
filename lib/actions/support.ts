@@ -1,13 +1,14 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { CreateTicketSchema, ReplyTicketSchema } from "@/lib/validators/support";
 import { sendSupportTicketCreatedEmail, sendSupportTicketUserReplyEmail } from "@/lib/email";
 
 export type SupportErrorCode = "not_found" | "invalid_input" | "forbidden" | "generic_error";
-export type SupportFormState = { errorCode?: SupportErrorCode; success?: boolean; ticketId?: string } | null;
+export type SupportFormState = { errorCode?: SupportErrorCode; success?: boolean } | null;
 
 export async function createTicketAction(
   _prevState: SupportFormState,
@@ -47,7 +48,7 @@ export async function createTicketAction(
   }).catch(() => {});
 
   revalidatePath("/support");
-  return { success: true, ticketId };
+  redirect(`/support/${ticketId}`);
 }
 
 /** Réponse du praticien sur son propre ticket. Une réponse sur un ticket RESOLVED le rouvre automatiquement. */

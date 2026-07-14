@@ -13,6 +13,7 @@
       "knowledge": "Base documentaire",
       "webpage": "Ma page web",
       "messages": "Messagerie",
+      "support": "Support",
       "settings": "Paramètres",
       "login": "Connexion",
       "register": "Créer un compte",
@@ -115,6 +116,7 @@
       "knowledge": "Base documentaire",
       "webpage": "Page web",
       "messages": "Messages",
+      "support": "Support",
       "settings": "Paramètres"
     }
   },
@@ -220,6 +222,47 @@
     "archivedAt": "Archivé le {date}",
     "receivedAt": "Reçu {date}",
     "noPhone": "—"
+  },
+
+  "support": {
+    "pageTitle": "Support",
+    "pageDescription": "Vos tickets d'assistance NaturoDesk",
+    "filterAll": "Tous",
+    "newTicket": "Nouveau ticket",
+    "newTicketTitle": "Ouvrir un ticket",
+    "titleLabel": "Titre",
+    "titlePlaceholder": "Résumez votre problème en quelques mots",
+    "bodyLabel": "Message",
+    "bodyPlaceholder": "Décrivez votre demande en détail…",
+    "priorityLabel": "Priorité",
+    "submit": "Envoyer le ticket",
+    "cancel": "Annuler",
+    "emptyTitle": "Aucun ticket pour le moment",
+    "emptyDescription": "Besoin d'aide ? Ouvrez votre premier ticket.",
+    "backToList": "← Support",
+    "createdOn": "Ouvert le {date}",
+    "you": "Vous",
+    "supportTeam": "Support NaturoDesk",
+    "replyPlaceholder": "Votre réponse…",
+    "send": "Envoyer",
+    "closedNotice": "Ce ticket est clos. Ouvrez un nouveau ticket si besoin.",
+    "reopenBanner": "Ce ticket a été marqué comme résolu.",
+    "reopenButton": "Rouvrir le ticket",
+    "statusOpen": "Ouvert",
+    "statusInProgress": "En cours",
+    "statusResolved": "Résolu",
+    "statusClosed": "Clos",
+    "priorityLow": "Basse",
+    "priorityNormal": "Normale",
+    "priorityHigh": "Haute",
+    "priorityUrgent": "Urgente",
+    "repliesCount": "{count} réponse(s)",
+    "errors": {
+      "invalid_input": "Merci de vérifier les champs du formulaire.",
+      "not_found": "Ticket introuvable.",
+      "forbidden": "Ce ticket est clos.",
+      "generic_error": "Une erreur est survenue. Réessayez."
+    }
   },
 
   "patients": {

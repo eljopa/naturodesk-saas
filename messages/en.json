@@ -13,6 +13,7 @@
       "knowledge": "Knowledge Base",
       "webpage": "My web page",
       "messages": "Inbox",
+      "support": "Support",
       "settings": "Settings",
       "login": "Sign In",
       "register": "Create Account",
@@ -115,6 +116,7 @@
       "knowledge": "Knowledge Base",
       "webpage": "Web page",
       "messages": "Messages",
+      "support": "Support",
       "settings": "Settings"
     }
   },
@@ -220,6 +222,47 @@
     "archivedAt": "Archived on {date}",
     "receivedAt": "Received {date}",
     "noPhone": "—"
+  },
+
+  "support": {
+    "pageTitle": "Support",
+    "pageDescription": "Your NaturoDesk support tickets",
+    "filterAll": "All",
+    "newTicket": "New ticket",
+    "newTicketTitle": "Open a ticket",
+    "titleLabel": "Title",
+    "titlePlaceholder": "Summarize your issue in a few words",
+    "bodyLabel": "Message",
+    "bodyPlaceholder": "Describe your request in detail…",
+    "priorityLabel": "Priority",
+    "submit": "Send ticket",
+    "cancel": "Cancel",
+    "emptyTitle": "No tickets yet",
+    "emptyDescription": "Need help? Open your first ticket.",
+    "backToList": "← Support",
+    "createdOn": "Opened on {date}",
+    "you": "You",
+    "supportTeam": "NaturoDesk Support",
+    "replyPlaceholder": "Your reply…",
+    "send": "Send",
+    "closedNotice": "This ticket is closed. Open a new ticket if needed.",
+    "reopenBanner": "This ticket was marked as resolved.",
+    "reopenButton": "Reopen ticket",
+    "statusOpen": "Open",
+    "statusInProgress": "In progress",
+    "statusResolved": "Resolved",
+    "statusClosed": "Closed",
+    "priorityLow": "Low",
+    "priorityNormal": "Normal",
+    "priorityHigh": "High",
+    "priorityUrgent": "Urgent",
+    "repliesCount": "{count} replies",
+    "errors": {
+      "invalid_input": "Please check the form fields.",
+      "not_found": "Ticket not found.",
+      "forbidden": "This ticket is closed.",
+      "generic_error": "Something went wrong. Please try again."
+    }
   },
 
   "patients": {
