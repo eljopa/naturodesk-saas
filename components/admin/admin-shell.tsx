@@ -10,6 +10,7 @@ import {
   HeadphonesIcon,
   ShieldCheck,
   Activity,
+  Newspaper,
   Menu,
   X,
   ArrowLeft,
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { href: "/admin/users", label: "Utilisateurs", icon: Users, exact: false, superAdminOnly: false },
   { href: "/admin/subscriptions", label: "Abonnements", icon: CreditCard, exact: false, superAdminOnly: true },
   { href: "/admin/support", label: "Support", icon: HeadphonesIcon, exact: false, superAdminOnly: false },
+  { href: "/admin/blog", label: "Blog", icon: Newspaper, exact: false, superAdminOnly: false },
   { href: "/admin/audit", label: "Audit", icon: ShieldCheck, exact: false, superAdminOnly: true },
   { href: "/admin/knowledge", label: "Knowledge", icon: Activity, exact: false, superAdminOnly: false },
 ] as const;

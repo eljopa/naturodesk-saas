@@ -108,7 +108,7 @@ export async function runBlogGenerationOnce(): Promise<RunGenerationResult> {
     const enResult = await translateArticleText(frResult.content, dna, enLinks.candidates, enLinks);
     const enPassed = enResult.hardErrors.length === 0;
 
-    const images = await generateArticleImages(dna, { slug: topic.slug, keyword: topic.keyword });
+    const images = await generateArticleImages(dna.visual.slots, { slug: topic.slug, keyword: topic.keyword });
 
     await upsertArticle(topic.id, "fr", buildArticleRowData(dna, frResult, images, "PUBLISHED"));
     await upsertArticle(topic.id, "en", buildArticleRowData(dna, enResult, images, enPassed ? "PUBLISHED" : "REVIEW_REQUIRED"));

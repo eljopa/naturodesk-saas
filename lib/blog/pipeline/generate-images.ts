@@ -9,7 +9,7 @@
 
 import sharp from "sharp";
 import { createSupabaseServiceClient } from "@/lib/supabase/server";
-import type { EditorialDna } from "../dna/compose";
+import type { VisualSlot } from "../dna/compose";
 import { buildImagePrompt } from "./image-prompt";
 import { generateSvgFallback } from "./svg-fallback";
 import type { StoredImage } from "./persist-article";
@@ -65,11 +65,17 @@ export interface ImageTopicInput {
   keyword: string;
 }
 
-/** Génère (ou repli SVG) toutes les images planifiées par le DNA pour un article. */
-export async function generateArticleImages(dna: EditorialDna, topic: ImageTopicInput): Promise<StoredImage[]> {
+/**
+ * Génère (ou repli SVG) les images pour la liste d'emplacements donnée.
+ * Accepte des `slots` explicites plutôt que l'objet EditorialDna complet :
+ * utilisé aussi bien lors de la génération initiale (dna.visual.slots) que
+ * lors d'une régénération admin (slots reconstruits depuis les images déjà
+ * stockées, pour ne pas retirer de nouvelles familles visuelles au hasard).
+ */
+export async function generateArticleImages(slots: VisualSlot[], topic: ImageTopicInput): Promise<StoredImage[]> {
   const images: StoredImage[] = [];
 
-  for (const slot of dna.visual.slots) {
+  for (const slot of slots) {
     const seed = `${topic.slug}::${slot.anchor}`;
 
     try {
