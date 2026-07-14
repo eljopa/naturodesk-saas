@@ -1392,16 +1392,23 @@
         "description": "Conseils, guides et actualités pour les naturopathes qui gèrent leur cabinet."
       },
       "title": "Blog NaturoDesk",
-      "subtitle": "Conseils pratiques, guides et actualités pour les naturopathes.",
+      "subtitle": "Conseils pratiques, guides et actualités pour les naturopathes qui lancent ou développent leur activité.",
       "categories": {
         "all": "Tous",
-        "practice": "Cabinet",
-        "software": "Logiciel",
-        "naturopathy": "Naturopathie",
-        "business": "Gestion"
+        "installation": "Installation",
+        "reglementationJuridique": "Réglementation",
+        "acquisitionClientele": "Acquisition clients",
+        "communicationVisibilite": "Visibilité",
+        "gestionOutils": "Gestion & outils",
+        "developpementActivite": "Développement"
       },
       "readMore": "Lire la suite →",
       "readingTime": "{minutes} min",
+      "quickAnswerLabel": "Réponse rapide",
+      "relatedArticlesTitle": "Articles liés",
+      "ctaTitle": "Simplifiez la gestion de votre cabinet",
+      "ctaText": "NaturoDesk réunit agenda, dossiers patients, facturation et page professionnelle dans un seul outil pensé pour les naturopathes.",
+      "ctaButton": "Démarrer gratuitement",
       "emptyTitle": "Aucun article pour le moment",
       "emptyDescription": "Nous préparons nos premiers articles. Revenez bientôt !",
       "backToBlog": "← Retour au blog",

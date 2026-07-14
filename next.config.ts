@@ -3,6 +3,14 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
-const nextConfig: NextConfig = {};
+const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      // Images du blog générées automatiquement (lib/blog/pipeline/generate-images.ts),
+      // stockées dans le bucket Supabase Storage public "blog-images".
+      { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" },
+    ],
+  },
+};
 
 export default withNextIntl(nextConfig);

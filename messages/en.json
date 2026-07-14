@@ -1392,16 +1392,23 @@
         "description": "Tips, guides and news for naturopaths managing their practice."
       },
       "title": "NaturoDesk Blog",
-      "subtitle": "Practical tips, guides and news for naturopaths.",
+      "subtitle": "Practical tips, guides and news for naturopaths launching or growing their practice.",
       "categories": {
         "all": "All",
-        "practice": "Practice",
-        "software": "Software",
-        "naturopathy": "Naturopathy",
-        "business": "Business"
+        "installation": "Getting started",
+        "reglementationJuridique": "Regulations",
+        "acquisitionClientele": "Client acquisition",
+        "communicationVisibilite": "Visibility",
+        "gestionOutils": "Management & tools",
+        "developpementActivite": "Growth"
       },
       "readMore": "Read more →",
       "readingTime": "{minutes} min",
+      "quickAnswerLabel": "Quick answer",
+      "relatedArticlesTitle": "Related articles",
+      "ctaTitle": "Simplify how you run your practice",
+      "ctaText": "NaturoDesk brings your schedule, patient records, billing and professional page together in one tool built for naturopaths.",
+      "ctaButton": "Start for free",
       "emptyTitle": "No articles yet",
       "emptyDescription": "We're working on our first articles. Check back soon!",
       "backToBlog": "← Back to blog",
