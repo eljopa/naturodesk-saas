@@ -1,11 +1,11 @@
 /**
  * Orchestrateur du pipeline de génération — spec §6. Exécute un run complet :
  * sélection du sujet → composition DNA → génération FR → (arrêt si score FR
- * insuffisant) → adaptation EN → sauvegarde.
+ * insuffisant) → adaptation EN → génération des images → sauvegarde.
  *
- * La génération d'images (étape 7 de la spec) n'est pas encore branchée ici —
- * lot suivant. Les articles sont pour l'instant sauvegardés sans image
- * (images: [], heroImageUrl: null).
+ * Les images sont générées une seule fois par article (pas par locale — un
+ * visuel n'a pas besoin d'être traduit) et partagées entre les lignes
+ * BlogArticle fr et en.
  *
  * Décision produit : si le FR passe la validation mais que l'adaptation EN
  * échoue, l'article FR est quand même publié (la France est le marché
@@ -18,6 +18,7 @@ import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { sendBlogGenerationFailedEmail, sendBlogTopicsLowEmail } from "@/lib/email";
 import { composeEditorialDNA } from "../dna/compose";
+import { generateArticleImages } from "./generate-images";
 import { generateArticleText } from "./generate-text";
 import { getRecentDnaHistory } from "./recent-dna-history";
 import { resolveInternalLinks } from "./internal-links";
@@ -27,7 +28,7 @@ import { selectNextTopic } from "./select-topic";
 import { translateArticleText } from "./translate-text";
 
 const LOW_TOPICS_THRESHOLD = 5;
-const NO_IMAGES: StoredImage[] = []; // génération d'images : lot suivant
+const NO_IMAGES: StoredImage[] = []; // sujet non publié (REVIEW_REQUIRED côté FR) — pas d'images générées
 
 export type RunGenerationStatus = "disabled" | "no_topic" | "review_required" | "published" | "failed";
 
@@ -107,8 +108,10 @@ export async function runBlogGenerationOnce(): Promise<RunGenerationResult> {
     const enResult = await translateArticleText(frResult.content, dna, enLinks.candidates, enLinks);
     const enPassed = enResult.hardErrors.length === 0;
 
-    await upsertArticle(topic.id, "fr", buildArticleRowData(dna, frResult, NO_IMAGES, "PUBLISHED"));
-    await upsertArticle(topic.id, "en", buildArticleRowData(dna, enResult, NO_IMAGES, enPassed ? "PUBLISHED" : "REVIEW_REQUIRED"));
+    const images = await generateArticleImages(dna, { slug: topic.slug, keyword: topic.keyword });
+
+    await upsertArticle(topic.id, "fr", buildArticleRowData(dna, frResult, images, "PUBLISHED"));
+    await upsertArticle(topic.id, "en", buildArticleRowData(dna, enResult, images, enPassed ? "PUBLISHED" : "REVIEW_REQUIRED"));
 
     const topicStatus = enPassed ? "PUBLISHED" : "REVIEW_REQUIRED";
     await db.blogTopic.update({ where: { id: topic.id }, data: { status: topicStatus } });
