@@ -65,6 +65,7 @@ export async function middleware(request: NextRequest) {
     "/api/public/",       // API publiques (slots, contact, booking)
     "/api/marketing/",
     "/api/stripe/",       // Stripe webhooks (pas de session Supabase)
+    "/api/cron/",         // Vercel Cron (pas de session Supabase — protégé par CRON_SECRET dans chaque route)
   ];
   const isAlwaysPublic = alwaysPublicPaths.some((path) =>
     path === "/" ? pathname === "/" : pathname.startsWith(path)

@@ -156,6 +156,112 @@ function buildAppointmentHtmlEn(d: AppointmentConfirmationData & { typeLabel: st
 }
 
 // ---------------------------------------------------------------------------
+// Appointment reminder email (J-1)
+// ---------------------------------------------------------------------------
+
+interface AppointmentReminderData {
+  patientEmail: string;
+  patientFirstName: string;
+  practitionerName: string;
+  cabinetName: string | null;
+  appointmentDate: string; // pre-formatted date string
+  appointmentTime: string; // pre-formatted time string
+  appointmentDuration: number; // minutes
+  appointmentType: "BILAN" | "SUIVI";
+  locale: "fr" | "en";
+}
+
+export async function sendAppointmentReminderEmail(
+  data: AppointmentReminderData
+): Promise<SendResult> {
+  const isFr = data.locale === "fr";
+
+  const typeLabelFr =
+    data.appointmentType === "BILAN" ? "Bilan de vitalité" : "Consultation de suivi";
+  const typeLabelEn =
+    data.appointmentType === "BILAN" ? "Vitality assessment" : "Follow-up consultation";
+  const typeLabel = isFr ? typeLabelFr : typeLabelEn;
+
+  const cabinet = data.cabinetName ?? data.practitionerName;
+
+  const subject = isFr
+    ? `Rappel — votre rendez-vous du ${data.appointmentDate}`
+    : `Reminder — your appointment on ${data.appointmentDate}`;
+
+  const html = isFr
+    ? buildReminderHtmlFr({ ...data, typeLabel, cabinet })
+    : buildReminderHtmlEn({ ...data, typeLabel, cabinet });
+
+  return send({ to: data.patientEmail, subject, html });
+}
+
+function buildReminderHtmlFr(d: AppointmentReminderData & { typeLabel: string; cabinet: string }) {
+  return `<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="UTF-8"><title>Rappel RDV</title></head>
+<body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#0f766e;padding:24px 32px;">
+      <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk</p>
+      <p style="color:#99f6e4;font-size:13px;margin:4px 0 0;">${d.cabinet}</p>
+    </div>
+    <div style="padding:32px;">
+      <p style="color:#334155;margin:0 0 16px;">Bonjour ${d.patientFirstName},</p>
+      <p style="color:#334155;margin:0 0 24px;">Petit rappel : vous avez rendez-vous prochainement.</p>
+      <div style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:6px;padding:16px 20px;margin-bottom:24px;">
+        <p style="margin:0 0 8px;color:#0f766e;font-weight:600;">Détails du rendez-vous</p>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;color:#334155;">
+          <tr><td style="padding:4px 0;color:#64748b;">Type</td><td style="padding:4px 0;">${d.typeLabel}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Date</td><td style="padding:4px 0;">${d.appointmentDate}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Heure</td><td style="padding:4px 0;">${d.appointmentTime}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Durée</td><td style="padding:4px 0;">${d.appointmentDuration} min</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Praticien</td><td style="padding:4px 0;">${d.practitionerName}</td></tr>
+        </table>
+      </div>
+      <p style="color:#64748b;font-size:13px;margin:0;">Un empêchement ? Contactez votre praticien pour reporter le rendez-vous.</p>
+    </div>
+    <div style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
+      <p style="color:#94a3b8;font-size:12px;margin:0;">NaturoDesk — Logiciel de gestion de cabinet naturopathique</p>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+function buildReminderHtmlEn(d: AppointmentReminderData & { typeLabel: string; cabinet: string }) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Appointment Reminder</title></head>
+<body style="font-family:sans-serif;background:#f8fafc;padding:32px;margin:0;">
+  <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#0f766e;padding:24px 32px;">
+      <p style="color:#fff;font-size:20px;font-weight:600;margin:0;">NaturoDesk</p>
+      <p style="color:#99f6e4;font-size:13px;margin:4px 0 0;">${d.cabinet}</p>
+    </div>
+    <div style="padding:32px;">
+      <p style="color:#334155;margin:0 0 16px;">Hello ${d.patientFirstName},</p>
+      <p style="color:#334155;margin:0 0 24px;">A quick reminder that you have an upcoming appointment.</p>
+      <div style="background:#f0fdfa;border:1px solid #99f6e4;border-radius:6px;padding:16px 20px;margin-bottom:24px;">
+        <p style="margin:0 0 8px;color:#0f766e;font-weight:600;">Appointment details</p>
+        <table style="width:100%;border-collapse:collapse;font-size:14px;color:#334155;">
+          <tr><td style="padding:4px 0;color:#64748b;">Type</td><td style="padding:4px 0;">${d.typeLabel}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Date</td><td style="padding:4px 0;">${d.appointmentDate}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Time</td><td style="padding:4px 0;">${d.appointmentTime}</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Duration</td><td style="padding:4px 0;">${d.appointmentDuration} min</td></tr>
+          <tr><td style="padding:4px 0;color:#64748b;">Practitioner</td><td style="padding:4px 0;">${d.practitionerName}</td></tr>
+        </table>
+      </div>
+      <p style="color:#64748b;font-size:13px;margin:0;">Need to reschedule? Contact your practitioner directly.</p>
+    </div>
+    <div style="padding:16px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
+      <p style="color:#94a3b8;font-size:12px;margin:0;">NaturoDesk — Naturopathic practice management software</p>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+// ---------------------------------------------------------------------------
 // Invoice sent email
 // ---------------------------------------------------------------------------
 
