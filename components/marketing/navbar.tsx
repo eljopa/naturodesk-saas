@@ -49,9 +49,11 @@ function LangSwitcher() {
 function DropdownWrapper({
   label,
   children,
+  panelWidth = 260,
 }: {
   label: React.ReactNode;
   children: React.ReactNode;
+  panelWidth?: number;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -89,7 +91,7 @@ function DropdownWrapper({
       {open && (
         <div
           className="absolute top-full left-0 pt-2 z-50"
-          style={{ minWidth: 260 }}
+          style={{ minWidth: panelWidth }}
         >
           <div
             className="rounded-2xl py-3 shadow-xl"
@@ -205,23 +207,28 @@ export function MarketingNav() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-1 ml-4 flex-1">
-            {/* Produit dropdown */}
-            <DropdownWrapper label={t("produit")}>
+            {/* Produit dropdown — 2 colonnes pour rester compact en hauteur */}
+            <DropdownWrapper label={t("produit")} panelWidth={520}>
               <div className="px-1">
-                {/* Visibilité & clinique group */}
-                <p className="px-4 pt-2 pb-1 text-[11px] font-extrabold uppercase tracking-[.1em]"
-                  style={{ color: "var(--nd-taupe)" }}>{tp("visibiliteTitle")}</p>
-                <DropdownItem href="/fonctionnalites/page-professionnelle" icon={<GlobeIc/>}  label={tp("pagePro")}     desc={tp("pageProDesc")} />
-                <DropdownItem href="/fonctionnalites/assistance-clinique"  icon={<ShieldIc/>} label={tp("assistance")}  desc={tp("assistanceDesc")} />
-                <DropdownItem href="/fonctionnalites/protocoles"           icon={<LeafIc/>}   label={tp("protocoles")}  desc={tp("protocolesDesc")} />
-                {/* Separator */}
-                <div className="my-2 mx-4 border-t" style={{ borderColor: "var(--nd-line-soft)" }} />
-                <p className="px-4 pb-1 text-[11px] font-extrabold uppercase tracking-[.1em]"
-                  style={{ color: "var(--nd-taupe)" }}>{tp("cabinetTitle")}</p>
-                <DropdownItem href="/fonctionnalites/dossiers-patients"  icon={<UsersIc/>}  label={tp("dossiers")}    desc={tp("dossiersDesc")} />
-                <DropdownItem href="/fonctionnalites/bilans-vitalite"    icon={<PulseIc/>}  label={tp("bilans")}      desc={tp("bilansDesc")} />
-                <DropdownItem href="/fonctionnalites/agenda-rendez-vous" icon={<CalIc/>}    label={tp("agenda")}      desc={tp("agendaDesc")} />
-                <DropdownItem href="/fonctionnalites/facturation"        icon={<BillIc/>}   label={tp("facturation")} desc={tp("facturationDesc")} />
+                <div className="grid grid-cols-2">
+                  {/* Visibilité & clinique group */}
+                  <div>
+                    <p className="px-4 pt-2 pb-1 text-[11px] font-extrabold uppercase tracking-[.1em]"
+                      style={{ color: "var(--nd-taupe)" }}>{tp("visibiliteTitle")}</p>
+                    <DropdownItem href="/fonctionnalites/page-professionnelle" icon={<GlobeIc/>}  label={tp("pagePro")}     desc={tp("pageProDesc")} />
+                    <DropdownItem href="/fonctionnalites/assistance-clinique"  icon={<ShieldIc/>} label={tp("assistance")}  desc={tp("assistanceDesc")} />
+                    <DropdownItem href="/fonctionnalites/protocoles"           icon={<LeafIc/>}   label={tp("protocoles")}  desc={tp("protocolesDesc")} />
+                  </div>
+                  {/* Cabinet group */}
+                  <div className="border-l" style={{ borderColor: "var(--nd-line-soft)" }}>
+                    <p className="px-4 pt-2 pb-1 text-[11px] font-extrabold uppercase tracking-[.1em]"
+                      style={{ color: "var(--nd-taupe)" }}>{tp("cabinetTitle")}</p>
+                    <DropdownItem href="/fonctionnalites/dossiers-patients"  icon={<UsersIc/>}  label={tp("dossiers")}    desc={tp("dossiersDesc")} />
+                    <DropdownItem href="/fonctionnalites/bilans-vitalite"    icon={<PulseIc/>}  label={tp("bilans")}      desc={tp("bilansDesc")} />
+                    <DropdownItem href="/fonctionnalites/agenda-rendez-vous" icon={<CalIc/>}    label={tp("agenda")}      desc={tp("agendaDesc")} />
+                    <DropdownItem href="/fonctionnalites/facturation"        icon={<BillIc/>}   label={tp("facturation")} desc={tp("facturationDesc")} />
+                  </div>
+                </div>
                 {/* Footer link */}
                 <div className="mx-4 mt-2 mb-1 border-t pt-2" style={{ borderColor: "var(--nd-line-soft)" }}>
                   <Link href="/fonctionnalites"
