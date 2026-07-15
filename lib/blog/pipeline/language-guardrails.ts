@@ -26,15 +26,20 @@ export const FORBIDDEN_TERMS: string[] = [
   "succès garanti",
   "doublez vos revenus",
   // ── Vocabulaire médical proscrit (naturopathie non réglementée en France) ───
+  // Formulations volontairement multi-mots : les formes courtes ("soigne",
+  // "traite", "diagnostic" seuls) déclenchaient des faux positifs sur du
+  // vocabulaire business innocent ("soigner son accueil", "matériel de
+  // diagnostic" au sens équipement, "traiter un dossier"...).
   "guérit",
   "guérir",
   "guérison garantie",
-  "soigne",
-  "soigner",
-  "traite",
+  "soigner ses patients",
+  "soigner la maladie",
   "traiter la maladie",
-  "diagnostic",
-  "diagnostique",
+  "traiter les patients",
+  "poser un diagnostic",
+  "diagnostic médical",
+  "diagnostiquer",
   "prescription médicale",
   "remède miracle",
   // ── English equivalents (version EN de l'article) ───────────────────────────
