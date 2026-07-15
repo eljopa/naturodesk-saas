@@ -31,7 +31,7 @@ export interface LinkCandidate {
  * 1400+ mots avec 4-5 sections, et le modèle a systématiquement sous-produit dans
  * ce cas (observé ~900 mots au lieu de 1400 visés sur plusieurs générations réelles).
  */
-const SECTION_WORD_RANGE: Record<EditorialDna["depth"], [number, number]> = {
+export const SECTION_WORD_RANGE: Record<EditorialDna["depth"], [number, number]> = {
   COURTE: [100, 170],
   MOYENNE: [170, 240],
   LONGUE: [260, 360],

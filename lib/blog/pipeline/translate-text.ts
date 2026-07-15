@@ -11,17 +11,27 @@ import type { EditorialDna } from "../dna/compose";
 import { stripPrivateFields, type BlogArticleContent } from "./content-types";
 import { applyReplacements, type ReplacementLogEntry } from "./language-guardrails";
 import { computeQualityScore, hardValidate, type InternalLinkCandidates, type QualityScoreResult } from "./quality-score";
-import type { LinkCandidate } from "./prompt";
+import { SECTION_WORD_RANGE, type LinkCandidate } from "./prompt";
 import { callOpenAiChat, fixAndParseJson } from "./openai-client";
 
+/**
+ * Vise la vraie cible de longueur du DNA plutôt que "proportionnel à la
+ * source" : si le FR source est lui-même sous sa cible (contenu publié avant
+ * qu'un garde-fou de longueur existe, ou simplement variance du modèle), une
+ * consigne purement proportionnelle reproduit — voire aggrave — le manque de
+ * mots au lieu de le corriger. Observé en pratique : sources FR à 900-1180
+ * mots traduites en 760-986 mots avant ce correctif.
+ */
 function buildTranslationSystemPrompt(dna: EditorialDna): string {
+  const [sectionMin, sectionMax] = SECTION_WORD_RANGE[dna.depth];
   return `Tu es un rédacteur bilingue qui adapte en anglais des articles de blog business pour naturopathes, initialement écrits en français pour NaturoDesk (SaaS de gestion de cabinet).
 
 RÈGLES D'ADAPTATION :
-- Ce n'est PAS une traduction mot à mot : reformule pour que le texte sonne naturel et idiomatique en anglais, en conservant exactement le même sens et les mêmes informations que la source.
+- Ce n'est PAS une traduction mot à mot : reformule pour que le texte sonne naturel et idiomatique en anglais, en conservant le même sens et les mêmes informations que la source.
 - Conserve EXACTEMENT la même liste de blocs "blocks" : mêmes types, même ordre, même nombre. N'ajoute, ne supprime et ne réordonne aucun bloc.
 - Le champ "naturodeskContext" doit toujours citer littéralement "NaturoDesk" (jamais traduit ou paraphrasé).
-- Longueur de chaque champ proportionnellement équivalente à la source (${dna.wordTarget[0]}-${dna.wordTarget[1]} mots au total, visé aussi en anglais).
+- Longueur totale visée : ${dna.wordTarget[0]}-${dna.wordTarget[1]} mots — CONTRAINTE DURE indépendante de la longueur du texte source français. Si la source est plus courte que cette cible, DÉVELOPPE davantage chaque section en anglais (arguments, exemples, nuances) plutôt que de reproduire la longueur du texte français.
+- Chaque section ("sections[].body") doit faire ${sectionMin}-${sectionMax} mots, pas moins, même si la section correspondante en français est plus courte.
 
 RÈGLES ABSOLUES DE LANGAGE (identiques au français) :
 - Interdit : "guaranteed", "guaranteed results", "cures", "heals", "treats the disease", "medical diagnosis", "miracle cure"
@@ -31,7 +41,8 @@ RÈGLES ABSOLUES DE LANGAGE (identiques au français) :
 Retourne UNIQUEMENT un objet JSON valide, sans texte avant ni après, sans balises de code, avec exactement les mêmes clés que l'article source : title, metaTitle, metaDescription, quickAnswer, definition, intro, sections, naturodeskContext, blocks, conclusion.`;
 }
 
-function buildTranslationUserPrompt(frContent: BlogArticleContent, linkCandidates: LinkCandidate[]): string {
+function buildTranslationUserPrompt(frContent: BlogArticleContent, dna: EditorialDna, linkCandidates: LinkCandidate[]): string {
+  const [sectionMin, sectionMax] = SECTION_WORD_RANGE[dna.depth];
   const linksLine =
     linkCandidates.length > 0 ? linkCandidates.map((l) => `${l.title} (${l.slug})`).join(", ") : "aucun article lié disponible";
 
@@ -41,7 +52,8 @@ ${JSON.stringify(frContent, null, 2)}
 
 Articles liés à mentionner naturellement si pertinent : ${linksLine}
 
-Retourne le même objet JSON, en anglais, avec exactement les mêmes clés et la même liste de blocs.`;
+Retourne le même objet JSON, en anglais, avec exactement les mêmes clés et la même liste de blocs.
+Longueur totale visée : ${dna.wordTarget[0]}-${dna.wordTarget[1]} mots, sections de ${sectionMin}-${sectionMax} mots chacune — vérifie mentalement cette somme avant de répondre et étoffe si tu es en dessous, indépendamment de la longueur de la source.`;
 }
 
 export interface TranslateArticleTextResult {
@@ -59,7 +71,7 @@ export async function translateArticleText(
   linkCounts: InternalLinkCandidates
 ): Promise<TranslateArticleTextResult> {
   const systemPrompt = buildTranslationSystemPrompt(dna);
-  const userPrompt = buildTranslationUserPrompt(frContent, linkCandidates);
+  const userPrompt = buildTranslationUserPrompt(frContent, dna, linkCandidates);
 
   const { raw, tokensUsed } = await callOpenAiChat(systemPrompt, userPrompt);
   const parsed = fixAndParseJson(raw);

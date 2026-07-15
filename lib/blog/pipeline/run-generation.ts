@@ -17,12 +17,15 @@
 import { Prisma } from "@prisma/client";
 import { db } from "@/lib/db";
 import { sendBlogGenerationFailedEmail, sendBlogTopicsLowEmail } from "@/lib/email";
-import { composeEditorialDNA } from "../dna/compose";
+import { composeEditorialDNA, type EditorialDna } from "../dna/compose";
+import { BLOG_DEPTHS } from "../dna/catalog-tone-depth-structure";
+import type { BlogBlockType } from "../dna/types";
 import { generateArticleImages } from "./generate-images";
 import { generateArticleText } from "./generate-text";
 import { getRecentDnaHistory } from "./recent-dna-history";
 import { resolveInternalLinks } from "./internal-links";
 import { buildArticleRowData, type BlogArticleRowData, type StoredImage } from "./persist-article";
+import type { BlogArticleContent } from "./content-types";
 import type { PromptTopicInput } from "./prompt";
 import { selectNextTopic } from "./select-topic";
 import { translateArticleText } from "./translate-text";
@@ -47,7 +50,7 @@ async function warnIfTopicsLow(): Promise<void> {
   }
 }
 
-async function upsertArticle(topicId: string, locale: "fr" | "en", rowData: BlogArticleRowData): Promise<void> {
+export async function upsertArticle(topicId: string, locale: "fr" | "en", rowData: BlogArticleRowData): Promise<void> {
   const data = {
     ...rowData,
     contentJson: rowData.contentJson as unknown as Prisma.InputJsonValue,
@@ -132,4 +135,57 @@ export async function runBlogGenerationOnce(): Promise<RunGenerationResult> {
     await sendBlogGenerationFailedEmail(topic.slug, message).catch((e) => console.error("[blog] Alerte d'échec non envoyée:", e));
     return { status: "failed", topicSlug: topic.slug, errors: [message] };
   }
+}
+
+export type TranslateExistingArticleStatus = "no_fr_article" | "already_translated" | "published" | "review_required";
+
+export interface TranslateExistingArticleResult {
+  status: TranslateExistingArticleStatus;
+  enScore?: number;
+  errors?: string[];
+}
+
+/**
+ * Traduit en EN un article FR déjà publié qui n'a pas encore de version EN —
+ * cas d'un article publié manuellement avant que le pipeline n'atteigne
+ * l'étape de traduction (ex : correctif d'amorçage, spec §6). Reconstruit un
+ * EditorialDna minimal à partir des colonnes toneUsed/depthUsed/structureUsed/
+ * blocksUsed déjà stockées sur la ligne FR — dna.visual n'est pas nécessaire,
+ * translate-text.ts ne l'utilise pas.
+ */
+export async function translateExistingArticle(topicId: string): Promise<TranslateExistingArticleResult> {
+  const [topic, frArticle, existingEn] = await Promise.all([
+    db.blogTopic.findUnique({ where: { id: topicId } }),
+    db.blogArticle.findUnique({ where: { topicId_locale: { topicId, locale: "fr" } } }),
+    db.blogArticle.findUnique({ where: { topicId_locale: { topicId, locale: "en" } } }),
+  ]);
+  if (!topic || !frArticle || frArticle.status !== "PUBLISHED") return { status: "no_fr_article" };
+  if (existingEn) return { status: "already_translated" };
+
+  const depthDef = BLOG_DEPTHS[frArticle.depthUsed];
+  const dna: EditorialDna = {
+    slug: topic.slug,
+    tone: frArticle.toneUsed,
+    depth: frArticle.depthUsed,
+    structure: frArticle.structureUsed,
+    wordTarget: depthDef.words,
+    sectionRange: depthDef.sections,
+    blocks: frArticle.blocksUsed as BlogBlockType[],
+    visual: { imageCount: 0, families: [], slots: [] },
+  };
+
+  const enLinks = await resolveInternalLinks(topic, "en");
+  const frContent = frArticle.contentJson as unknown as BlogArticleContent;
+  const enResult = await translateArticleText(frContent, dna, enLinks.candidates, enLinks);
+  const enPassed = enResult.hardErrors.length === 0;
+
+  const images = (frArticle.images as unknown as StoredImage[]) ?? [];
+  await upsertArticle(topicId, "en", buildArticleRowData(dna, enResult, images, enPassed ? "PUBLISHED" : "REVIEW_REQUIRED"));
+  await db.blogTopic.update({ where: { id: topicId }, data: { status: enPassed ? "PUBLISHED" : "REVIEW_REQUIRED" } });
+
+  return {
+    status: enPassed ? "published" : "review_required",
+    enScore: enResult.scoreResult.score,
+    errors: enPassed ? undefined : enResult.hardErrors,
+  };
 }
