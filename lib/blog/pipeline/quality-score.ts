@@ -83,6 +83,16 @@ export function detectConcreteElement(content: BlogArticleContent): boolean {
 export interface InternalLinkCandidates {
   hasPillarLink: boolean;
   clusterLinkCount: number;
+  /**
+   * Nombre total d'articles déjà publiés dans cette locale, tous clusters
+   * confondus — pas seulement ceux retenus comme candidats de lien. Permet de
+   * distinguer "il n'y a encore rien à lier" (amorçage du blog) de "cet
+   * article n'a pas bien maillé alors que du contenu existait" : sans cette
+   * distinction, les tout premiers articles publiés sont mathématiquement
+   * incapables d'obtenir les points de maillage interne et plafonnent sous le
+   * seuil de publication automatique quelle que soit la qualité du texte.
+   */
+  publishedArticlesInLocale: number;
 }
 
 export interface QualityCheck {
@@ -139,10 +149,13 @@ export function computeQualityScore(
   add(8, "naturodeskContext mentionne 'NaturoDesk'", !!content.naturodeskContext && content.naturodeskContext.includes("NaturoDesk"));
   add(8, "élément concret détecté", detectConcreteElement(content));
 
-  // Maillage interne (14 pts)
-  add(6, "lien pilier sélectionné", links.hasPillarLink);
-  add(4, "au moins 4 liens de cluster", links.clusterLinkCount >= 4);
-  add(4, "au moins 1 lien de cluster", links.clusterLinkCount >= 1);
+  // Maillage interne (14 pts) — non applicable tant que le blog n'a aucun
+  // article publié à lier (amorçage) : accordé d'office dans ce cas plutôt
+  // que de pénaliser un article qui n'avait matériellement rien à lier.
+  const linkingPossible = links.publishedArticlesInLocale > 0;
+  add(6, "lien pilier sélectionné", !linkingPossible || links.hasPillarLink);
+  add(4, "au moins 4 liens de cluster", !linkingPossible || links.clusterLinkCount >= 4);
+  add(4, "au moins 1 lien de cluster", !linkingPossible || links.clusterLinkCount >= 1);
 
   const score = checks.reduce((sum, c) => sum + (c.passed ? c.points : 0), 0);
   const total = checks.reduce((sum, c) => sum + c.points, 0);

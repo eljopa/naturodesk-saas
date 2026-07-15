@@ -50,6 +50,10 @@ export async function resolveInternalLinks(topic: InternalLinkTopicInput, locale
     include: { topic: { select: { slug: true } } },
   });
 
+  const publishedArticlesInLocale = await db.blogArticle.count({
+    where: { locale, status: "PUBLISHED", topic: { slug: { not: topic.slug } } },
+  });
+
   const seen = new Set<string>();
   const candidates: LinkCandidate[] = [];
   const pushUnique = (candidate: LinkCandidate | null) => {
@@ -68,5 +72,6 @@ export async function resolveInternalLinks(topic: InternalLinkTopicInput, locale
     candidates: candidates.slice(0, MAX_CANDIDATES_FOR_PROMPT),
     hasPillarLink: !!pillarCandidate,
     clusterLinkCount,
+    publishedArticlesInLocale,
   };
 }

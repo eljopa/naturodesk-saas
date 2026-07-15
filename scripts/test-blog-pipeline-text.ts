@@ -91,7 +91,9 @@ function testQualityScore() {
   // Contenu volontairement sans les blocs prévus par le DNA, pour vérifier
   // que la validation dure bloque bien la publication.
   const content = fixtureContent({ blocks: [] });
-  const links = { hasPillarLink: false, clusterLinkCount: 0 };
+  // publishedArticlesInLocale > 0 : simule un blog déjà amorcé, pour que les
+  // vérifications de maillage interne s'appliquent réellement dans ce test.
+  const links = { hasPillarLink: false, clusterLinkCount: 0, publishedArticlesInLocale: 5 };
   const scoreResult = computeQualityScore(content, dna, links);
   console.log(`Score: ${scoreResult.score}/${scoreResult.total}`);
   for (const c of scoreResult.checks) {
@@ -159,7 +161,11 @@ async function testLiveGeneration() {
     `DNA choisi: ton=${dna.tone}, profondeur=${dna.depth} (${dna.wordTarget[0]}-${dna.wordTarget[1]} mots), structure=${dna.structure}, blocs=${dna.blocks.join(",")}`
   );
 
-  const result = await generateArticleText(promptTopic, dna, [], { hasPillarLink: false, clusterLinkCount: 0 });
+  const result = await generateArticleText(promptTopic, dna, [], {
+    hasPillarLink: false,
+    clusterLinkCount: 0,
+    publishedArticlesInLocale: 0,
+  });
   console.log(`Titre généré: ${result.content.title}`);
   console.log(`Score qualité: ${result.scoreResult.score}/${result.scoreResult.total}`);
   console.log(`Tokens utilisés: ${result.tokensUsed}`);
