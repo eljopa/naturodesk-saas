@@ -34,6 +34,7 @@ export interface FeaturePageTemplateProps {
   subtitle: string;
   ctaPrimary?: { label: string; href: string };
   ctaSecondary?: { label: string; href: string };
+  heroReassurance?: string[];
   presentationTitle: string;
   presentationText: string;
   presentationStats?: FeatureStat[];
@@ -41,6 +42,10 @@ export interface FeaturePageTemplateProps {
   steps: FeatureStep[];
   faqs: FaqItem[];
   relatedFeatures: RelatedFeature[];
+  ctaFinalTitle?: string;
+  ctaFinalText?: string;
+  ctaFinalPrimary?: { label: string; href: string };
+  ctaFinalSecondary?: { label: string; href: string };
 }
 
 /* ── Sub-components ─────────────────────────────────────────────────────── */
@@ -162,6 +167,7 @@ export function FeaturePageTemplate({
   subtitle,
   ctaPrimary = { label: "Démarrer gratuitement", href: "/register" },
   ctaSecondary = { label: "Voir les tarifs", href: "/tarifs" },
+  heroReassurance,
   presentationTitle,
   presentationText,
   presentationStats,
@@ -169,6 +175,10 @@ export function FeaturePageTemplate({
   steps,
   faqs,
   relatedFeatures,
+  ctaFinalTitle = "Prêt à simplifier votre cabinet ?",
+  ctaFinalText = "Essayez NaturoDesk gratuitement. Aucune carte bancaire requise.",
+  ctaFinalPrimary = { label: "Démarrer gratuitement", href: "/register" },
+  ctaFinalSecondary = { label: "Toutes les fonctionnalités", href: "/fonctionnalites" },
 }: FeaturePageTemplateProps) {
   const ic = {
     width: 18,
@@ -257,6 +267,24 @@ export function FeaturePageTemplate({
               {ctaSecondary.label}
             </Link>
           </div>
+
+          {/* Reassurance */}
+          {heroReassurance && heroReassurance.length > 0 && (
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-6">
+              {heroReassurance.map((item) => (
+                <span
+                  key={item}
+                  className="flex items-center gap-1.5 text-[13.5px] font-medium"
+                  style={{ color: "var(--nd-sage-deep)" }}
+                >
+                  <svg viewBox="0 0 16 16" fill="none" style={{ width: 14, height: 14, stroke: "var(--nd-sage-deep)", strokeWidth: 2.5 }}>
+                    <path d="M2.5 8.5l3.5 3.5 7.5-7.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  {item}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -442,27 +470,27 @@ export function FeaturePageTemplate({
             className="font-serif font-medium mb-4"
             style={{ fontSize: "clamp(24px,3vw,36px)", color: "var(--nd-forest)" }}
           >
-            Prêt à simplifier votre cabinet&nbsp;?
+            {ctaFinalTitle}
           </h2>
           <p
             className="mb-8"
             style={{ color: "var(--nd-muted)", fontSize: 16, lineHeight: 1.65 }}
           >
-            Essayez NaturoDesk gratuitement. Aucune carte bancaire requise.
+            {ctaFinalText}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/register"
+              href={ctaFinalPrimary.href}
               className="inline-flex items-center px-8 py-[14px] rounded-full font-bold text-white text-[16px] transition-all duration-200 hover:opacity-90"
               style={{
                 background: "var(--nd-sage)",
                 boxShadow: "0 10px 24px -10px rgba(94,115,73,.65)",
               }}
             >
-              Démarrer gratuitement
+              {ctaFinalPrimary.label}
             </Link>
             <Link
-              href="/fonctionnalites"
+              href={ctaFinalSecondary.href}
               className="inline-flex items-center px-8 py-[13px] rounded-full font-bold text-[16px] transition-all duration-200"
               style={{
                 background: "transparent",
@@ -470,7 +498,7 @@ export function FeaturePageTemplate({
                 border: "1.5px solid var(--nd-line)",
               }}
             >
-              Toutes les fonctionnalités
+              {ctaFinalSecondary.label}
             </Link>
           </div>
         </div>

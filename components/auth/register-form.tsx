@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 import { signUpAction, type AuthFormState } from "@/lib/actions/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +27,7 @@ export function RegisterForm({ redirectTo, planLabel, loginHref }: RegisterFormP
   const errorMessage = state?.errorCode
     ? tErr(state.errorCode as Parameters<typeof tErr>[0])
     : null;
+  const isTermsError = state?.errorCode === "terms_not_accepted";
   const isConfirmation = state?.messageCode === "confirm_email_sent";
 
   if (isConfirmation) {
@@ -146,6 +148,70 @@ export function RegisterForm({ redirectTo, planLabel, loginHref }: RegisterFormP
           disabled={isPending}
           error={!!errorMessage}
         />
+      </div>
+
+      <div className="flex flex-col gap-3 pt-1">
+        <label className="flex items-start gap-2.5 cursor-pointer">
+          <input
+            type="checkbox"
+            name="acceptTerms"
+            required
+            disabled={isPending}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 accent-nd-sage cursor-pointer"
+          />
+          <span
+            className={cn(
+              "text-sm leading-snug",
+              isTermsError ? "text-red-600" : "text-slate-600"
+            )}
+          >
+            {t("termsCheckboxPrefix")}{" "}
+            <Link
+              href="/legal/cgu"
+              target="_blank"
+              rel="noopener noreferrer"
+              prefetch={false}
+              className={cn(
+                "font-medium hover:underline",
+                isTermsError ? "text-red-600" : "text-nd-sage-deep"
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {t("termsLinkText")}
+            </Link>
+          </span>
+        </label>
+
+        <label className="flex items-start gap-2.5 cursor-pointer">
+          <input
+            type="checkbox"
+            name="acceptPrivacy"
+            required
+            disabled={isPending}
+            className="mt-0.5 h-4 w-4 shrink-0 rounded border-slate-300 accent-nd-sage cursor-pointer"
+          />
+          <span
+            className={cn(
+              "text-sm leading-snug",
+              isTermsError ? "text-red-600" : "text-slate-600"
+            )}
+          >
+            {t("privacyCheckboxPrefix")}{" "}
+            <Link
+              href="/legal/confidentialite"
+              target="_blank"
+              rel="noopener noreferrer"
+              prefetch={false}
+              className={cn(
+                "font-medium hover:underline",
+                isTermsError ? "text-red-600" : "text-nd-sage-deep"
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {t("privacyLinkText")}
+            </Link>
+          </span>
+        </label>
       </div>
 
       <Button

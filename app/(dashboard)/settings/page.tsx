@@ -319,7 +319,7 @@ function LocaleSwitcher({
 export default async function SettingsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ stripe?: string; upgrade?: string; interval?: string }>;
+  searchParams: Promise<{ stripe?: string; upgrade?: string; interval?: string; reason?: string }>;
 }) {
   const [user, t, currentLocale, resolvedParams] = await Promise.all([
     requireUser(),
@@ -353,6 +353,7 @@ export default async function SettingsPage({
   });
 
   const stripeParam = resolvedParams.stripe;
+  const reasonParam = resolvedParams.reason;
 
   // Resolve upgrade intent from URL params (set by /tarifs CTAs)
   let upgradeIntent: UpgradeIntent = null;
@@ -372,6 +373,18 @@ export default async function SettingsPage({
       <PageHeader title={t("pageTitle")} description={t("pageDescription")} />
 
       <div className="max-w-2xl space-y-6">
+        {/* Subscription required banner */}
+        {reasonParam === "subscription_required" && (
+          <div className="rounded-xl border-2 border-amber-300 bg-amber-50 px-5 py-4">
+            <p className="font-semibold text-amber-900 text-sm">
+              {t("billing.subscriptionRequiredBanner")}
+            </p>
+            <p className="text-amber-800 text-sm mt-1">
+              {t("billing.subscriptionRequiredDescription")}
+            </p>
+          </div>
+        )}
+
         {/* Profil */}
         <Card>
           <CardHeader>

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { FeaturePageTemplate } from "@/components/marketing/feature-page-template";
 
 export const metadata: Metadata = {
-  title: "Bilans de vitalité naturopathiques | NaturoDesk",
+  title: "Bilans de vitalité pour naturopathes | Structurez vos consultations | NaturoDesk",
   description:
-    "Réalisez des bilans de vitalité structurés système par système, déclenchez l'analyse documentaire et suivez l'évolution de vos patients au fil des consultations.",
+    "Organisez vos consultations grâce à des bilans de vitalité structurés intégrant symptômes, traitements, compléments et observations.",
   alternates: {
     canonical: "/fonctionnalites/bilans-vitalite",
   },
   openGraph: {
-    title: "Bilans de vitalité naturopathiques | NaturoDesk",
+    title: "Bilans de vitalité pour naturopathes | Structurez vos consultations | NaturoDesk",
     description:
-      "Réalisez des bilans de vitalité structurés système par système, déclenchez l'analyse documentaire et suivez l'évolution de vos patients au fil des consultations.",
+      "Organisez vos consultations grâce à des bilans de vitalité structurés intégrant symptômes, traitements, compléments et observations.",
     type: "website",
   },
 };
@@ -22,13 +22,14 @@ const ic = { width: 18, height: 18, stroke: "currentColor", fill: "none", stroke
 function PulseIcon({ size = 20 }: { size?: number }) {
   return <svg viewBox="0 0 24 24" style={{ ...ic, width: size, height: size }}><path d="M3 12h4l2-6 4 12 2-6h6" strokeLinecap="round"/></svg>;
 }
-function ShieldIcon() { return <svg viewBox="0 0 24 24" style={ic}><path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6l-8-3Z"/></svg>; }
-function LeafIcon()   { return <svg viewBox="0 0 24 24" style={ic}><path d="M4 20c8 2 16-4 16-16C10 4 4 10 4 20Zm0 0 9-9" strokeLinecap="round"/></svg>; }
-function UsersIcon()  { return <svg viewBox="0 0 24 24" style={ic}><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5" strokeLinecap="round"/></svg>; }
-function LayersIcon() { return <svg viewBox="0 0 24 24" style={ic}><path d="M12 2 2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5" strokeLinecap="round"/></svg>; }
-function PillIcon()   { return <svg viewBox="0 0 24 24" style={ic}><path d="m10.5 20.5-7-7a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7ZM8.5 8.5l7 7" strokeLinecap="round"/></svg>; }
-function ListIcon()   { return <svg viewBox="0 0 24 24" style={ic}><path d="M9 6h11M9 12h11M9 18h11M5 6v.01M5 12v.01M5 18v.01" strokeLinecap="round"/></svg>; }
-function BrainIcon()  { return <svg viewBox="0 0 24 24" style={ic}><path d="M12 5c-1.1 0-2 .9-2 2v1c0 .9.4 1.7 1 2.2V12h2v-1.8c.6-.5 1-1.3 1-2.2V7c0-1.1-.9-2-2-2Z" strokeLinecap="round"/><path d="M9 17v1a3 3 0 0 0 6 0v-1M6 8a3 3 0 0 0 0 6h2M16 8a3 3 0 0 1 0 6h-2" strokeLinecap="round"/></svg>; }
+function ShieldIcon()  { return <svg viewBox="0 0 24 24" style={ic}><path d="M12 3 4 6v6c0 5 3.5 7.5 8 9 4.5-1.5 8-4 8-9V6l-8-3Z"/></svg>; }
+function LeafIcon()    { return <svg viewBox="0 0 24 24" style={ic}><path d="M4 20c8 2 16-4 16-16C10 4 4 10 4 20Zm0 0 9-9" strokeLinecap="round"/></svg>; }
+function UsersIcon()   { return <svg viewBox="0 0 24 24" style={ic}><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5" strokeLinecap="round"/></svg>; }
+function LayersIcon()  { return <svg viewBox="0 0 24 24" style={ic}><path d="M12 2 2 7l10 5 10-5-10-5ZM2 17l10 5 10-5M2 12l10 5 10-5" strokeLinecap="round"/></svg>; }
+function PillIcon()    { return <svg viewBox="0 0 24 24" style={ic}><path d="m10.5 20.5-7-7a5 5 0 0 1 7-7l7 7a5 5 0 0 1-7 7ZM8.5 8.5l7 7" strokeLinecap="round"/></svg>; }
+function ListIcon()    { return <svg viewBox="0 0 24 24" style={ic}><path d="M9 6h11M9 12h11M9 18h11M5 6v.01M5 12v.01M5 18v.01" strokeLinecap="round"/></svg>; }
+function NoteIcon()    { return <svg viewBox="0 0 24 24" style={ic}><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" strokeLinecap="round"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>; }
+function GridIcon()    { return <svg viewBox="0 0 24 24" style={ic}><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>; }
 
 /* ── Page ───────────────────────────────────────────────────────────────── */
 
@@ -36,105 +37,111 @@ export default function BilansVitaliePage() {
   return (
     <FeaturePageTemplate
       featureName="Bilans de vitalité"
-      category="Clinique"
+      category="Consultations & analyse"
       heroIcon={<PulseIcon size={28} />}
-      title="Des bilans structurés, de la saisie à l'analyse documentaire"
-      subtitle="Saisissez symptômes, médicaments et compléments dans une interface organisée par onglets. Déclenchez l'analyse pour identifier les signaux cliniques connus — en un clic."
-      ctaPrimary={{ label: "Commencer un bilan", href: "/register" }}
+      title="Structurez vos consultations et facilitez votre analyse."
+      subtitle="Collectez les informations essentielles de manière organisée afin d'obtenir une vision plus claire du terrain de vos patients."
+      ctaPrimary={{ label: "Essayer gratuitement", href: "/register" }}
       ctaSecondary={{ label: "Voir les tarifs", href: "/tarifs" }}
-      presentationTitle="La structuration des données cliniques au service de l'analyse"
-      presentationText="Un bilan de vitalité NaturoDesk capture les données cliniques dans un format structuré : les symptômes libres sont saisis par système organique, les médicaments et compléments sont normalisés, les constats sont catégorisés. Ce modèle de données alimente directement le moteur d'assistance clinique."
+      heroReassurance={["Consultation structurée", "Historique exploitable", "Analyse documentée"]}
+      presentationTitle="Une consultation mieux organisée"
+      presentationText="NaturoDesk vous accompagne dans la collecte des informations essentielles sans modifier votre méthode de travail. Les données saisies sont organisées par onglets thématiques afin de faciliter leur exploitation lors du suivi. Chaque bilan reste disponible et consultable dans le temps — pour retracer l'évolution du patient à chaque nouvelle séance."
       presentationStats={[
         { value: "6", label: "Onglets de saisie" },
-        { value: "5", label: "Statuts de workflow" },
-        { value: "0–10", label: "Score charge médicamenteuse" },
+        { value: "4", label: "Étapes de workflow" },
         { value: "PDF", label: "Export consultation" },
+        { value: "100%", label: "Données conservées" },
       ]}
       features={[
         {
-          icon: <LayersIcon />,
-          title: "6 onglets de saisie",
+          icon: <GridIcon />,
+          title: "Contexte général",
           description:
-            "Contexte général, symptômes par système organique, médicaments, compléments alimentaires, constats cliniques, base de connaissances.",
-        },
-        {
-          icon: <PillIcon />,
-          title: "Médicaments et compléments",
-          description:
-            "Saisissez les traitements en cours. Les médicaments sont résolus dans la BDPM, les compléments dans le catalogue NIH ODS.",
-        },
-        {
-          icon: <BrainIcon />,
-          title: "Analyse documentaire intégrée",
-          description:
-            "Déclenchez l'analyse depuis le bilan : le moteur croise les données avec les sources officielles et retourne les constats classés par catégorie.",
+            "Renseignez le motif de consultation, les objectifs du patient et les données contextuelles initiales qui fondent l'analyse.",
         },
         {
           icon: <ListIcon />,
-          title: "Constats annotables",
+          title: "Symptômes",
           description:
-            "Chaque constat peut être validé, annoté ou ignoré par le praticien. Les constats validés alimentent la fiche conseil.",
+            "Saisissez les symptômes système par système (digestif, nerveux, ostéo-articulaire…) pour obtenir une vision anatomique complète du terrain.",
         },
         {
-          icon: <ShieldIcon />,
-          title: "Score de charge médicamenteuse",
+          icon: <PillIcon />,
+          title: "Médicaments",
           description:
-            "Évaluation automatique de la complexité du traitement médicamenteux (0–10) avec seuil d'alerte colorimétrique.",
+            "Enregistrez les traitements en cours. Les médicaments sont identifiés dans la base de données publique officielle (BDPM).",
         },
         {
-          icon: <PulseIcon />,
-          title: "Statuts de workflow",
+          icon: <LeafIcon />,
+          title: "Compléments alimentaires",
           description:
-            "DRAFT → READY → ANALYSIS_PENDING → ANALYSIS_DONE. Le praticien maîtrise à chaque étape l'avancement du bilan.",
+            "Listez les compléments pris par le patient avec posologie et raison de la prise, pour un suivi précis et tracé.",
+        },
+        {
+          icon: <NoteIcon />,
+          title: "Observations",
+          description:
+            "Notez librement vos observations cliniques, remarques et points d'attention particuliers à conserver pour les séances suivantes.",
+        },
+        {
+          icon: <LayersIcon />,
+          title: "Constats",
+          description:
+            "Les éléments issus de l'analyse documentaire sont regroupés et classés par catégorie pour faciliter la rédaction du protocole.",
         },
       ]}
       steps={[
         {
-          title: "Ouvrez ou créez le bilan",
+          title: "Création du bilan",
           description:
-            "Depuis la fiche patient, créez un nouveau bilan (type BILAN pour une première consultation, SUIVI pour les séances suivantes).",
+            "Ouvrez un nouveau bilan depuis la fiche patient. Choisissez le type de consultation (bilan initial ou séance de suivi).",
         },
         {
-          title: "Saisissez les données cliniques",
+          title: "Saisie des données",
           description:
-            "Renseignez le contexte, les symptômes par système, les médicaments et compléments en cours. Les champs libres sont structurés automatiquement.",
+            "Renseignez chaque onglet à votre rythme : contexte général, symptômes, médicaments, compléments alimentaires et observations.",
         },
         {
-          title: "Validez le bilan",
+          title: "Analyse documentaire",
           description:
-            "Passez le bilan en statut READY quand toutes les données sont saisies. C'est le prérequis avant l'analyse.",
+            "Déclenchez l'analyse. Le moteur croise les données saisies avec les bases documentaires de référence et retourne les constats classés.",
         },
         {
-          title: "Déclenchez l'analyse",
+          title: "Exploitation des résultats",
           description:
-            "Lancez l'analyse documentaire. Le moteur croise les données avec les sources officielles et calcule les constats en quelques secondes.",
-        },
-        {
-          title: "Revue et création du protocole",
-          description:
-            "Consultez les constats. Validez ceux qui sont pertinents et créez la fiche conseil depuis ce même écran.",
+            "Consultez les constats identifiés, annotez ceux qui sont pertinents et créez la fiche conseil depuis ce même écran.",
         },
       ]}
       faqs={[
         {
-          question: "Peut-on modifier un bilan après l'avoir analysé ?",
+          question: "Puis-je enregistrer les traitements ?",
           answer:
-            "Oui. Le bilan peut repasser en statut DRAFT pour être modifié, puis être soumis à une nouvelle analyse. L'historique des analyses précédentes est conservé.",
+            "Oui. Médicaments et compléments alimentaires disposent chacun d'un onglet dédié dans le bilan.",
         },
         {
-          question: "Combien de bilans peut-on créer par patient ?",
+          question: "Les symptômes sont-ils historisés ?",
           answer:
-            "Il n'y a pas de limite. Chaque consultation crée un bilan distinct. L'historique complet est accessible depuis la fiche patient.",
+            "Oui. Chaque bilan conserve les symptômes saisis. Vous pouvez retracer l'évolution du patient de consultation en consultation depuis la fiche patient.",
         },
         {
-          question: "L'analyse fonctionne-t-elle sans médicaments déclarés ?",
+          question: "Puis-je exporter le bilan ?",
           answer:
-            "Oui. L'analyse peut fonctionner uniquement sur les compléments alimentaires, les symptômes ou la base documentaire. Les médicaments augmentent la profondeur des signaux identifiés.",
+            "Oui. Le compte-rendu de consultation est exportable en PDF depuis la fiche patient.",
         },
         {
-          question: "Les bilans précédents sont-ils comparables ?",
+          question: "Les analyses sont-elles conservées ?",
           answer:
-            "La comparaison inter-bilans est une fonctionnalité prévue dans la roadmap. Le modèle de données permet déjà de retracer l'évolution des scores et des constats.",
+            "Oui. Les résultats de chaque analyse documentaire sont sauvegardés dans le bilan correspondant et restent consultables à tout moment.",
+        },
+        {
+          question: "Puis-je retrouver un ancien bilan ?",
+          answer:
+            "Oui. Tous les bilans sont accessibles depuis la fiche patient, classés chronologiquement, sans limitation de durée.",
+        },
+        {
+          question: "Les données restent-elles modifiables ?",
+          answer:
+            "Oui. Un bilan peut être réouvert en mode édition à tout moment pour compléter ou corriger les informations saisies, puis soumis à une nouvelle analyse.",
         },
       ]}
       relatedFeatures={[
@@ -142,6 +149,10 @@ export default function BilansVitaliePage() {
         { label: "Protocoles & fiches conseil", href: "/fonctionnalites/protocoles", icon: <LeafIcon /> },
         { label: "Dossiers patients", href: "/fonctionnalites/dossiers-patients", icon: <UsersIcon /> },
       ]}
+      ctaFinalTitle="Donnez une structure claire à chacune de vos consultations."
+      ctaFinalText="Essayez NaturoDesk gratuitement. Aucune carte bancaire requise."
+      ctaFinalPrimary={{ label: "Démarrer gratuitement", href: "/register" }}
+      ctaFinalSecondary={{ label: "Toutes les fonctionnalités", href: "/fonctionnalites" }}
     />
   );
 }

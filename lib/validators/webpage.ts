@@ -21,11 +21,10 @@ export const WebPageFormSchema = z.object({
     .regex(/^[a-z0-9-]+$/, "Le slug ne peut contenir que des lettres minuscules, chiffres et tirets"),
 
   heroThemeId: z.coerce.number().int().min(1).max(10).default(1),
+  heroImageId:     nullableString(20),
   logoUrl:         nullableString(500),
   bio:             nullableString(500),
   presentation:    nullableString(3000),
-  servicesDisplay: nullableString(1000),
-  pricingDisplay:  nullableString(500),
   address:         nullableString(300),
   phone:           nullableString(30),
   contactEmail: z
@@ -59,6 +58,18 @@ export const WebPageFormSchema = z.object({
 });
 
 export type WebPageFormData = z.infer<typeof WebPageFormSchema>;
+
+// ---------------------------------------------------------------------------
+// Rubrique d'information (spécialité / discipline / approche)
+// ---------------------------------------------------------------------------
+
+export const WebPageInfoSectionSchema = z.object({
+  title: z.string().min(1, "Titre requis").max(100).trim(),
+  description: z.string().min(1, "Description requise").max(2000).trim(),
+  displayOrder: z.coerce.number().int().min(0).default(0),
+});
+
+export type WebPageInfoSectionData = z.infer<typeof WebPageInfoSectionSchema>;
 
 // ---------------------------------------------------------------------------
 // Prestation

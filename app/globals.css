@@ -39,6 +39,31 @@
   --color-nd-muted:       #74786C;
   --color-nd-line:        #E7E0D3;
   --color-nd-line-soft:   #EFE9DD;
+
+  /* Shadcn semantic tokens — mapped to nd-* palette */
+  --color-background:                 var(--background);
+  --color-foreground:                 var(--foreground);
+  --color-card:                       var(--card);
+  --color-card-foreground:            var(--card-foreground);
+  --color-primary:                    var(--primary);
+  --color-primary-foreground:         var(--primary-foreground);
+  --color-secondary:                  var(--secondary);
+  --color-secondary-foreground:       var(--secondary-foreground);
+  --color-muted:                      var(--muted);
+  --color-muted-foreground:           var(--muted-foreground);
+  --color-accent:                     var(--accent);
+  --color-accent-foreground:          var(--accent-foreground);
+  --color-destructive:                var(--destructive);
+  --color-border:                     var(--border);
+  --color-input:                      var(--input);
+  --color-ring:                       var(--ring);
+  --color-sidebar:                    var(--sidebar);
+  --color-sidebar-foreground:         var(--sidebar-foreground);
+  --color-sidebar-primary:            var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:             var(--sidebar-accent);
+  --color-sidebar-accent-foreground:  var(--sidebar-accent-foreground);
+  --color-sidebar-border:             var(--sidebar-border);
 }
 
 /* CSS custom props also available for ::before / pseudo-elements */
@@ -59,6 +84,31 @@
   --nd-sand:         #E6D6C8;
   --nd-taupe:        #92806E;
   --nd-ease:         cubic-bezier(.22,.61,.36,1);
+
+  /* Shadcn semantic vars */
+  --background:                   #FAF7F0;
+  --foreground:                   #2C3327;
+  --card:                         #FFFFFF;
+  --card-foreground:              #2C3327;
+  --primary:                      #799664;
+  --primary-foreground:           #FFFFFF;
+  --secondary:                    #E8EDE0;
+  --secondary-foreground:         #5E7349;
+  --muted:                        #F1F4EC;
+  --muted-foreground:             #74786C;
+  --accent:                       #E6D6C8;
+  --accent-foreground:            #5E7349;
+  --destructive:                  #DC2626;
+  --border:                       #E7E0D3;
+  --input:                        #E7E0D3;
+  --ring:                         #799664;
+  --sidebar:                      #F3ECDF;
+  --sidebar-foreground:           #3D4A33;
+  --sidebar-primary:              #799664;
+  --sidebar-primary-foreground:   #FFFFFF;
+  --sidebar-accent:               #E8EDE0;
+  --sidebar-accent-foreground:    #5E7349;
+  --sidebar-border:               #E7E0D3;
 }
 
 /* Base */

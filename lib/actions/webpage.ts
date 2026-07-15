@@ -2,8 +2,11 @@
 
 import { Prisma } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { getTranslations } from "next-intl/server";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { isPlanAtLeast } from "@/lib/plans";
+import type { PlanKey } from "@/lib/plans";
 import { WebPageFormSchema } from "@/lib/validators/webpage";
 import { generateSlug } from "@/lib/utils/slug";
 
@@ -20,6 +23,7 @@ export type WebPageErrorCode =
 
 export type WebPageFormState = {
   errorCode?: WebPageErrorCode;
+  errorDetail?: string;
   success?: boolean;
 } | null;
 
@@ -27,15 +31,15 @@ export type WebPageFormState = {
 // Helpers
 // ---------------------------------------------------------------------------
 
-async function checkProPlan(userId: string): Promise<boolean> {
+async function checkWebpageAccess(userId: string): Promise<boolean> {
   const sub = await db.subscription.findUnique({
     where: { userId },
     select: { plan: true, status: true },
   });
   if (!sub) return false;
   return (
-    sub.plan === "PRO" &&
-    (sub.status === "ACTIVE" || sub.status === "TRIALING")
+    isPlanAtLeast(sub.plan as PlanKey, "GROWTH") &&
+    (sub.status === "ACTIVE" || sub.status === "TRIALING" || sub.status === "PAST_DUE")
   );
 }
 
@@ -69,32 +73,49 @@ export async function saveWebPageAction(
 ): Promise<WebPageFormState> {
   const user = await requireUser();
 
-  if (!(await checkProPlan(user.id))) {
+  if (!(await checkWebpageAccess(user.id))) {
     return { errorCode: "pro_plan_required" };
   }
 
+  const tValidation = await getTranslations("webpage.validationErrors");
+
+  // formData.get() returns null for missing fields; Zod's .optional() requires undefined, not null
+  const get = (key: string) => formData.get(key) ?? undefined;
+
   const parsed = WebPageFormSchema.safeParse({
-    slug:               formData.get("slug"),
-    heroThemeId:        formData.get("heroThemeId"),
-    logoUrl:            formData.get("logoUrl"),
-    bio:                formData.get("bio"),
-    presentation:       formData.get("presentation"),
-    servicesDisplay:    formData.get("servicesDisplay"),
-    pricingDisplay:     formData.get("pricingDisplay"),
-    address:            formData.get("address"),
-    phone:              formData.get("phone"),
-    contactEmail:       formData.get("contactEmail"),
-    instagram:          formData.get("instagram"),
-    facebook:           formData.get("facebook"),
-    linkedin:           formData.get("linkedin"),
-    website:            formData.get("website"),
-    seoTitle:           formData.get("seoTitle"),
-    seoDescription:     formData.get("seoDescription"),
-    contactFormEnabled: formData.get("contactFormEnabled"),
-    appointmentEnabled: formData.get("appointmentEnabled"),
+    slug:               get("slug"),
+    heroThemeId:        get("heroThemeId"),
+    heroImageId:        get("heroImageId"),
+    logoUrl:            get("logoUrl"),
+    bio:                get("bio"),
+    presentation:       get("presentation"),
+    address:            get("address"),
+    phone:              get("phone"),
+    contactEmail:       get("contactEmail"),
+    instagram:          get("instagram"),
+    facebook:           get("facebook"),
+    linkedin:           get("linkedin"),
+    website:            get("website"),
+    seoTitle:           get("seoTitle"),
+    seoDescription:     get("seoDescription"),
+    contactFormEnabled: get("contactFormEnabled"),
+    appointmentEnabled: get("appointmentEnabled"),
   });
 
-  if (!parsed.success) return { errorCode: "invalid_input" };
+  if (!parsed.success) {
+    const first  = parsed.error.issues[0];
+    const field  = String(first?.path[0] ?? "");
+    console.error("[saveWebPageAction] Validation échouée →", field, ":", first?.message);
+    const knownFields = [
+      "slug", "contactEmail", "bio", "presentation", "servicesDisplay",
+      "pricingDisplay", "address", "phone", "seoTitle", "seoDescription",
+      "instagram", "facebook", "linkedin", "website",
+    ] as const;
+    type KnownField = typeof knownFields[number];
+    const isKnown = (f: string): f is KnownField => (knownFields as readonly string[]).includes(f);
+    const errorDetail = isKnown(field) ? tValidation(field) : tValidation("default");
+    return { errorCode: "invalid_input", errorDetail };
+  }
 
   const {
     slug: requestedSlug,
@@ -166,7 +187,7 @@ export async function saveWebPageAction(
 export async function publishWebPageAction(): Promise<WebPageFormState> {
   const user = await requireUser();
 
-  if (!(await checkProPlan(user.id))) {
+  if (!(await checkWebpageAccess(user.id))) {
     return { errorCode: "pro_plan_required" };
   }
 
@@ -199,7 +220,7 @@ export async function publishWebPageAction(): Promise<WebPageFormState> {
 export async function unpublishWebPageAction(): Promise<WebPageFormState> {
   const user = await requireUser();
 
-  if (!(await checkProPlan(user.id))) {
+  if (!(await checkWebpageAccess(user.id))) {
     return { errorCode: "pro_plan_required" };
   }
 

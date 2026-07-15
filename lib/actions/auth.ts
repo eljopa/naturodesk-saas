@@ -17,7 +17,8 @@ export type AuthErrorCode =
   | "password_mismatch"
   | "password_too_short"
   | "reset_failed"
-  | "email_already_exists";
+  | "email_already_exists"
+  | "terms_not_accepted";
 
 export type AuthMessageCode = "password_reset_sent" | "confirm_email_sent";
 
@@ -86,6 +87,8 @@ const SignUpSchema = z
     email: z.string().email(),
     password: z.string().min(8),
     confirmPassword: z.string(),
+    acceptTerms: z.literal("on"),
+    acceptPrivacy: z.literal("on"),
     redirectTo: z.string().optional(),
   })
   .refine((d) => d.password === d.confirmPassword, { path: ["confirmPassword"] });
@@ -100,6 +103,8 @@ export async function signUpAction(
     email: formData.get("email"),
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),
+    acceptTerms: formData.get("acceptTerms") ?? undefined,
+    acceptPrivacy: formData.get("acceptPrivacy") ?? undefined,
     redirectTo: formData.get("redirectTo") ?? undefined,
   });
 
@@ -107,6 +112,7 @@ export async function signUpAction(
     const path = parsed.error.issues[0]?.path[0];
     if (path === "confirmPassword") return { errorCode: "password_mismatch" };
     if (path === "password") return { errorCode: "password_too_short" };
+    if (path === "acceptTerms" || path === "acceptPrivacy") return { errorCode: "terms_not_accepted" };
     return { errorCode: "invalid_input" };
   }
 
@@ -122,10 +128,15 @@ export async function signUpAction(
   const onboardingPath = `/onboarding?redirectTo=${encodeURIComponent(safeDest)}`;
   const emailRedirectTo = `${appUrl}/auth/callback?next=${encodeURIComponent(onboardingPath)}`;
 
+  const acceptedAt = new Date().toISOString();
+
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
-    options: { emailRedirectTo },
+    options: {
+      emailRedirectTo,
+      data: { termsAcceptedAt: acceptedAt, privacyAcceptedAt: acceptedAt },
+    },
   });
 
   if (error) {
@@ -145,6 +156,8 @@ export async function signUpAction(
             authId: data.user.id,
             email: data.user.email ?? email,
             name,
+            termsAcceptedAt: new Date(acceptedAt),
+            privacyAcceptedAt: new Date(acceptedAt),
           },
         });
       } catch {

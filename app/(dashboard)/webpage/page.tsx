@@ -12,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { WebPageForm, type WebPageFormDefaults } from "@/components/webpage/webpage-form";
 import { ServicesManager, type ServiceData } from "@/components/webpage/services-manager";
+import { InfoSectionsManager, type InfoSectionData } from "@/components/webpage/info-sections-manager";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata.pages");
@@ -64,7 +67,9 @@ export default async function WebPageDashboardPage() {
     select: { plan: true, status: true },
   });
   const isActive =
-    subscription?.status === "ACTIVE" || subscription?.status === "TRIALING";
+    subscription?.status === "ACTIVE" ||
+    subscription?.status === "TRIALING" ||
+    subscription?.status === "PAST_DUE";
   const hasWebpageAccess =
     isActive &&
     isPlanAtLeast((subscription?.plan ?? "FREE") as PlanKey, "GROWTH");
@@ -82,7 +87,7 @@ export default async function WebPageDashboardPage() {
   }
 
   // Chargement des données
-  const [webPage, services] = await Promise.all([
+  const [webPage, services, infoSections] = await Promise.all([
     db.therapistWebPage.findUnique({
       where: { userId: user.id },
     }),
@@ -90,6 +95,11 @@ export default async function WebPageDashboardPage() {
       where: { userId: user.id, isActive: true },
       orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }],
       select: { id: true, name: true, description: true, durationMinutes: true, price: true, appointmentType: true, displayOrder: true },
+    }),
+    db.webPageInfoSection.findMany({
+      where: { userId: user.id },
+      orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }],
+      select: { id: true, title: true, description: true, displayOrder: true },
     }),
   ]);
 
@@ -106,10 +116,9 @@ export default async function WebPageDashboardPage() {
         publishedAt: webPage.publishedAt,
         logoUrl: webPage.logoUrl,
         heroThemeId: webPage.heroThemeId,
+        heroImageId: webPage.heroImageId ?? null,
         bio: webPage.bio,
         presentation: webPage.presentation,
-        servicesDisplay: webPage.servicesDisplay,
-        pricingDisplay: webPage.pricingDisplay,
         address: webPage.address,
         phone: webPage.phone,
         contactEmail: webPage.contactEmail,
@@ -126,10 +135,9 @@ export default async function WebPageDashboardPage() {
         publishedAt: null,
         logoUrl: null,
         heroThemeId: 1,
+        heroImageId: null,
         bio: null,
         presentation: null,
-        servicesDisplay: null,
-        pricingDisplay: null,
         address: null,
         phone: null,
         contactEmail: null,
@@ -150,6 +158,13 @@ export default async function WebPageDashboardPage() {
     displayOrder:    s.displayOrder,
   }));
 
+  const infoSectionData: InfoSectionData[] = infoSections.map((s) => ({
+    id:           s.id,
+    title:        s.title,
+    description:  s.description,
+    displayOrder: s.displayOrder,
+  }));
+
   return (
     <div>
       <PageHeader
@@ -158,8 +173,9 @@ export default async function WebPageDashboardPage() {
       />
 
       <div className="max-w-2xl space-y-6">
-        <WebPageForm defaults={formDefaults} defaultSlug={defaultSlug} />
+        <WebPageForm key={formDefaults.id ?? "new"} defaults={formDefaults} defaultSlug={defaultSlug} />
         <ServicesManager services={serviceData} />
+        <InfoSectionsManager sections={infoSectionData} />
       </div>
     </div>
   );

@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { FeaturePageTemplate } from "@/components/marketing/feature-page-template";
 
 export const metadata: Metadata = {
-  title: "Dossiers patients naturopathie | NaturoDesk",
+  title: "Dossiers patients pour naturopathes | Centralisez votre suivi | NaturoDesk",
   description:
-    "Créez et gérez des dossiers patients complets : antécédents, allergies, rendez-vous, consultations, protocoles et factures réunis dans une fiche structurée.",
+    "Retrouvez l'ensemble de vos informations patients dans un espace unique. Historique, consultations, rendez-vous, factures et suivis centralisés.",
   alternates: {
     canonical: "/fonctionnalites/dossiers-patients",
   },
   openGraph: {
-    title: "Dossiers patients naturopathie | NaturoDesk",
+    title: "Dossiers patients pour naturopathes | Centralisez votre suivi | NaturoDesk",
     description:
-      "Créez et gérez des dossiers patients complets : antécédents, allergies, rendez-vous, consultations, protocoles et factures réunis dans une fiche structurée.",
+      "Retrouvez l'ensemble de vos informations patients dans un espace unique. Historique, consultations, rendez-vous, factures et suivis centralisés.",
     type: "website",
   },
 };
@@ -29,6 +29,7 @@ function SearchIcon() { return <svg viewBox="0 0 24 24" style={ic}><circle cx="1
 function ArchiveIcon(){ return <svg viewBox="0 0 24 24" style={ic}><path d="M21 8H3M21 8V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8M21 8V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v3M10 12h4" strokeLinecap="round"/></svg>; }
 function NoteIcon()   { return <svg viewBox="0 0 24 24" style={ic}><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" strokeLinecap="round"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg>; }
 function LeafIcon()   { return <svg viewBox="0 0 24 24" style={ic}><path d="M4 20c8 2 16-4 16-16C10 4 4 10 4 20Zm0 0 9-9" strokeLinecap="round"/></svg>; }
+function AlertIcon()  { return <svg viewBox="0 0 24 24" style={ic}><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/><path d="M12 9v4M12 17h.01" strokeLinecap="round"/></svg>; }
 
 /* ── Page ───────────────────────────────────────────────────────────────── */
 
@@ -36,112 +37,122 @@ export default function DossiersPatientsPage() {
   return (
     <FeaturePageTemplate
       featureName="Dossiers patients"
-      category="Gestion du cabinet"
+      category="Gestion des patients"
       heroIcon={<UsersIcon size={28} />}
-      title="Le dossier patient complet, du premier contact au suivi long terme"
-      subtitle="Centralisez toutes les informations de vos patients dans une fiche structurée : antécédents, rendez-vous, consultations, protocoles et factures — accessibles en un seul endroit."
+      title="Retrouvez toute l'histoire de vos patients au même endroit."
+      subtitle="Centralisez les informations, consultations, rendez-vous, suivis et documents de chaque patient dans un dossier unique et structuré."
       ctaPrimary={{ label: "Essayer gratuitement", href: "/register" }}
       ctaSecondary={{ label: "Voir les tarifs", href: "/tarifs" }}
-      presentationTitle="Toute la relation patient, sans outil dispersé"
-      presentationText="Un dossier NaturoDesk regroupe l'ensemble du parcours patient : des coordonnées à l'historique complet des consultations, en passant par les protocoles remis et les factures émises. La recherche est instantanée. L'archivage préserve les données sans encombrer la liste active."
+      heroReassurance={["Historique complet", "Recherche instantanée", "Suivi centralisé"]}
+      presentationTitle="Ne perdez plus de temps à chercher l'information"
+      presentationText="Chaque patient possède son propre espace regroupant toutes les informations utiles à son accompagnement. Retrouvez en quelques secondes les coordonnées, les consultations passées, les protocoles, les rendez-vous et les factures. Contrairement à un simple CRM, le dossier patient est directement connecté aux bilans, protocoles et suivis — pensé pour la pratique naturopathique."
       presentationStats={[
-        { value: "5", label: "Onglets d'historique" },
-        { value: "25", label: "Patients par page" },
-        { value: "100%", label: "Données exportables" },
+        { value: "6", label: "Sections d'historique" },
+        { value: "∞", label: "Patients (Growth & Pro)" },
+        { value: "PDF", label: "Export en un clic" },
         { value: "RGPD", label: "Architecture sécurisée" },
       ]}
       features={[
         {
           icon: <NoteIcon />,
-          title: "Informations complètes",
+          title: "Informations personnelles",
           description:
-            "Nom, prénom, date de naissance, téléphone, email, adresse, profession, allergies connues et antécédents médicaux.",
+            "Nom, prénom, date de naissance, téléphone, email, adresse et profession réunis dans une fiche claire et accessible.",
         },
         {
-          icon: <SearchIcon />,
-          title: "Recherche instantanée",
+          icon: <AlertIcon />,
+          title: "Antécédents et allergies",
           description:
-            "Filtrez la liste par nom, prénom ou email. Résultats en temps réel sans rechargement de page.",
-        },
-        {
-          icon: <PulseIcon />,
-          title: "Historique des consultations",
-          description:
-            "Toutes les consultations du patient sont listées avec leur statut (brouillon, prêt, analysé). Accès direct en un clic.",
+            "Consignez les antécédents médicaux, allergies connues et traitements en cours pour préparer chaque séance en toute sérénité.",
         },
         {
           icon: <CalIcon />,
-          title: "Suivi des rendez-vous",
+          title: "Rendez-vous",
           description:
-            "Historique complet des rendez-vous (passés et à venir) avec type (bilan/suivi), statut et source (agenda ou réservation en ligne).",
+            "Historique complet des rendez-vous passés et à venir, avec type (bilan ou suivi), statut et source (agenda ou réservation en ligne).",
+        },
+        {
+          icon: <PulseIcon />,
+          title: "Consultations",
+          description:
+            "Tous les bilans et consultations de suivi sont listés avec leur statut. Accédez au contenu complet en un seul clic.",
+        },
+        {
+          icon: <SearchIcon />,
+          title: "Suivis",
+          description:
+            "Retrouvez l'ensemble des messages de suivi et fiches conseil remis au patient pour visualiser son évolution dans le temps.",
         },
         {
           icon: <BillIcon />,
-          title: "Factures intégrées",
+          title: "Factures",
           description:
-            "Toutes les factures émises pour ce patient sont accessibles depuis son dossier — avec statut de paiement et téléchargement PDF.",
-        },
-        {
-          icon: <ArchiveIcon />,
-          title: "Archivage sécurisé",
-          description:
-            "Les patients inactifs peuvent être archivés pour alléger la liste. Les données sont conservées intégralement et restent accessibles.",
+            "Toutes les factures émises sont accessibles depuis le dossier avec leur statut de paiement et la possibilité de télécharger le PDF.",
         },
       ]}
       steps={[
         {
-          title: "Créez la fiche patient",
+          title: "Création du dossier",
           description:
-            "Saisissez les informations d'identité, de contact et les données cliniques initiales (allergies, antécédents, notes libres).",
+            "Saisissez les informations d'identité, de contact et les données cliniques initiales : allergies, antécédents médicaux et notes libres.",
         },
         {
-          title: "Planifiez le premier rendez-vous",
+          title: "Réalisation des consultations",
           description:
-            "Depuis la fiche patient, créez directement un rendez-vous dans votre agenda (bilan ou consultation de suivi).",
+            "Menez vos bilans et consultations de suivi depuis le dossier. Symptômes, médicaments, compléments et observations sont enregistrés séance par séance.",
         },
         {
-          title: "Saisissez la consultation",
+          title: "Ajout des suivis",
           description:
-            "En séance, ouvrez ou créez la consultation liée. Saisissez symptômes, médicaments, compléments et observations cliniques.",
+            "Transmettez les protocoles et fiches conseil, consignez les évolutions et enregistrez les messages échangés avec le patient.",
         },
         {
-          title: "Remettez la fiche conseil",
+          title: "Historique accessible à tout moment",
           description:
-            "Créez le protocole naturopathique depuis la consultation. Téléchargez le PDF et archivez-le dans le dossier.",
-        },
-        {
-          title: "Émettez la facture",
-          description:
-            "Créez la facture depuis le dossier, enregistrez le paiement et téléchargez le PDF pour le patient.",
+            "À chaque rendez-vous, retrouvez en quelques secondes l'ensemble du parcours patient pour préparer la séance et assurer la continuité du suivi.",
         },
       ]}
       faqs={[
         {
-          question: "Les données patients sont-elles chiffrées ?",
+          question: "Puis-je archiver un patient ?",
           answer:
-            "Les données sont stockées dans une base PostgreSQL hébergée sur Supabase (infrastructure AWS EU), avec Row Level Security activée. Chaque praticien n'accède qu'à ses propres données.",
+            "Oui. Le patient disparaît de la liste active mais toutes ses données (consultations, protocoles, factures) sont conservées intégralement. Il peut être réactivé à tout moment.",
         },
         {
-          question: "Peut-on importer des patients depuis un autre logiciel ?",
+          question: "Puis-je exporter une fiche PDF ?",
           answer:
-            "L'import en masse (CSV) est prévu dans la roadmap. En attendant, la création est manuelle ou via l'API publique de réservation (qui crée automatiquement le patient s'il n'existe pas).",
+            "Oui. Les fiches patient, comptes-rendus de consultation et protocoles peuvent être téléchargés en PDF depuis le dossier.",
         },
         {
-          question: "Que se passe-t-il quand on archive un patient ?",
+          question: "Les consultations sont-elles conservées ?",
           answer:
-            "Le patient disparaît de la liste active mais toutes ses données (consultations, protocoles, factures) sont conservées. Il peut être réactivé à tout moment.",
+            "Oui. Toutes les consultations restent accessibles indéfiniment dans le dossier, quel que soit votre plan d'abonnement.",
         },
         {
-          question: "Y a-t-il une limite au nombre de patients ?",
+          question: "Puis-je retrouver un patient rapidement ?",
           answer:
-            "Le plan Starter est limité à 50 patients actifs. Les plans Growth et Pro n'ont pas de limite sur le nombre de patients.",
+            "Oui. La liste patients dispose d'une recherche instantanée par nom, prénom ou email avec résultats en temps réel, sans rechargement de page.",
+        },
+        {
+          question: "Les factures sont-elles liées au dossier ?",
+          answer:
+            "Oui. Chaque facture émise apparaît directement dans le dossier du patient concerné avec son statut de paiement et un lien de téléchargement PDF.",
+        },
+        {
+          question: "Puis-je gérer un grand nombre de patients ?",
+          answer:
+            "Le plan Starter est limité à 50 patients actifs. Les plans Growth et Pro ne comportent aucune limite sur le nombre de patients.",
         },
       ]}
       relatedFeatures={[
         { label: "Bilans de vitalité", href: "/fonctionnalites/bilans-vitalite", icon: <PulseIcon /> },
         { label: "Agenda & rendez-vous", href: "/fonctionnalites/agenda-rendez-vous", icon: <CalIcon /> },
-        { label: "Facturation", href: "/fonctionnalites/facturation", icon: <BillIcon /> },
+        { label: "Protocoles & fiches conseil", href: "/fonctionnalites/protocoles", icon: <LeafIcon /> },
       ]}
+      ctaFinalTitle="Centralisez enfin votre suivi patient dans un seul outil."
+      ctaFinalText="Essayez NaturoDesk gratuitement. Aucune carte bancaire requise."
+      ctaFinalPrimary={{ label: "Démarrer gratuitement", href: "/register" }}
+      ctaFinalSecondary={{ label: "Toutes les fonctionnalités", href: "/fonctionnalites" }}
     />
   );
 }

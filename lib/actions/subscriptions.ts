@@ -75,6 +75,80 @@ export async function createCheckoutSessionAction(priceId: string): Promise<void
 }
 
 // ---------------------------------------------------------------------------
+// Shared utility: create a Stripe checkout session and return the URL.
+// Called by createCheckoutSessionAction AND by createProfileAction (post-onboarding).
+// Returns null if Stripe is unavailable or priceId is invalid.
+// ---------------------------------------------------------------------------
+
+export async function createStripeCheckoutUrl(
+  userId: string,
+  userEmail: string,
+  userName: string,
+  priceId: string
+): Promise<string | null> {
+  try {
+    const planInfo = getPlanFromPriceId(priceId);
+    if (!planInfo) return null;
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+
+    const existing = await db.subscription.findUnique({
+      where: { userId },
+      select: { stripeCustomerId: true },
+    });
+
+    let stripeCustomerId = existing?.stripeCustomerId ?? null;
+
+    if (!stripeCustomerId) {
+      const customer = await stripe.customers.create({
+        email: userEmail,
+        name: userName,
+        metadata: { userId },
+      });
+      stripeCustomerId = customer.id;
+
+      await db.subscription.upsert({
+        where: { userId },
+        create: {
+          userId,
+          plan: "FREE",
+          status: "ACTIVE",
+          stripeCustomerId: customer.id,
+        },
+        update: { stripeCustomerId: customer.id },
+      });
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      customer: stripeCustomerId,
+      mode: "subscription",
+      payment_method_types: ["card"],
+      line_items: [{ price: priceId, quantity: 1 }],
+      success_url: `${appUrl}/settings?stripe=success`,
+      cancel_url: `${appUrl}/settings?stripe=cancelled`,
+      metadata: {
+        userId,
+        plan: planInfo.plan,
+        billingInterval: planInfo.interval,
+        priceId,
+      },
+      subscription_data: {
+        metadata: {
+          userId,
+          plan: planInfo.plan,
+          billingInterval: planInfo.interval,
+        },
+      },
+    });
+
+    return session.url ?? null;
+  } catch (err) {
+    console.error("[stripe] createStripeCheckoutUrl failed:", err);
+    return null;
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Open Stripe Billing Portal → redirect to Stripe hosted portal
 // ---------------------------------------------------------------------------
 

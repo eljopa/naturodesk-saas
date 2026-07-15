@@ -1,78 +1,16 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-  Users,
-  Calendar,
-  ClipboardList,
-  FileText,
-  ArrowRight,
-  Clock,
-  Mail,
-  Globe,
-} from "lucide-react";
+import { Users, CalendarDays, Stethoscope, Receipt } from "lucide-react";
 import { getTranslations, getLocale } from "next-intl/server";
 import { requireUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import { StatCards } from "@/components/dashboard/stat-cards";
+import { MessagesCard } from "@/components/dashboard/messages-card";
+import { AppointmentsCard } from "@/components/dashboard/appointments-card";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("metadata.pages");
   return { title: t("dashboard") };
 }
-
-// ---------------------------------------------------------------------------
-// Stat card
-// ---------------------------------------------------------------------------
-
-function StatCard({
-  title,
-  value,
-  icon: Icon,
-  href,
-  color,
-}: {
-  title: string;
-  value: number;
-  icon: React.ElementType;
-  href: string;
-  color: "teal" | "blue" | "violet" | "amber";
-}) {
-  const colorClasses = {
-    teal: "bg-nd-sage-tint text-nd-sage",
-    blue: "bg-blue-50 text-blue-600",
-    violet: "bg-violet-50 text-violet-600",
-    amber: "bg-amber-50 text-amber-600",
-  };
-
-  return (
-    <Link href={href} className="block group">
-      <Card className="hover:border-slate-300 hover:shadow-md transition-all duration-150">
-        <CardContent className="pt-6">
-          <div className="flex items-center justify-between">
-            <div
-              className={`flex items-center justify-center w-10 h-10 rounded-xl ${colorClasses[color]}`}
-            >
-              <Icon className="w-5 h-5" />
-            </div>
-            <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />
-          </div>
-          <div className="mt-4">
-            <p className="text-3xl font-bold text-slate-900 tabular-nums">
-              {value}
-            </p>
-            <p className="text-sm text-slate-500 mt-1">{title}</p>
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Page
-// ---------------------------------------------------------------------------
 
 export default async function DashboardPage() {
   const [user, t, locale] = await Promise.all([
@@ -125,7 +63,13 @@ export default async function DashboardPage() {
         where: { userId: user.id, status: "UNREAD" },
         orderBy: { createdAt: "desc" },
         take: 3,
-        select: { id: true, senderName: true, senderEmail: true, message: true, createdAt: true },
+        select: {
+          id: true,
+          senderName: true,
+          senderEmail: true,
+          message: true,
+          createdAt: true,
+        },
       })
       .catch(() => []),
   ]);
@@ -142,175 +86,76 @@ export default async function DashboardPage() {
     year: "numeric",
   });
 
+  const stats = [
+    {
+      label: t("kpi.activePatients"),
+      value: patientCount,
+      icon: Users,
+      href: "/patients",
+      hint: t("kpi.activePatientshint"),
+    },
+    {
+      label: t("kpi.upcomingAppointments"),
+      value: upcomingAppointmentCount,
+      icon: CalendarDays,
+      href: "/appointments",
+      hint: t("kpi.upcomingAppointmentshint"),
+    },
+    {
+      label: t("kpi.ongoingConsultations"),
+      value: pendingConsultationCount,
+      icon: Stethoscope,
+      href: "/consultations",
+      hint: t("kpi.ongoingConsultationshint"),
+    },
+    {
+      label: t("kpi.draftInvoices"),
+      value: draftInvoiceCount,
+      icon: Receipt,
+      href: "/invoices",
+      hint: t("kpi.draftInvoiceshint"),
+    },
+  ];
+
   return (
     <div>
-      {/* Entête */}
       <div className="mb-8">
         <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
           {t(`greeting.${greetingKey}`, { name: firstName })}
         </h1>
-        <p className="text-sm text-slate-500 mt-1 capitalize">{dateLabel}</p>
+        <p className="text-sm text-nd-muted mt-1 capitalize">{dateLabel}</p>
       </div>
 
-      {/* KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <StatCard
-          title={t("kpi.activePatients")}
-          value={patientCount}
-          icon={Users}
-          href="/patients"
-          color="teal"
-        />
-        <StatCard
-          title={t("kpi.upcomingAppointments")}
-          value={upcomingAppointmentCount}
-          icon={Calendar}
-          href="/appointments"
-          color="blue"
-        />
-        <StatCard
-          title={t("kpi.ongoingConsultations")}
-          value={pendingConsultationCount}
-          icon={ClipboardList}
-          href="/consultations"
-          color="violet"
-        />
-        <StatCard
-          title={t("kpi.draftInvoices")}
-          value={draftInvoiceCount}
-          icon={FileText}
-          href="/invoices"
-          color="amber"
+      <StatCards stats={stats} />
+
+      <div className={`grid grid-cols-1 gap-6${unreadMessages.length > 0 ? " lg:grid-cols-2" : ""}`}>
+        {unreadMessages.length > 0 && (
+          <MessagesCard
+            messages={unreadMessages}
+            locale={locale}
+            labels={{
+              title: t("messages.title"),
+              description: t("messages.description"),
+              seeAll: t("messages.seeAll"),
+            }}
+          />
+        )}
+        <AppointmentsCard
+          appointments={upcomingAppointments}
+          locale={locale}
+          labels={{
+            title: t("upcoming.title"),
+            description: t("upcoming.description"),
+            seeAll: t("upcoming.seeAll"),
+            typeBilan: t("upcoming.typeBilan"),
+            typeSuivi: t("upcoming.typeSuivi"),
+            online: t("online"),
+            emptyTitle: t("upcoming.emptyTitle"),
+            emptyDescription: t("upcoming.emptyDescription"),
+            newAppointment: t("upcoming.newAppointment"),
+          }}
         />
       </div>
-
-      {/* Messages non lus */}
-      {unreadMessages.length > 0 && (
-        <Card className="mb-6">
-          <div className="px-6 pt-6 pb-4 flex items-center justify-between">
-            <div>
-              <h2 className="text-base font-semibold text-slate-900">
-                {t("messages.title")}
-              </h2>
-              <p className="text-sm text-slate-500 mt-0.5">
-                {t("messages.description")}
-              </p>
-            </div>
-            <Button variant="secondary" size="sm" asChild>
-              <Link href="/webpage/messages">{t("messages.seeAll")}</Link>
-            </Button>
-          </div>
-          <CardContent className="pt-0">
-            <ul className="divide-y divide-slate-100">
-              {unreadMessages.map((msg) => (
-                <li key={msg.id}>
-                  <Link
-                    href={`/webpage/messages/${msg.id}`}
-                    className="flex items-start gap-3 py-3 hover:bg-slate-50 transition-colors -mx-2 px-2 rounded-lg group"
-                  >
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-nd-sage-tint text-nd-sage shrink-0 mt-0.5">
-                      <Mail className="w-4 h-4" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-slate-900 group-hover:text-nd-sage-deep transition-colors">
-                        {msg.senderName}
-                        <span className="ml-2 text-xs font-normal text-slate-400">
-                          {msg.senderEmail}
-                        </span>
-                      </p>
-                      <p className="text-xs text-slate-500 mt-0.5 truncate">
-                        {msg.message.slice(0, 120)}
-                        {msg.message.length > 120 ? "…" : ""}
-                      </p>
-                    </div>
-                    <span className="text-xs text-slate-400 shrink-0 mt-0.5">
-                      {msg.createdAt.toLocaleDateString(locale, { day: "numeric", month: "short" })}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Prochains rendez-vous */}
-      <Card>
-        <div className="px-6 pt-6 pb-4 flex items-center justify-between">
-          <div>
-            <h2 className="text-base font-semibold text-slate-900">
-              {t("upcoming.title")}
-            </h2>
-            <p className="text-sm text-slate-500 mt-0.5">
-              {t("upcoming.description")}
-            </p>
-          </div>
-          <Button variant="secondary" size="sm" asChild>
-            <Link href="/appointments">{t("upcoming.seeAll")}</Link>
-          </Button>
-        </div>
-
-        <CardContent className="pt-0">
-          {upcomingAppointments.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-10 text-center">
-              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-nd-sage-tint text-nd-sage mb-3">
-                <Calendar className="w-5 h-5" />
-              </div>
-              <p className="text-sm font-medium text-slate-900">
-                {t("upcoming.emptyTitle")}
-              </p>
-              <p className="text-xs text-slate-500 mt-1">
-                {t("upcoming.emptyDescription")}
-              </p>
-              <Button variant="primary" size="sm" className="mt-4" asChild>
-                <Link href="/appointments">{t("upcoming.newAppointment")}</Link>
-              </Button>
-            </div>
-          ) : (
-            <ul className="divide-y divide-slate-100">
-              {upcomingAppointments.map((appt) => (
-                <li
-                  key={appt.id}
-                  className="flex items-center justify-between py-3 gap-4"
-                >
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-nd-sage-tint text-nd-sage shrink-0">
-                      <Clock className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <p className="text-sm font-medium text-slate-900 truncate">
-                        {appt.patient.firstName} {appt.patient.lastName}
-                      </p>
-                      <p className="text-xs text-slate-500">
-                        {appt.startAt.toLocaleString(locale, {
-                          weekday: "short",
-                          day: "numeric",
-                          month: "short",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="shrink-0 flex items-center gap-1.5">
-                    {appt.source === "online_booking" && (
-                      <span className="inline-flex items-center gap-0.5 text-xs font-medium px-2 py-0.5 rounded-full bg-violet-100 text-violet-700">
-                        <Globe className="w-3 h-3" />
-                        {t("online")}
-                      </span>
-                    )}
-                    <Badge variant={appt.type === "BILAN" ? "default" : "info"}>
-                      {appt.type === "BILAN"
-                        ? t("upcoming.typeBilan")
-                        : t("upcoming.typeSuivi")}
-                    </Badge>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
-        </CardContent>
-      </Card>
     </div>
   );
 }
