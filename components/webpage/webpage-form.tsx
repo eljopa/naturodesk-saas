@@ -118,7 +118,7 @@ function HeroImagePicker({
   return (
     <div>
       <p className="text-xs text-slate-500 mb-3">
-        Choisissez une image d'illustration pour l'en-tête. Laissez vide pour utiliser uniquement la couleur.
+        Choisissez une image d&apos;illustration pour l&apos;en-tête. Laissez vide pour utiliser uniquement la couleur.
       </p>
       <div className="grid grid-cols-5 gap-2">
         {/* Option "aucune image" */}

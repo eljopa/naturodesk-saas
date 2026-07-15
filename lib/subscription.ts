@@ -48,6 +48,7 @@ export async function syncSubscriptionOnSuccess(userId: string, stripeCustomerId
       const stripeSubscriptionId =
         typeof session.subscription === "string"
           ? session.subscription
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           : (session.subscription as any)?.id;
 
       if (!stripeSubscriptionId) continue;
@@ -57,6 +58,7 @@ export async function syncSubscriptionOnSuccess(userId: string, stripeCustomerId
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const subAny = stripeSub as any;
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const firstItem = subAny.items?.data?.[0] as any;
       const periodStart = (firstItem?.current_period_start ?? subAny.current_period_start)
         ? new Date((firstItem?.current_period_start ?? subAny.current_period_start) * 1000)

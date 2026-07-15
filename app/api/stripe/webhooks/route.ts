@@ -90,6 +90,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const subAny = stripeSub as any;
 
   // In Stripe API 2025-03-31.basil, current_period_* moved to items.data[0]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const firstItem = subAny.items?.data?.[0] as any;
   const periodStart = (firstItem?.current_period_start ?? subAny.current_period_start)
     ? new Date((firstItem?.current_period_start ?? subAny.current_period_start) * 1000)
@@ -185,6 +186,7 @@ async function handleSubscriptionUpdated(stripeSub: Stripe.Subscription) {
   const subAny = stripeSub as any;
 
   // In Stripe API 2025-03-31.basil, current_period_* moved to items.data[0]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const firstItemU = subAny.items?.data?.[0] as any;
   const periodStart = (firstItemU?.current_period_start ?? subAny.current_period_start)
     ? new Date((firstItemU?.current_period_start ?? subAny.current_period_start) * 1000)
