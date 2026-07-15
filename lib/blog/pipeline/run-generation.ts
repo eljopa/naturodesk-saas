@@ -96,7 +96,7 @@ export async function runBlogGenerationOnce(): Promise<RunGenerationResult> {
     const frResult = await generateArticleText(promptTopic, dna, frLinks.candidates, frLinks);
 
     if (frResult.hardErrors.length > 0) {
-      await upsertArticle(topic.id, "fr", buildArticleRowData(dna, frResult, NO_IMAGES, "REVIEW_REQUIRED"));
+      await upsertArticle(topic.id, "fr", buildArticleRowData(dna, frResult, NO_IMAGES, "REVIEW_REQUIRED", new Date()));
       await db.blogTopic.update({ where: { id: topic.id }, data: { status: "REVIEW_REQUIRED" } });
       await warnIfTopicsLow();
       return {
@@ -113,8 +113,15 @@ export async function runBlogGenerationOnce(): Promise<RunGenerationResult> {
 
     const images = await generateArticleImages(dna.visual.slots, { slug: topic.slug, keyword: topic.keyword });
 
-    await upsertArticle(topic.id, "fr", buildArticleRowData(dna, frResult, images, "PUBLISHED"));
-    await upsertArticle(topic.id, "en", buildArticleRowData(dna, enResult, images, enPassed ? "PUBLISHED" : "REVIEW_REQUIRED"));
+    // Même instant pour fr et en : sinon le tri par publishedAt sur /blog les
+    // classe dans un ordre différent d'une locale à l'autre.
+    const publishedAt = new Date();
+    await upsertArticle(topic.id, "fr", buildArticleRowData(dna, frResult, images, "PUBLISHED", publishedAt));
+    await upsertArticle(
+      topic.id,
+      "en",
+      buildArticleRowData(dna, enResult, images, enPassed ? "PUBLISHED" : "REVIEW_REQUIRED", publishedAt)
+    );
 
     const topicStatus = enPassed ? "PUBLISHED" : "REVIEW_REQUIRED";
     await db.blogTopic.update({ where: { id: topic.id }, data: { status: topicStatus } });
@@ -180,7 +187,14 @@ export async function translateExistingArticle(topicId: string): Promise<Transla
   const enPassed = enResult.hardErrors.length === 0;
 
   const images = (frArticle.images as unknown as StoredImage[]) ?? [];
-  await upsertArticle(topicId, "en", buildArticleRowData(dna, enResult, images, enPassed ? "PUBLISHED" : "REVIEW_REQUIRED"));
+  // Réutilise le publishedAt du FR (source de vérité) plutôt qu'un nouvel
+  // instant — sinon la traduction remonte artificiellement en tête de liste.
+  const publishedAt = frArticle.publishedAt ?? new Date();
+  await upsertArticle(
+    topicId,
+    "en",
+    buildArticleRowData(dna, enResult, images, enPassed ? "PUBLISHED" : "REVIEW_REQUIRED", publishedAt)
+  );
   await db.blogTopic.update({ where: { id: topicId }, data: { status: enPassed ? "PUBLISHED" : "REVIEW_REQUIRED" } });
 
   return {

@@ -41,12 +41,21 @@ export interface BlogArticleRowData {
   generationLog: { errors: string[]; warnings: string[] };
 }
 
-/** Construit les champs BlogArticle à partir d'un résultat de génération/traduction. */
+/**
+ * Construit les champs BlogArticle à partir d'un résultat de génération/traduction.
+ *
+ * `publishedAt` doit être le MÊME instant pour les lignes fr et en d'un même
+ * topic — sinon le tri par publishedAt sur la page liste (spec §7) les classe
+ * dans un ordre différent d'une locale à l'autre. L'appelant doit donc calculer
+ * une seule Date par run et la passer explicitement (jamais `new Date()` par
+ * défaut ici, qui donnerait un instant légèrement différent à chaque appel).
+ */
 export function buildArticleRowData(
   dna: EditorialDna,
   outcome: ArticleGenerationOutcome,
   images: StoredImage[],
-  status: Extract<BlogArticleStatus, "PUBLISHED" | "REVIEW_REQUIRED">
+  status: Extract<BlogArticleStatus, "PUBLISHED" | "REVIEW_REQUIRED">,
+  publishedAt: Date
 ): BlogArticleRowData {
   return {
     title: outcome.content.title,
@@ -62,7 +71,7 @@ export function buildArticleRowData(
     blocksUsed: dna.blocks,
     qualityScore: outcome.scoreResult.score,
     status,
-    publishedAt: status === "PUBLISHED" ? new Date() : null,
+    publishedAt: status === "PUBLISHED" ? publishedAt : null,
     generationLog: {
       errors: outcome.hardErrors,
       warnings: outcome.replacementLog.map((r) => `${r.label}: "${r.original}" → "${r.neutral}"`),

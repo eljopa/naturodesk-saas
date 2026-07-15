@@ -49,11 +49,13 @@ function main() {
   };
 
   console.log("=== Test 1 : statut PUBLISHED avec image hero ===");
+  const sharedPublishedAt = new Date();
   const published = buildArticleRowData(
     dna,
     outcome,
     [{ slot: "hero", url: "https://example.com/hero.webp", visualFamily: "photo-cabinet" }],
-    "PUBLISHED"
+    "PUBLISHED",
+    sharedPublishedAt
   );
   console.log(`heroImageUrl: ${published.heroImageUrl}`);
   console.log(`publishedAt: ${published.publishedAt}`);
@@ -69,8 +71,15 @@ function main() {
   }
   console.log("OK\n");
 
+  console.log("=== Test 1bis : publishedAt partagé entre deux locales d'un même topic ===");
+  const publishedOtherLocale = buildArticleRowData(dna, outcome, [], "PUBLISHED", sharedPublishedAt);
+  if (publishedOtherLocale.publishedAt?.getTime() !== published.publishedAt?.getTime()) {
+    throw new Error("ANOMALIE: deux locales du même topic doivent partager le même publishedAt (sinon tri /blog incohérent fr/en)");
+  }
+  console.log("OK — même publishedAt pour fr et en\n");
+
   console.log("=== Test 2 : statut REVIEW_REQUIRED sans image ===");
-  const review = buildArticleRowData(dna, outcome, [], "REVIEW_REQUIRED");
+  const review = buildArticleRowData(dna, outcome, [], "REVIEW_REQUIRED", new Date());
   console.log(`heroImageUrl: ${review.heroImageUrl}`);
   console.log(`publishedAt: ${review.publishedAt}`);
   if (review.publishedAt !== null) {
