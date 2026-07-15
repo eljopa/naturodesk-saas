@@ -25,8 +25,8 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <TrustStrip />
-        <PillarCabinet />
         <PillarActivite />
+        <PillarCabinet />
         <PillarMoteur />
         <WhySection />
         <TestimonialsSection />
