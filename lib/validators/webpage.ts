@@ -46,6 +46,17 @@ export const WebPageFormSchema = z.object({
   seoTitle:       nullableString(60),
   seoDescription: nullableString(160),
 
+  // Place ID Google Business Profile — sert à afficher les avis Google sur la page publique
+  googlePlaceId: z
+    .string()
+    .max(300)
+    .trim()
+    .optional()
+    .transform((v) => v || null)
+    .refine((v) => !v || /^[A-Za-z0-9_-]+$/.test(v), {
+      message: "Google Place ID invalide",
+    }),
+
   // Checkboxes — FormData envoie "on" si coché, absent si non coché
   contactFormEnabled: z
     .string()

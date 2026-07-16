@@ -100,6 +100,7 @@ export async function saveWebPageAction(
     seoDescription:     get("seoDescription"),
     contactFormEnabled: get("contactFormEnabled"),
     appointmentEnabled: get("appointmentEnabled"),
+    googlePlaceId:      get("googlePlaceId"),
   });
 
   if (!parsed.success) {
@@ -109,7 +110,7 @@ export async function saveWebPageAction(
     const knownFields = [
       "slug", "contactEmail", "bio", "presentation", "servicesDisplay",
       "pricingDisplay", "address", "phone", "seoTitle", "seoDescription",
-      "instagram", "facebook", "linkedin", "website",
+      "instagram", "facebook", "linkedin", "website", "googlePlaceId",
     ] as const;
     type KnownField = typeof knownFields[number];
     const isKnown = (f: string): f is KnownField => (knownFields as readonly string[]).includes(f);

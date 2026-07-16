@@ -1691,6 +1691,7 @@ model TherapistWebPage {
   phone           String?
   contactEmail    String?               // email public (peut différer de User.email)
   socialLinks     Json?                 // { instagram?, facebook?, linkedin?, website? }
+  googlePlaceId   String?               // Place ID Google Business Profile — avis affichés via Google Places API
 
   // SEO
   seoTitle       String?

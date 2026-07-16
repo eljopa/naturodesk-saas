@@ -46,6 +46,7 @@ export interface WebPageFormDefaults {
   seoDescription: string | null;
   contactFormEnabled: boolean;
   appointmentEnabled: boolean;
+  googlePlaceId: string | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -375,6 +376,7 @@ export function WebPageForm({ defaults, defaultSlug }: WebPageFormProps) {
     website:        defaults.socialLinks?.website ?? "",
     seoTitle:       defaults.seoTitle ?? "",
     seoDescription: defaults.seoDescription ?? "",
+    googlePlaceId:  defaults.googlePlaceId ?? "",
   });
 
   const setField = (key: keyof typeof fields) =>
@@ -535,6 +537,22 @@ export function WebPageForm({ defaults, defaultSlug }: WebPageFormProps) {
                 onChange={setField("seoDescription")} placeholder={tFields("seoDescriptionPlaceholder")}
                 rows={2} maxLength={160} disabled={isSavePending} />
               <p className="text-xs text-slate-400">{tFields("seoDescriptionHelp")}</p>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* ── Avis Google ── */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">{t("sections.googleReviews")}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="googlePlaceId">{tFields("googlePlaceId")}</Label>
+              <Input id="googlePlaceId" name="googlePlaceId" value={fields.googlePlaceId}
+                onChange={setField("googlePlaceId")} placeholder={tFields("googlePlaceIdPlaceholder")}
+                disabled={isSavePending} />
+              <p className="text-xs text-slate-400">{tFields("googlePlaceIdHelp")}</p>
             </div>
           </CardContent>
         </Card>

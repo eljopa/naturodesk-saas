@@ -127,6 +127,7 @@ export default async function WebPageDashboardPage() {
         seoDescription: webPage.seoDescription,
         contactFormEnabled: webPage.contactFormEnabled,
         appointmentEnabled: webPage.appointmentEnabled,
+        googlePlaceId: webPage.googlePlaceId,
       }
     : {
         slug: defaultSlug,
@@ -146,6 +147,7 @@ export default async function WebPageDashboardPage() {
         seoDescription: null,
         contactFormEnabled: true,
         appointmentEnabled: false,
+        googlePlaceId: null,
       };
 
   const serviceData: ServiceData[] = services.map((s) => ({

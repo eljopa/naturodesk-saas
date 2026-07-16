@@ -973,6 +973,7 @@
       "contact": "Coordonnées & contact",
       "social": "Réseaux sociaux",
       "seo": "Référencement (SEO)",
+      "googleReviews": "Avis Google",
       "features": "Fonctionnalités de la page"
     },
 
@@ -1010,7 +1011,10 @@
       "seoDescriptionPlaceholder": "Naturopathe certifiée à Paris, spécialisée en bilan de vitalité et accompagnement du stress…",
       "seoDescriptionHelp": "Max 160 caractères",
       "contactFormEnabled": "Activer le formulaire de contact sur la page",
-      "appointmentEnabled": "Activer la réservation en ligne sur la page"
+      "appointmentEnabled": "Activer la réservation en ligne sur la page",
+      "googlePlaceId": "Google Place ID",
+      "googlePlaceIdPlaceholder": "ChIJN1t_tDeuEmsRUsoyG83frY4",
+      "googlePlaceIdHelp": "Affiche automatiquement vos avis Google sur la page. Laissez vide pour masquer cette section. Trouvez votre Place ID sur developers.google.com/maps/documentation/places/web-service/place-id"
     },
 
     "errors": {
@@ -1036,6 +1040,7 @@
       "facebook": "Le lien Facebook dépasse la limite de 300 caractères.",
       "linkedin": "Le lien LinkedIn dépasse la limite de 300 caractères.",
       "website": "Le lien du site web dépasse la limite de 300 caractères.",
+      "googlePlaceId": "Le Place ID Google n'est pas valide (lettres, chiffres, tirets et underscores uniquement).",
       "default": "Veuillez vérifier les champs du formulaire."
     },
 
@@ -1491,31 +1496,77 @@
     "about": {
       "meta": {
         "title": "À propos",
-        "description": "Découvrez la mission et l'histoire de NaturoDesk."
+        "description": "L'histoire d'Élodie, naturopathe, et pourquoi elle a fini par créer NaturoDesk."
       },
-      "title": "À propos de NaturoDesk",
-      "heroSubtitle": "Nous croyons que les naturopathes méritent des outils à la hauteur de leur expertise.",
-      "mission": {
-        "title": "Notre mission",
-        "body": "Donner aux naturopathes des outils simples, fiables et conformes pour qu'ils puissent se concentrer sur ce qui compte vraiment : l'accompagnement de leurs patients."
+      "hero": {
+        "eyebrow": "Notre histoire",
+        "title": "Cette histoire ne commence pas par un logiciel. Elle commence par une naturopathe.",
+        "subtitle": "Élodie reçoit des patients depuis plusieurs années. Voici pourquoi elle a fini par construire l'outil qu'elle cherchait désespérément — et qui n'existait nulle part."
       },
-      "story": {
-        "title": "Notre histoire",
-        "body": "NaturoDesk est né d'un constat simple : les naturopathes manquent d'outils adaptés à leur pratique spécifique. Entre les logiciels médicaux trop complexes et les outils génériques trop limités, nous avons conçu une solution pensée de A à Z pour les praticiens en naturopathie."
+      "context": {
+        "eyebrow": "01 · Le contexte",
+        "title": "Élodie reçoit des patients depuis plusieurs années.",
+        "body1": "Fatigue chronique, troubles du sommeil, terrain inflammatoire, accompagnement post-traitement… Chaque semaine, elle reçoit des personnes qui arrivent avec une histoire, des examens, parfois un traitement en cours — et l'espoir qu'on prenne enfin le temps de les regarder dans leur globalité.",
+        "body2": "C'est ce qu'elle aime dans ce métier : l'écoute, le lien, le temps long. Pas l'administratif. Encore moins les vingt onglets ouverts entre deux rendez-vous.",
+        "quote": "Je suis devenue naturopathe pour accompagner des gens. Pas pour devenir experte en logiciels.",
+        "quoteAuthor": "Élodie, naturopathe"
       },
-      "values": {
-        "title": "Nos valeurs",
+      "frustrations": {
+        "eyebrow": "02 · Le quotidien",
+        "title": "Entre deux consultations, elle jonglait avec des outils qui ne se parlaient jamais.",
+        "intro": "Un dossier patient dans Word. Une facture bricolée sous PDF. Un agenda déconnecté de tout le reste. Et à chaque nouvelle recommandation, la même question : où ai-je déjà noté ça ?",
+        "item1Label": "Le dossier patient",
+        "item1Body": "dispersé entre des documents Word, des PDF et parfois un carnet papier.",
+        "item2Label": "L'agenda",
+        "item2Body": "un calendrier générique, sans aucun lien avec les fiches de ses patients.",
+        "item3Label": "La facturation",
+        "item3Body": "des factures recomposées à la main, chaque fin de mois, une par une.",
+        "item4Label": "Les recherches",
+        "item4Body": "des dizaines d'onglets ouverts, chaque semaine, pour vérifier une seule information.",
+        "safetyLabel": "Le point sur lequel elle ne transigeait jamais",
+        "safetyTitle": "La sécurité de ses patients ne se négocie pas.",
+        "safetyBody1": "Avant chaque recommandation de plante ou de complément, Élodie vérifiait systématiquement les interactions avec les traitements en cours de ses patients — anticoagulants, antidépresseurs, contraceptifs… en croisant plusieurs sources fiables, une à une, parfois vingt à trente minutes par patient.",
+        "safetyBody2": "Ce temps-là, elle ne l'a jamais compté : il était non négociable. Mais aucun logiciel ne l'aidait vraiment sur ce point. Les outils génériques ignoraient purement la question.",
+        "safetyQuote": "Je ne recommande jamais rien à la légère. Mais je perdais un temps fou à vérifier, seule, ce qu'un outil aurait dû vérifier avec moi.",
+        "safetyQuoteAuthor": "Élodie, naturopathe"
+      },
+      "spark": {
+        "eyebrow": "03 · Le déclic",
+        "quote": "Pourquoi aucun logiciel n'est réellement conçu pour les naturopathes ?",
+        "caption": "Une question qu'Élodie s'est posée un soir, après avoir refermé son dixième onglet de la journée."
+      },
+      "origin": {
+        "eyebrow": "04 · La rencontre",
+        "title": "Elle décide de ne plus chercher l'outil parfait. Elle décide de le construire.",
+        "body": "Élodie s'associe à un développeur fort de plus de 25 ans d'expérience dans la conception de logiciels professionnels. Pas pour créer un énième outil générique — pour construire, avec elle, celui qu'elle aurait aimé avoir dès son premier patient.",
+        "step1Title": "Le carnet",
+        "step1Body": "Pendant plusieurs mois, Élodie note chaque irritant de sa pratique quotidienne, semaine après semaine.",
+        "step2Title": "La rencontre",
+        "step2Body": "Elle rencontre un développeur spécialisé dans les logiciels professionnels, fort de 25 ans d'expérience.",
+        "step3Title": "La conception",
+        "step3Body": "Ensemble, ils dessinent NaturoDesk autour d'un principe simple : le moteur d'analyse des interactions doit être au centre, pas en option.",
+        "step4Title": "Aujourd'hui",
+        "step4Body": "NaturoDesk accompagne des naturopathes qui refusaient, comme Élodie, de choisir entre rigueur clinique et gain de temps.",
+        "founderName": "Élodie",
+        "founderRole": "Naturopathe, fondatrice",
+        "partnerName": "Son associé",
+        "partnerRole": "25 ans d'expérience en logiciels professionnels"
+      },
+      "philosophy": {
+        "eyebrow": "05 · Notre philosophie",
+        "title": "La technologie ne remplace jamais le praticien.",
+        "body": "NaturoDesk ne posera jamais de diagnostic à votre place. Il ne remplacera jamais votre écoute, ni les années passées à affiner votre pratique. Son seul rôle est de reprendre ce qui vous prend du temps sans vous apporter de valeur — pour vous rendre les minutes que vous consacrerez, ensuite, à vos patients.",
         "v1Title": "Simplicité",
-        "v1Body": "Des interfaces claires, pensées pour la pratique quotidienne sans surcharge cognitive.",
+        "v1Body": "Une interface pensée pour disparaître, pas pour s'imposer entre vous et vos patients.",
         "v2Title": "Sécurité",
-        "v2Body": "Données hébergées en Europe, architecture conforme RGPD, chiffrement de bout en bout.",
+        "v2Body": "Le moteur d'interactions qu'Élodie aurait aimé avoir dès le premier jour, désormais intégré à chaque recommandation.",
         "v3Title": "Proximité",
-        "v3Body": "Un support réactif, à l'écoute des retours praticiens pour faire évoluer le produit."
+        "v3Body": "Conçu avec des naturopathes, pas pour eux. Chaque retour continue de façonner l'outil aujourd'hui."
       },
       "cta": {
-        "title": "Prêt à essayer NaturoDesk ?",
-        "subtitle": "Créez votre compte et activez votre abonnement en quelques minutes.",
-        "button": "Commencer"
+        "title": "Comme Élodie, vous n'avez pas besoin d'un logiciel de plus.",
+        "subtitle": "Vous avez besoin du bon outil — celui qui vous rend le temps que vous consacrez à vos patients.",
+        "button": "Commencer gratuitement"
       }
     },
 

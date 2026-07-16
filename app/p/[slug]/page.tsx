@@ -16,6 +16,8 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { getTheme, HERO_IMAGES } from "@/lib/webpage-themes";
 import { isScheduleConfigured, type WeekSchedule } from "@/lib/public/slots";
+import { getGoogleBusinessReviews } from "@/lib/google-places";
+import { GoogleReviewsSection } from "@/components/webpage/google-reviews-section";
 import { ContactForm } from "./_components/contact-form";
 import { BookingWidget } from "./_components/booking-widget";
 
@@ -138,6 +140,7 @@ export default async function PublicTherapistPage({ params, searchParams }: Page
       seoDescription: true,
       contactFormEnabled: true,
       appointmentEnabled: true,
+      googlePlaceId: true,
       user: { select: { name: true, cabinetName: true } },
     },
   });
@@ -156,7 +159,7 @@ export default async function PublicTherapistPage({ params, searchParams }: Page
     if (!canPreview) notFound();
   }
 
-  const [services, scheduleRow, infoSections] = await Promise.all([
+  const [services, scheduleRow, infoSections, googleReviews] = await Promise.all([
     db.serviceOffering.findMany({
       where: { userId: page.userId, isActive: true },
       orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }],
@@ -171,6 +174,7 @@ export default async function PublicTherapistPage({ params, searchParams }: Page
       orderBy: [{ displayOrder: "asc" }, { createdAt: "asc" }],
       select: { id: true, title: true, description: true },
     }),
+    getGoogleBusinessReviews(page.googlePlaceId),
   ]);
 
   const theme       = getTheme(page.heroThemeId);
@@ -520,6 +524,11 @@ export default async function PublicTherapistPage({ params, searchParams }: Page
             </div>
           </section>
         )}
+
+        {/* ═══════════════════════════════════════════════════
+            4bis. AVIS GOOGLE
+        ════════════════════════════════════════════════════ */}
+        <GoogleReviewsSection result={googleReviews} theme={theme} />
 
         {/* ═══════════════════════════════════════════════════
             5. PRENDRE RENDEZ-VOUS

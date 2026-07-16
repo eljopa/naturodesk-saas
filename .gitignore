@@ -27,6 +27,7 @@
 .env.production
 .env.staging
 .env.test
+!.env.example
 
 # ─── Scripts de test locaux (contiennent des secrets) ─────────────────────────
 scripts/e2e-test.js

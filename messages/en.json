@@ -973,6 +973,7 @@
       "contact": "Location & contact",
       "social": "Social media",
       "seo": "Search engine optimisation (SEO)",
+      "googleReviews": "Google reviews",
       "features": "Page features"
     },
 
@@ -1010,7 +1011,10 @@
       "seoDescriptionPlaceholder": "Certified naturopath in London, specialising in vitality assessments and stress management…",
       "seoDescriptionHelp": "Max 160 characters",
       "contactFormEnabled": "Enable contact form on the page",
-      "appointmentEnabled": "Enable online booking on the page"
+      "appointmentEnabled": "Enable online booking on the page",
+      "googlePlaceId": "Google Place ID",
+      "googlePlaceIdPlaceholder": "ChIJN1t_tDeuEmsRUsoyG83frY4",
+      "googlePlaceIdHelp": "Automatically displays your Google reviews on the page. Leave empty to hide this section. Find your Place ID at developers.google.com/maps/documentation/places/web-service/place-id"
     },
 
     "errors": {
@@ -1036,6 +1040,7 @@
       "facebook": "The Facebook link exceeds the 300-character limit.",
       "linkedin": "The LinkedIn link exceeds the 300-character limit.",
       "website": "The website link exceeds the 300-character limit.",
+      "googlePlaceId": "The Google Place ID is invalid (letters, digits, hyphens and underscores only).",
       "default": "Please check the form fields."
     },
 
@@ -1491,31 +1496,77 @@
     "about": {
       "meta": {
         "title": "About",
-        "description": "Discover the mission and story of NaturoDesk."
+        "description": "Élodie's story, a naturopath, and why she ended up building NaturoDesk."
       },
-      "title": "About NaturoDesk",
-      "heroSubtitle": "We believe naturopaths deserve tools as good as their expertise.",
-      "mission": {
-        "title": "Our mission",
-        "body": "Give naturopaths simple, reliable and compliant tools so they can focus on what truly matters: caring for their patients."
+      "hero": {
+        "eyebrow": "Our story",
+        "title": "This story doesn't start with a piece of software. It starts with a naturopath.",
+        "subtitle": "Élodie has been seeing patients for several years. Here's why she ended up building the tool she was desperately looking for — and that didn't exist anywhere."
       },
-      "story": {
-        "title": "Our story",
-        "body": "NaturoDesk was born from a simple observation: naturopaths lack tools adapted to their specific practice. Between overly complex medical software and overly limited generic tools, we built a solution designed from the ground up for naturopathy practitioners."
+      "context": {
+        "eyebrow": "01 · The context",
+        "title": "Élodie has been seeing patients for several years.",
+        "body1": "Chronic fatigue, sleep disorders, inflammatory conditions, post-treatment support… Every week, she sees people who arrive with a story, test results, sometimes an ongoing treatment — and the hope that someone will finally take the time to look at them as a whole.",
+        "body2": "That's what she loves about this work: listening, connecting, taking the long view. Not the paperwork. Definitely not twenty browser tabs open between two appointments.",
+        "quote": "I became a naturopath to help people. Not to become a software expert.",
+        "quoteAuthor": "Élodie, naturopath"
       },
-      "values": {
-        "title": "Our values",
+      "frustrations": {
+        "eyebrow": "02 · The daily grind",
+        "title": "Between appointments, she juggled tools that never talked to each other.",
+        "intro": "A patient file in Word. An invoice cobbled together as a PDF. A calendar disconnected from everything else. And with every new recommendation, the same question: where did I already write that down?",
+        "item1Label": "The patient file",
+        "item1Body": "scattered across Word documents, PDFs, and sometimes a paper notebook.",
+        "item2Label": "The calendar",
+        "item2Body": "a generic scheduling app, with no link at all to her patients' files.",
+        "item3Label": "Invoicing",
+        "item3Body": "invoices rebuilt by hand, one by one, at the end of every month.",
+        "item4Label": "Research",
+        "item4Body": "dozens of browser tabs open every week, just to check a single piece of information.",
+        "safetyLabel": "The one thing she never compromised on",
+        "safetyTitle": "Patient safety is not negotiable.",
+        "safetyBody1": "Before recommending any plant or supplement, Élodie systematically checked for interactions with her patients' current treatments — blood thinners, antidepressants, contraceptives… cross-referencing several reliable sources, one by one, sometimes twenty to thirty minutes per patient.",
+        "safetyBody2": "That time was never something she counted — it was non-negotiable. But no software really helped her with it. Generic tools simply ignored the question.",
+        "safetyQuote": "I never recommend anything lightly. But I was losing so much time checking, alone, what a tool should have been checking alongside me.",
+        "safetyQuoteAuthor": "Élodie, naturopath"
+      },
+      "spark": {
+        "eyebrow": "03 · The spark",
+        "quote": "Why isn't there a single piece of software truly built for naturopaths?",
+        "caption": "A question Élodie asked herself one evening, after closing her tenth browser tab of the day."
+      },
+      "origin": {
+        "eyebrow": "04 · The meeting",
+        "title": "She stopped looking for the perfect tool. She decided to build it.",
+        "body": "Élodie partnered with a developer with over 25 years of experience building professional software. Not to create yet another generic tool — but to build, together, the one she wished she'd had from her very first patient.",
+        "step1Title": "The notebook",
+        "step1Body": "For several months, Élodie wrote down every friction point in her daily practice, week after week.",
+        "step2Title": "The meeting",
+        "step2Body": "She meets a developer specialized in professional software, with 25 years of experience.",
+        "step3Title": "The design",
+        "step3Body": "Together, they design NaturoDesk around one simple principle: the interaction-checking engine had to be at the core, not an afterthought.",
+        "step4Title": "Today",
+        "step4Body": "NaturoDesk now supports naturopaths who, like Élodie, refused to choose between clinical rigor and saving time.",
+        "founderName": "Élodie",
+        "founderRole": "Naturopath, founder",
+        "partnerName": "Her co-founder",
+        "partnerRole": "25 years of experience in professional software"
+      },
+      "philosophy": {
+        "eyebrow": "05 · Our philosophy",
+        "title": "Technology never replaces the practitioner.",
+        "body": "NaturoDesk will never make a diagnosis for you. It will never replace your judgment, or the years spent refining your practice. Its only job is to take over what costs you time without adding value — so you get those minutes back, to spend on your patients instead.",
         "v1Title": "Simplicity",
-        "v1Body": "Clean interfaces designed for daily practice without cognitive overload.",
-        "v2Title": "Security",
-        "v2Body": "Data hosted in Europe, GDPR-compliant architecture, end-to-end encryption.",
-        "v3Title": "Proximity",
-        "v3Body": "Responsive support, close to practitioner feedback to continuously improve the product."
+        "v1Body": "An interface designed to disappear, not to stand between you and your patients.",
+        "v2Title": "Safety",
+        "v2Body": "The interaction-checking engine Élodie wished she'd had from day one, now built into every recommendation.",
+        "v3Title": "Closeness",
+        "v3Body": "Built with naturopaths, not just for them. Every piece of feedback still shapes the product today."
       },
       "cta": {
-        "title": "Ready to try NaturoDesk?",
-        "subtitle": "Create your account and activate your subscription in minutes.",
-        "button": "Get started"
+        "title": "Like Élodie, you don't need one more piece of software.",
+        "subtitle": "You need the right tool — one that gives you back the time you spend on your patients.",
+        "button": "Get started for free"
       }
     },
 
