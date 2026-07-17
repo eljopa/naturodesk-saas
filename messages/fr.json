@@ -1260,46 +1260,166 @@
       },
       "pricing": {
         "eyebrow": "Des tarifs simples et honnêtes",
-        "title": "1 patient couvre largement l'abonnement.",
-        "subtitle": "NaturoDesk vous fait gagner 3h par patient. ROI immédiat dès le premier mois.",
-        "schoolBanner": "🎓 Étudiant en naturopathie ? 6 mois offerts sur le plan Growth — ",
-        "schoolLink": "en savoir plus",
+        "title": "Choisissez les outils adaptés à votre cabinet",
+        "subtitle": "Tous les plans incluent le moteur clinique NaturoDesk pour analyser plus rapidement les dossiers, vérifier les interactions et construire des recommandations personnalisées.",
+        "reassurance1": "Sans engagement",
+        "reassurance2": "Consultants illimités",
+        "reassurance3": "Données sécurisées",
+        "reassurance4": "Support en français",
+        "toggleMonthly": "Mensuel",
+        "toggleAnnual": "Annuel",
+        "toggleDiscountBadge": "2 mois offerts",
+        "billedAnnually": "Facturé une fois par an",
+        "perMonth": "/ mois",
+        "studentOfferTitle": "Vous êtes étudiant en naturopathie ?",
+        "studentOfferText": "Profitez de 6 mois offerts sur la formule de votre choix et commencez à structurer vos consultations avant même votre installation.",
+        "studentOfferCta": "Découvrir l'offre étudiante",
         "plan1Name": "Starter",
-        "plan1Slogan": "Je m'organise",
-        "plan1Desc": "L'essentiel pour structurer vos consultations et gagner du temps.",
-        "plan1Price": "49 €",
-        "plan1Period": "/ mois",
-        "plan1L1": "Moteur d'analyse complet",
-        "plan1L2": "Gestion patients illimitée",
-        "plan1L3": "Consultations structurées",
-        "plan1L4": "Interactions médicamenteuses",
-        "plan1L5": "Export PDF",
-        "plan1L6": "Historique des consultations",
-        "plan1Cta": "Commencer",
+        "plan1Slogan": "Je structure mes consultations",
+        "plan1Desc": "Pour les naturopathes qui veulent centraliser leurs dossiers, structurer leurs consultations et sécuriser leurs recommandations.",
+        "plan1Cta": "Structurer mon cabinet",
         "plan2Name": "Growth",
         "plan2Slogan": "Je développe mon activité",
-        "plan2Desc": "Développez votre visibilité et attirez de nouveaux patients.",
-        "plan2Price": "69 €",
-        "plan2Period": "/ mois",
+        "plan2Desc": "Pour les naturopathes qui veulent une présence professionnelle en ligne et faciliter la prise de rendez-vous.",
         "plan2Badge": "Le plus choisi",
-        "plan2L1": "Tout Starter",
-        "plan2L2": "Mini site web professionnel",
-        "plan2L3": "Référencement & visibilité locale (SEO)",
-        "plan2L4": "Prise de rendez-vous en ligne",
-        "plan2L5": "Page praticien optimisée",
-        "plan2Cta": "Commencer",
-        "plan2Note": "6 mois offerts pour les étudiants en école de naturopathie",
+        "plan2Cta": "Développer mon activité",
         "plan3Name": "Pro",
         "plan3Slogan": "Je gagne du temps",
-        "plan3Desc": "L'automatisation avancée pour les cabinets en pleine activité.",
-        "plan3Price": "89 €",
-        "plan3Period": "/ mois",
-        "plan3L1": "Tout Growth",
-        "plan3L2": "Automatisation avancée",
-        "plan3L3": "Templates de protocoles",
-        "plan3L4": "Historique avancé & analytics",
-        "plan3L5": "Suggestions intelligentes",
-        "plan3Cta": "Commencer"
+        "plan3Desc": "Pour les cabinets actifs qui veulent tirer pleinement parti de l'écosystème NaturoDesk au quotidien.",
+        "plan3Cta": "Optimiser mon cabinet",
+        "plan3Note": "Le plan Pro rassemble déjà l'ensemble du cabinet NaturoDesk. De nouvelles exclusivités (bibliothèque personnelle de protocoles, statistiques de cabinet) sont en cours de déploiement pour ce palier.",
+        "groups": {
+          "starterClinical": {
+            "title": "Accompagnement clinique",
+            "item1": "Bilan de vitalité structuré en 6 onglets (contexte, symptômes, médicaments, compléments, observations, constats)",
+            "item2": "Analyse des symptômes classés par système (digestif, nerveux, cardiovasculaire…)",
+            "item3": "Vérification des effets secondaires et des interactions médicamenteuses (base BDPM/ANSM)",
+            "item4": "Détection des déplétions nutritionnelles liées aux traitements",
+            "item5": "Constats classés pour construire vos recommandations"
+          },
+          "starterCabinet": {
+            "title": "Gestion du cabinet",
+            "item1": "Dossiers consultants illimités",
+            "item2": "Agenda hebdomadaire et rendez-vous illimités",
+            "item3": "Fiches conseil versionnées, export PDF",
+            "item4": "Facturation avec numérotation automatique et export PDF",
+            "item5": "Historique complet des consultations et des suivis"
+          },
+          "growthIncludes": {
+            "item1": "Tout Starter"
+          },
+          "growthPresence": {
+            "title": "Présence en ligne",
+            "item1": "Page professionnelle personnalisée (naturodesk.fr/p/votre-nom)",
+            "item2": "Présentation de votre parcours, votre approche et vos prestations",
+            "item3": "Formulaire de contact intégré",
+            "item4": "Avis Google affichés directement sur votre page",
+            "item5": "Page optimisée pour le référencement local (SEO, balisage Schema.org)"
+          },
+          "growthBooking": {
+            "title": "Réservation en ligne",
+            "item1": "Prise de rendez-vous en ligne depuis votre page",
+            "item2": "Créneaux calculés automatiquement à partir de vos disponibilités",
+            "item3": "Prévention des doubles réservations",
+            "item4": "Email de confirmation automatique au patient"
+          },
+          "proIncludes": {
+            "item1": "Tout Growth"
+          },
+          "proToolkit": {
+            "title": "L'écosystème complet, à votre rythme",
+            "item1": "Bibliothèque de modèles de protocoles par catégorie (digestif, hormonal, stress, détox, immunité, énergie)",
+            "item2": "Génération assistée d'un brouillon de fiche conseil à partir de votre consultation",
+            "item3": "Versionnement complet de vos fiches conseil (ajustements, duplication, historique)",
+            "item4": "Rappels automatiques par e-mail la veille de chaque rendez-vous (J-1)"
+          }
+        },
+        "matrix": {
+          "title": "Comparez les fonctionnalités",
+          "subtitle": "Retrouvez en détail les outils inclus dans chaque formule.",
+          "colStarter": "Starter",
+          "colGrowth": "Growth",
+          "colPro": "Pro",
+          "included": "Inclus",
+          "notIncluded": "Non inclus",
+          "categories": {
+            "records": {
+              "title": "Dossiers & consultations",
+              "unlimitedPatients": "Dossiers consultants illimités",
+              "vitalityAssessment": "Bilan de vitalité structuré (6 onglets)",
+              "history": "Historique complet des consultations et suivis",
+              "pdfExport": "Export PDF du dossier et des consultations"
+            },
+            "clinical": {
+              "title": "Assistance clinique",
+              "symptomAnalysis": "Analyse des symptômes par système",
+              "sideEffects": "Vérification des effets secondaires (base BDPM/ANSM)",
+              "interactions": "Détection des interactions médicamenteuses",
+              "depletions": "Détection des déplétions nutritionnelles",
+              "findings": "Constats classés pour vos recommandations"
+            },
+            "protocols": {
+              "title": "Protocoles & fiches conseil",
+              "adviceSheets": "Fiches conseil en 13 sections personnalisables",
+              "versioning": "Versionnement (ajustements, duplication, historique)",
+              "aiDraft": "Génération assistée d'un brouillon depuis la consultation",
+              "templateLibrary": "Bibliothèque de modèles de protocoles par catégorie",
+              "pdfExport": "Export PDF"
+            },
+            "billing": {
+              "title": "Facturation",
+              "autoNumbering": "Numérotation automatique",
+              "paymentMethods": "4 modes de paiement (espèces, carte, virement, chèque)",
+              "pdfExport": "Export PDF"
+            },
+            "agenda": {
+              "title": "Agenda & rendez-vous",
+              "weeklyCalendar": "Agenda hebdomadaire et rendez-vous manuels",
+              "availability": "Gestion des disponibilités",
+              "confirmationEmail": "Email de confirmation automatique",
+              "reminderEmail": "Rappel automatique la veille du rendez-vous (J-1)"
+            },
+            "onlinePresence": {
+              "title": "Présence en ligne",
+              "professionalPage": "Page professionnelle personnalisée",
+              "googleReviews": "Avis Google sur votre page",
+              "contactForm": "Formulaire de contact intégré",
+              "localSeo": "Référencement local (SEO, balisage Schema.org)"
+            },
+            "onlineBooking": {
+              "title": "Réservation en ligne",
+              "bookingWidget": "Prise de rendez-vous depuis votre page",
+              "realtimeSlots": "Créneaux calculés en temps réel",
+              "noDoubleBooking": "Prévention des doubles réservations"
+            }
+          }
+        }
+      },
+      "pricingFaq": {
+        "eyebrow": "Questions sur les tarifs",
+        "title": "Ce que vous devez savoir avant de vous abonner.",
+        "q1": "Puis-je changer de formule à tout moment ?",
+        "a1": "Oui. Vous pouvez changer de plan depuis votre espace NaturoDesk (Paramètres > Facturation), qui vous redirige vers le portail de facturation Stripe pour ajuster votre abonnement.",
+        "q2": "Y a-t-il un engagement ?",
+        "a2": "Non. Les abonnements NaturoDesk sont sans engagement de durée, que vous soyez en facturation mensuelle ou annuelle.",
+        "q3": "Puis-je annuler mon abonnement facilement ?",
+        "a3": "Oui. Depuis Paramètres > Facturation, vous accédez au portail Stripe où vous pouvez résilier votre abonnement. La résiliation prend effet à la fin de la période en cours (mensuelle ou annuelle) — vous conservez l'accès jusqu'à cette date.",
+        "q4": "Le nombre de consultants est-il limité ?",
+        "a4": "Non. Le nombre de dossiers consultants est illimité, quel que soit votre plan.",
+        "q5": "Mes données sont-elles sécurisées ?",
+        "a5": "Vos données sont hébergées sur une infrastructure sécurisée (Supabase/PostgreSQL), avec authentification et cloisonnement des données par praticien. Aucune donnée clinique n'est partagée avec des tiers.",
+        "q6": "Le paiement annuel est-il prélevé en une seule fois ?",
+        "a6": "Oui. En choisissant la facturation annuelle, le montant total de l'année est prélevé en une seule fois au moment de la souscription, puis renouvelé chaque année à la même date.",
+        "q7": "L'offre étudiante est-elle accessible à toutes les écoles ?",
+        "a7": "L'offre étudiante s'adresse aux personnes actuellement en formation de naturopathie. Contactez-nous depuis la page Contact pour en bénéficier — nous vous indiquerons la marche à suivre.",
+        "q8": "NaturoDesk garantit-il de nouveaux clients ?",
+        "a8": "Non. NaturoDesk vous fournit une page professionnelle, des outils de réservation et une structure optimisée pour votre présence en ligne. Le développement d'une clientèle dépend également de votre pratique, de votre réputation, de vos recommandations et de vos actions de communication."
+      },
+      "pricingFinalCta": {
+        "title": "Prêt à simplifier la gestion de votre cabinet ?",
+        "text": "Centralisez vos dossiers, structurez vos consultations et gagnez du temps dans la préparation de vos recommandations.",
+        "ctaPrimary": "Commencer avec NaturoDesk",
+        "ctaSecondary": "Découvrir les fonctionnalités"
       },
       "faq": {
         "eyebrow": "Questions fréquentes",
@@ -1321,59 +1441,6 @@
         "subtitle": "Soyez plus visible, gagnez du temps et accompagnez mieux vos patients — tout au même endroit.",
         "ctaPrimary": "Commencer",
         "ctaSecondary": "Voir la démo"
-      }
-    },
-
-    "pricing": {
-      "meta": {
-        "title": "Tarifs",
-        "description": "Des tarifs simples et transparents pour les naturopathes indépendants."
-      },
-      "title": "Des tarifs simples et transparents",
-      "subtitle": "Un plan gratuit pour démarrer, un plan Pro pour aller plus loin.",
-      "toggleMonthly": "Mensuel",
-      "toggleAnnual": "Annuel",
-      "annualDiscount": "2 mois offerts",
-      "perMonth": "/ mois",
-      "billedAnnually": "Facturé annuellement",
-      "plans": {
-        "free": {
-          "name": "Gratuit",
-          "price": "0 €",
-          "description": "Pour démarrer votre activité sans engagement.",
-          "cta": "Souscrire",
-          "feature1": "Jusqu'à 10 patients",
-          "feature2": "Gestion des rendez-vous",
-          "feature3": "Consultations & protocoles",
-          "feature4": "Facturation simple",
-          "feature5": "Export PDF"
-        },
-        "pro": {
-          "name": "Pro",
-          "priceMonthly": "29 €",
-          "priceAnnual": "24 €",
-          "description": "Pour les praticiens en activité pleine.",
-          "cta": "Choisir ce plan",
-          "badge": "Recommandé",
-          "feature1": "Patients illimités",
-          "feature2": "Page web professionnelle",
-          "feature3": "Réservation en ligne",
-          "feature4": "Analyse IA des bilans",
-          "feature5": "PDF & exports avancés",
-          "feature6": "Emails automatisés",
-          "feature7": "Support prioritaire"
-        }
-      },
-      "faqTitle": "Questions fréquentes sur les tarifs",
-      "faq": {
-        "q1": "Puis-je changer de plan à tout moment ?",
-        "a1": "Oui, vous pouvez passer au plan Pro ou revenir au plan Gratuit à tout moment depuis vos paramètres, sans frais de résiliation.",
-        "q2": "Dois-je payer dès l'inscription ?",
-        "a2": "Oui. Un abonnement actif est requis pour accéder à NaturoDesk. Vous pouvez résilier à tout moment depuis vos paramètres.",
-        "q3": "Puis-je résilier à tout moment ?",
-        "a3": "Oui, sans frais ni engagement. Votre accès reste actif jusqu'à la fin de la période en cours.",
-        "q4": "Mes données sont-elles sécurisées ?",
-        "a4": "Toutes les données sont hébergées en Europe, chiffrées au repos et en transit, et ne sont jamais partagées avec des tiers."
       }
     },
 

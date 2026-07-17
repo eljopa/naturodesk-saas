@@ -8,7 +8,7 @@ interface FaqItemProps {
   answer: string;
 }
 
-function FaqItem({ question, answer }: FaqItemProps) {
+export function FaqItem({ question, answer }: FaqItemProps) {
   const [open, setOpen] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
 

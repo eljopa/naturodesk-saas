@@ -1260,46 +1260,166 @@
       },
       "pricing": {
         "eyebrow": "Simple, honest pricing",
-        "title": "One patient covers your subscription.",
-        "subtitle": "NaturoDesk saves you 3h per patient. Immediate ROI from your first month.",
-        "schoolBanner": "🎓 Naturopathy student? 6 months free on the Growth plan — ",
-        "schoolLink": "learn more",
+        "title": "Choose the tools that fit your practice",
+        "subtitle": "Every plan includes the NaturoDesk clinical engine to analyse records faster, check interactions and build personalised recommendations.",
+        "reassurance1": "No commitment",
+        "reassurance2": "Unlimited patients",
+        "reassurance3": "Secure data",
+        "reassurance4": "Support in French",
+        "toggleMonthly": "Monthly",
+        "toggleAnnual": "Annual",
+        "toggleDiscountBadge": "2 months free",
+        "billedAnnually": "Billed once a year",
+        "perMonth": "/ month",
+        "studentOfferTitle": "Studying naturopathy?",
+        "studentOfferText": "Get 6 months free on the plan of your choice and start structuring your consultations even before you set up your practice.",
+        "studentOfferCta": "Discover the student offer",
         "plan1Name": "Starter",
-        "plan1Slogan": "Get organised",
-        "plan1Desc": "Everything you need to structure consultations and save time.",
-        "plan1Price": "€49",
-        "plan1Period": "/ month",
-        "plan1L1": "Full analysis engine",
-        "plan1L2": "Unlimited patient management",
-        "plan1L3": "Structured consultations",
-        "plan1L4": "Drug interactions",
-        "plan1L5": "PDF export",
-        "plan1L6": "Consultation history",
-        "plan1Cta": "Get started",
+        "plan1Slogan": "I structure my consultations",
+        "plan1Desc": "For naturopaths who want to centralise their records, structure their consultations and secure their recommendations.",
+        "plan1Cta": "Structure my practice",
         "plan2Name": "Growth",
-        "plan2Slogan": "Grow your practice",
-        "plan2Desc": "Build your visibility and attract new patients.",
-        "plan2Price": "€69",
-        "plan2Period": "/ month",
+        "plan2Slogan": "I grow my practice",
+        "plan2Desc": "For naturopaths who want a professional online presence and easier appointment booking.",
         "plan2Badge": "Most popular",
-        "plan2L1": "Everything in Starter",
-        "plan2L2": "Professional mini website",
-        "plan2L3": "Local SEO & visibility",
-        "plan2L4": "Online booking",
-        "plan2L5": "Optimised practitioner page",
-        "plan2Cta": "Get started",
-        "plan2Note": "6 months free for naturopathy school students",
+        "plan2Cta": "Grow my practice",
         "plan3Name": "Pro",
-        "plan3Slogan": "Save time",
-        "plan3Desc": "Advanced automation for busy practices.",
-        "plan3Price": "€89",
-        "plan3Period": "/ month",
-        "plan3L1": "Everything in Growth",
-        "plan3L2": "Advanced automation",
-        "plan3L3": "Protocol templates",
-        "plan3L4": "Advanced history & analytics",
-        "plan3L5": "Smart suggestions",
-        "plan3Cta": "Get started"
+        "plan3Slogan": "I save time",
+        "plan3Desc": "For active practices who want to make the most of the whole NaturoDesk toolkit, day to day.",
+        "plan3Cta": "Optimise my practice",
+        "plan3Note": "The Pro plan already brings the whole NaturoDesk practice together. New exclusives (a personal protocol library, practice statistics) are currently being rolled out for this tier.",
+        "groups": {
+          "starterClinical": {
+            "title": "Clinical support",
+            "item1": "Structured vitality assessment across 6 tabs (context, symptoms, medications, supplements, observations, findings)",
+            "item2": "Symptom analysis grouped by body system (digestive, nervous, cardiovascular…)",
+            "item3": "Side-effect and drug-interaction checks (BDPM/ANSM database)",
+            "item4": "Detection of nutrient depletions linked to treatments",
+            "item5": "Findings classified to help you build your recommendations"
+          },
+          "starterCabinet": {
+            "title": "Practice management",
+            "item1": "Unlimited patient records",
+            "item2": "Weekly calendar and unlimited appointments",
+            "item3": "Versioned advice sheets, PDF export",
+            "item4": "Invoicing with automatic numbering and PDF export",
+            "item5": "Full history of consultations and follow-ups"
+          },
+          "growthIncludes": {
+            "item1": "Everything in Starter"
+          },
+          "growthPresence": {
+            "title": "Online presence",
+            "item1": "Personalised professional page (naturodesk.fr/p/your-name)",
+            "item2": "Presentation of your background, approach and services",
+            "item3": "Built-in contact form",
+            "item4": "Google reviews displayed directly on your page",
+            "item5": "Page optimised for local search (SEO, Schema.org markup)"
+          },
+          "growthBooking": {
+            "title": "Online booking",
+            "item1": "Online appointment booking from your page",
+            "item2": "Time slots calculated automatically from your availability",
+            "item3": "Double-booking prevention",
+            "item4": "Automatic confirmation email to the patient"
+          },
+          "proIncludes": {
+            "item1": "Everything in Growth"
+          },
+          "proToolkit": {
+            "title": "The full toolkit, at your own pace",
+            "item1": "Library of protocol templates by category (digestive, hormonal, stress, detox, immunity, energy)",
+            "item2": "Assisted advice-sheet draft generation from your consultation",
+            "item3": "Full advice-sheet versioning (adjustments, duplication, history)",
+            "item4": "Automatic reminder email the day before each appointment"
+          }
+        },
+        "matrix": {
+          "title": "Compare the features",
+          "subtitle": "See exactly which tools are included in each plan.",
+          "colStarter": "Starter",
+          "colGrowth": "Growth",
+          "colPro": "Pro",
+          "included": "Included",
+          "notIncluded": "Not included",
+          "categories": {
+            "records": {
+              "title": "Records & consultations",
+              "unlimitedPatients": "Unlimited patient records",
+              "vitalityAssessment": "Structured vitality assessment (6 tabs)",
+              "history": "Full history of consultations and follow-ups",
+              "pdfExport": "PDF export of records and consultations"
+            },
+            "clinical": {
+              "title": "Clinical support",
+              "symptomAnalysis": "Symptom analysis by body system",
+              "sideEffects": "Side-effect checks (BDPM/ANSM database)",
+              "interactions": "Drug-interaction detection",
+              "depletions": "Nutrient-depletion detection",
+              "findings": "Findings classified for your recommendations"
+            },
+            "protocols": {
+              "title": "Protocols & advice sheets",
+              "adviceSheets": "Advice sheets with 13 customisable sections",
+              "versioning": "Versioning (adjustments, duplication, history)",
+              "aiDraft": "Assisted draft generation from the consultation",
+              "templateLibrary": "Library of protocol templates by category",
+              "pdfExport": "PDF export"
+            },
+            "billing": {
+              "title": "Invoicing",
+              "autoNumbering": "Automatic numbering",
+              "paymentMethods": "4 payment methods (cash, card, transfer, cheque)",
+              "pdfExport": "PDF export"
+            },
+            "agenda": {
+              "title": "Calendar & appointments",
+              "weeklyCalendar": "Weekly calendar and manual appointments",
+              "availability": "Availability management",
+              "confirmationEmail": "Automatic confirmation email",
+              "reminderEmail": "Automatic reminder the day before (D-1)"
+            },
+            "onlinePresence": {
+              "title": "Online presence",
+              "professionalPage": "Personalised professional page",
+              "googleReviews": "Google reviews on your page",
+              "contactForm": "Built-in contact form",
+              "localSeo": "Local SEO (Schema.org markup)"
+            },
+            "onlineBooking": {
+              "title": "Online booking",
+              "bookingWidget": "Appointment booking from your page",
+              "realtimeSlots": "Real-time slot calculation",
+              "noDoubleBooking": "Double-booking prevention"
+            }
+          }
+        }
+      },
+      "pricingFaq": {
+        "eyebrow": "Pricing questions",
+        "title": "What you need to know before subscribing.",
+        "q1": "Can I change plans at any time?",
+        "a1": "Yes. You can change plans from your NaturoDesk account (Settings > Billing), which redirects you to the Stripe billing portal to adjust your subscription.",
+        "q2": "Is there a commitment period?",
+        "a2": "No. NaturoDesk subscriptions have no minimum term, whether you're billed monthly or annually.",
+        "q3": "Can I cancel my subscription easily?",
+        "a3": "Yes. From Settings > Billing, you access the Stripe portal where you can cancel your subscription. Cancellation takes effect at the end of the current period (monthly or annual) — you keep access until then.",
+        "q4": "Is the number of patients limited?",
+        "a4": "No. The number of patient records is unlimited, on every plan.",
+        "q5": "Is my data secure?",
+        "a5": "Your data is hosted on secure infrastructure (Supabase/PostgreSQL), with authentication and per-practitioner data isolation. No clinical data is shared with third parties.",
+        "q6": "Is the annual payment charged all at once?",
+        "a6": "Yes. Choosing annual billing charges the full year's amount in one payment at signup, then renews every year on the same date.",
+        "q7": "Is the student offer open to every school?",
+        "a7": "The student offer is for people currently training in naturopathy. Contact us from the Contact page to claim it — we'll walk you through the process.",
+        "q8": "Does NaturoDesk guarantee new clients?",
+        "a8": "No. NaturoDesk gives you a professional page, booking tools and a structure optimised for your online presence. Building a client base also depends on your practice, your reputation, your recommendations and your own communication efforts."
+      },
+      "pricingFinalCta": {
+        "title": "Ready to simplify running your practice?",
+        "text": "Centralise your records, structure your consultations and save time preparing your recommendations.",
+        "ctaPrimary": "Get started with NaturoDesk",
+        "ctaSecondary": "Discover the features"
       },
       "faq": {
         "eyebrow": "Questions",
@@ -1321,59 +1441,6 @@
         "subtitle": "Get more visible, save time and take better care of your patients — all in one place.",
         "ctaPrimary": "Get started",
         "ctaSecondary": "Watch the tour"
-      }
-    },
-
-    "pricing": {
-      "meta": {
-        "title": "Pricing",
-        "description": "Simple, transparent pricing for independent naturopaths."
-      },
-      "title": "Simple, transparent pricing",
-      "subtitle": "A free plan to get started, a Pro plan to go further.",
-      "toggleMonthly": "Monthly",
-      "toggleAnnual": "Annual",
-      "annualDiscount": "2 months free",
-      "perMonth": "/ mo",
-      "billedAnnually": "Billed annually",
-      "plans": {
-        "free": {
-          "name": "Free",
-          "price": "€0",
-          "description": "Get started with no commitment.",
-          "cta": "Subscribe",
-          "feature1": "Up to 10 patients",
-          "feature2": "Appointment management",
-          "feature3": "Consultations & protocols",
-          "feature4": "Basic invoicing",
-          "feature5": "PDF export"
-        },
-        "pro": {
-          "name": "Pro",
-          "priceMonthly": "€29",
-          "priceAnnual": "€24",
-          "description": "For naturopaths in full practice.",
-          "cta": "Choose this plan",
-          "badge": "Recommended",
-          "feature1": "Unlimited patients",
-          "feature2": "Professional web page",
-          "feature3": "Online booking",
-          "feature4": "AI assessment analysis",
-          "feature5": "Advanced PDF & exports",
-          "feature6": "Automated emails",
-          "feature7": "Priority support"
-        }
-      },
-      "faqTitle": "Pricing FAQ",
-      "faq": {
-        "q1": "Can I change my plan at any time?",
-        "a1": "Yes, you can upgrade to Pro or downgrade to Free at any time from your settings, with no cancellation fees.",
-        "q2": "Do I need to pay when I sign up?",
-        "a2": "Yes. An active subscription is required to access NaturoDesk. You can cancel at any time from your settings.",
-        "q3": "Can I cancel at any time?",
-        "a3": "Yes, with no commitment or fees. Your access remains active until the end of the current period.",
-        "q4": "Is my data secure?",
-        "a4": "All data is hosted in Europe, encrypted at rest and in transit, and is never shared with third parties."
       }
     },
 

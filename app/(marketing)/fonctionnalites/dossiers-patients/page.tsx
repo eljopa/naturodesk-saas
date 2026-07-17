@@ -48,7 +48,7 @@ export default function DossiersPatientsPage() {
       presentationText="Chaque patient possède son propre espace regroupant toutes les informations utiles à son accompagnement. Retrouvez en quelques secondes les coordonnées, les consultations passées, les protocoles, les rendez-vous et les factures. Contrairement à un simple CRM, le dossier patient est directement connecté aux bilans, protocoles et suivis — pensé pour la pratique naturopathique."
       presentationStats={[
         { value: "6", label: "Sections d'historique" },
-        { value: "∞", label: "Patients (Growth & Pro)" },
+        { value: "∞", label: "Patients, quel que soit le plan" },
         { value: "PDF", label: "Export en un clic" },
         { value: "RGPD", label: "Architecture sécurisée" },
       ]}

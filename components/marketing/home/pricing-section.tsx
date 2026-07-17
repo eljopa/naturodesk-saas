@@ -3,8 +3,9 @@ import Link from "next/link";
 import { getCurrentUser } from "@/lib/auth";
 import { PLAN_PRICING } from "@/lib/plans";
 import type { PaidPlanKey } from "@/lib/plans";
+import { PLAN_GROUPS } from "@/lib/pricing-data";
 import { PricingGrid } from "./pricing-grid";
-import type { PlanCardData } from "./pricing-grid";
+import type { PlanCardData, PlanFeatureGroup } from "./pricing-grid";
 
 // Compute the CTA href for a plan/interval combination.
 // Logged-in users go directly to /settings with upgrade intent.
@@ -32,7 +33,6 @@ export async function PricingSection() {
     nameKey: string;
     sloganKey: string;
     descKey: string;
-    featureKeys: string[];
     ctaKey: string;
     badge?: string;
     note?: string;
@@ -43,7 +43,6 @@ export async function PricingSection() {
       nameKey: "plan1Name",
       sloganKey: "plan1Slogan",
       descKey: "plan1Desc",
-      featureKeys: ["plan1L1", "plan1L2", "plan1L3", "plan1L4", "plan1L5", "plan1L6"],
       ctaKey: "plan1Cta",
     },
     {
@@ -51,10 +50,8 @@ export async function PricingSection() {
       nameKey: "plan2Name",
       sloganKey: "plan2Slogan",
       descKey: "plan2Desc",
-      featureKeys: ["plan2L1", "plan2L2", "plan2L3", "plan2L4", "plan2L5"],
       ctaKey: "plan2Cta",
       badge: t("plan2Badge"),
-      note: t("plan2Note"),
       featured: true,
     },
     {
@@ -62,13 +59,22 @@ export async function PricingSection() {
       nameKey: "plan3Name",
       sloganKey: "plan3Slogan",
       descKey: "plan3Desc",
-      featureKeys: ["plan3L1", "plan3L2", "plan3L3", "plan3L4", "plan3L5"],
       ctaKey: "plan3Cta",
+      note: t("plan3Note"),
     },
   ];
 
   const plans: PlanCardData[] = planDefs.map((def) => {
     const pricing = PLAN_PRICING[def.key];
+    const groups: PlanFeatureGroup[] = PLAN_GROUPS[def.key].map((group) => ({
+      title: group.heading
+        ? t(`groups.${group.key}.title` as Parameters<typeof t>[0])
+        : undefined,
+      items: Array.from({ length: group.itemCount }, (_, i) =>
+        t(`groups.${group.key}.item${i + 1}` as Parameters<typeof t>[0])
+      ),
+    }));
+
     return {
       key: def.key,
       name: t(def.nameKey as Parameters<typeof t>[0]),
@@ -77,7 +83,7 @@ export async function PricingSection() {
       monthlyPrice: pricing.monthlyPrice,
       yearlyMonthly: pricing.yearlyMonthly,
       yearlyTotal: pricing.yearlyTotal,
-      features: def.featureKeys.map((k) => t(k as Parameters<typeof t>[0])),
+      groups,
       cta: t(def.ctaKey as Parameters<typeof t>[0]),
       badge: def.badge,
       note: def.note,
@@ -87,11 +93,18 @@ export async function PricingSection() {
     };
   });
 
+  const reassurance = [
+    t("reassurance1"),
+    t("reassurance2"),
+    t("reassurance3"),
+    t("reassurance4"),
+  ];
+
   return (
     <section id="tarifs" className="py-[110px] px-8" style={{ background: "var(--nd-cream)" }}>
       <div className="max-w-[1200px] mx-auto">
         {/* Header */}
-        <div className="text-center mb-5 max-w-[640px] mx-auto">
+        <div className="text-center mb-6 max-w-[680px] mx-auto">
           <p className="nd-eyebrow nd-eyebrow--center">{t("eyebrow")}</p>
           <h2
             className="font-serif font-medium leading-[1.1] tracking-[-0.01em] mb-4"
@@ -116,28 +129,63 @@ export async function PricingSection() {
           </p>
         </div>
 
-        {/* School banner */}
-        <div
-          className="max-w-[640px] mx-auto mb-12 flex items-center justify-center gap-1.5 px-5 py-3 rounded-xl text-[14px] font-semibold"
-          style={{ background: "#F3E7DC", color: "var(--nd-copper-deep)" }}
+        {/* Reassurance line */}
+        <ul
+          className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 mb-12 list-none p-0"
+          aria-label={t("eyebrow")}
         >
-          {t("schoolBanner")}
-          <Link
-            href="/contact"
-            className="underline underline-offset-2 hover:opacity-80 transition-opacity"
-          >
-            {t("schoolLink")}
-          </Link>
-        </div>
+          {reassurance.map((label) => (
+            <li
+              key={label}
+              className="flex items-center gap-2 text-[13.5px] font-semibold"
+              style={{ color: "var(--nd-forest)" }}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.6"
+                className="w-4 h-4 flex-shrink-0"
+                style={{ color: "var(--nd-sage)" }}
+              >
+                <path d="M20 6 9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              {label}
+            </li>
+          ))}
+        </ul>
 
         {/* Interactive plan grid with monthly/yearly toggle */}
         <PricingGrid
           plans={plans}
-          labelMonthly="Mensuel"
-          labelYearly="Annuel"
-          labelDiscount="-17%"
-          labelBilledAnnually="Facturé annuellement"
+          labelMonthly={t("toggleMonthly")}
+          labelYearly={t("toggleAnnual")}
+          labelDiscount={t("toggleDiscountBadge")}
+          labelBilledAnnually={t("billedAnnually")}
+          labelPerMonth={t("perMonth")}
         />
+
+        {/* Student offer callout */}
+        <div
+          className="mt-12 max-w-[820px] mx-auto rounded-2xl px-8 py-7 flex flex-col sm:flex-row items-center sm:items-center justify-between gap-5 text-center sm:text-left"
+          style={{ background: "#F3E7DC", border: "1px solid var(--nd-line)" }}
+        >
+          <div>
+            <p className="font-serif text-[19px] mb-1" style={{ color: "var(--nd-forest)" }}>
+              {t("studentOfferTitle")}
+            </p>
+            <p className="text-[14.5px] leading-relaxed" style={{ color: "var(--nd-copper-deep)" }}>
+              {t("studentOfferText")}
+            </p>
+          </div>
+          <Link
+            href="/contact"
+            className="flex-shrink-0 inline-flex items-center justify-center px-6 py-3 rounded-full font-bold text-[14px] whitespace-nowrap transition-opacity hover:opacity-90"
+            style={{ background: "var(--nd-forest)", color: "#fff" }}
+          >
+            {t("studentOfferCta")}
+          </Link>
+        </div>
       </div>
     </section>
   );
